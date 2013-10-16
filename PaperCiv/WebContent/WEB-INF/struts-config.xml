@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts-config PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 1.1//EN" "http://jakarta.apache.org/struts/dtds/struts-config_1_1.dtd">
+
+<struts-config>
+  <data-sources />
+  <form-beans>
+  </form-beans>
+  <global-exceptions />
+  <global-forwards />
+  
+  <action-mappings>
+  	<action path="/unknown" forward="/index.jsp" unknown="true" />
+  	
+  	<action path="/login" type="fr.paperciv.struts.action.LoginAction" />
+  	<action path="/skirmish" type="fr.paperciv.struts.action.SkirmishAction" />
+  	
+  	<action path="/ajax" type="fr.paperciv.factories.AjaxFactory" />
+  </action-mappings>
+  
+  <message-resources parameter="fr.paperciv.struts.ApplicationResources" />
+</struts-config>
+

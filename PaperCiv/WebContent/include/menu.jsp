@@ -1,0 +1,1 @@
+<input type="button" value="Escarmouche de Développement" onclick="newSkirmish();" />
