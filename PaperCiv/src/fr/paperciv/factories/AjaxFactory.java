@@ -85,7 +85,7 @@ public class AjaxFactory extends Action
 				if(areaArrayId > 0)
 				{
 					String returnObjects = XmlFactory.getJSONStringFromObject(
-												PaperSession.getGameMapSession(request).getAreas().get(areaArrayId).getDoodad())
+												PaperSession.getGameMapSession(request).getAreas().get(areaArrayId).getBuilding())
 										+";"+XmlFactory.getJSONStringFromObject(
 												Constants.getPlayerById(request, playerId));
 					
@@ -245,6 +245,9 @@ public class AjaxFactory extends Action
 		boolean b = false;
 		Race playerRace = Constants.getPlayerById(request, playerId).getPlayerRace();
 		Deposit deposit = null;
+		
+		if(area.getDoodad()!=null)
+			deposit = (Deposit) area.getDoodad();
 		
 		if("U".equals(entityIdentifier))
 		{

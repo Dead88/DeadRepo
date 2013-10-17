@@ -207,7 +207,11 @@ function build(){
 		
 		obj.add(area.Mesh);
 		
-		if(area.Doodad){
+		if(area.Building){
+			var texture = THREE.ImageUtils.loadTexture(area.Building.Texture);
+			area.Mesh.material.map = texture;
+		}
+		else if(area.Doodad){
 			if(area.Doodad.MeshType == "Tree"){
 				generateTree(area.Doodad);
 			}
@@ -218,10 +222,6 @@ function build(){
 				var texture = THREE.ImageUtils.loadTexture(area.Doodad.Texture);
 				area.Mesh.material.map = texture;
 			}
-		}
-		if(area.Building){
-			var texture = THREE.ImageUtils.loadTexture(area.Building.Texture);
-			area.Mesh.material.map = texture;
 		}
 	}
 	
