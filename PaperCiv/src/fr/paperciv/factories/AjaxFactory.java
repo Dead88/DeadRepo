@@ -14,9 +14,11 @@ import fr.paperciv.common.Constants;
 import fr.paperciv.common.PaperSession;
 import fr.paperciv.objs.Player;
 import fr.paperciv.objs.buildings.Building;
+import fr.paperciv.objs.deposits.Deposit;
 import fr.paperciv.objs.map.Area;
 import fr.paperciv.objs.map.AreaType;
 import fr.paperciv.objs.map.GameMap;
+import fr.paperciv.objs.races.Race;
 import fr.paperciv.objs.units.Unit;
 
 public class AjaxFactory extends Action
@@ -61,10 +63,11 @@ public class AjaxFactory extends Action
 			}
 			else if("canBuildEntityOnSelectedArea".equals(method))
 			{
+				String entityIdentifier = Constants.getParameter(request, "entityIdentifier");
 				String entityType = Constants.getParameter(request, "entityType");
-				String areaType = Constants.getParameter(request, "areaType");
+				String xzCoord = Constants.getParameter(request, "xzCoord");
 				
-				boolean canBuildEntityOnSelectedArea = canBuildEntityOnSelectedArea(entityType, areaType);
+				boolean canBuildEntityOnSelectedArea = canBuildEntityOnSelectedArea(request, playerId, entityIdentifier, entityType, xzCoord);
 				
 				if(canBuildEntityOnSelectedArea)
 					Constants.sendResponse(response, "OK");
@@ -196,13 +199,72 @@ public class AjaxFactory extends Action
 		}
 	}
 	
-	public static boolean canBuildEntityOnSelectedArea(String entityType, String areaType)
+	public static boolean canBuildEntityOnSelectedArea(HttpServletRequest request, int playerId, String entityIdentifier, 
+														String entityType, String xzCoord) throws Exception
 	{
-		if("Ground Building".equals(entityType) && AreaType.GROUND_AREA.equals(areaType))
-			return true;
-		else if("Infantry".equals(entityType) && AreaType.GROUND_AREA.equals(areaType))
-			return true;
-		else return false;
+		boolean b = false;
+		Race playerRace = Constants.getPlayerById(request, playerId).getPlayerRace();
+		GameMap gameMap = PaperSession.getGameMapSession(request);
+		Area area = null;
+		Deposit deposit = null;
+		int x = Integer.parseInt(xzCoord.split(";")[0]);
+		int z = Integer.parseInt(xzCoord.split(";")[1]);
+		
+		for(int i=0;i<gameMap.getAreas().size();i++)
+		{
+			if(gameMap.getAreas().get(i).getX() == x && gameMap.getAreas().get(i).getZ() == z)
+			{
+				area = gameMap.getAreas().get(i);
+				if(area.getDoodad()!=null)
+					deposit = (Deposit) area.getDoodad();
+				break;
+			}
+		}
+		
+		if(area==null) return false;
+		
+		if("U".equals(entityIdentifier))
+		{
+			if("Infantry".equals(entityType) && AreaType.GROUND_AREA.equals(area.getAreaType().getType())
+			&& area.getDoodad() == null && area.getBuilding() == null)
+				b = true;
+		}
+		else if("B".equals(entityIdentifier))
+		{		
+			if("GroundBuilding".equals(entityType) && AreaType.GROUND_AREA.equals(area.getAreaType().getType()) && area.getDoodad() == null && area.getBuilding() == null)
+				b = true;
+			else if("DepositBuilding".equals(entityType) && (deposit!=null && "Deposit".equals(deposit.getMeshType())) && area.getBuilding() == null
+				&& ((deposit.getType() == null) || (deposit.getType()!=null && deposit.getType().getId() == playerRace.getFictiveRessource().getId())))
+				b = true;
+		}
+		return b;
+	}
+	
+	public static boolean canBuildEntityOnSelectedArea(HttpServletRequest request, int playerId, String entityIdentifier, Object entity, Area area) throws Exception
+	{
+		boolean b = false;
+		Race playerRace = Constants.getPlayerById(request, playerId).getPlayerRace();
+		Deposit deposit = null;
+		
+		if("U".equals(entityIdentifier))
+		{
+			Unit unit = (Unit) entity;
+			
+			if("Infantry".equals(unit.getType().getName()) && AreaType.GROUND_AREA.equals(area.getAreaType().getType())
+			&& area.getDoodad() == null && area.getBuilding() == null)
+				b = true;
+		}
+		else if("B".equals(entityIdentifier))
+		{
+			Building building = (Building) entity;
+			
+			if("GroundBuilding".equals(building.getType().getName()) && AreaType.GROUND_AREA.equals(area.getAreaType().getType()) && area.getDoodad() == null && area.getBuilding() == null)
+				b = true;
+			else if("DepositBuilding".equals(building.getType().getName()) && (deposit!=null && "Deposit".equals(deposit.getMeshType())) && area.getBuilding() == null
+				&& ((deposit.getType() == null) || (deposit.getType()!=null && deposit.getType().getId() == playerRace.getFictiveRessource().getId())))
+				b = true;
+		}
+		return b;
 	}
 	
 	public static int addPlayerBuildingAtCoordinate(HttpServletRequest request, int playerId, int buildingId, int x, double y, int z) throws Exception
@@ -259,7 +321,7 @@ public class AjaxFactory extends Action
 			if(area == null) return 0;
 			
 			if(haveEnoughRessource(request, playerId, referenceBuilding.getPaperCost(), referenceBuilding.getFictiveCost())
-			&& canBuildEntityOnSelectedArea(referenceBuilding.getType().getName(), area.getAreaType().getType()))
+			&& canBuildEntityOnSelectedArea(request, playerId, "B", referenceBuilding, area))
 			{	
 				Building buildingToAdd = new Building(referenceBuilding.getId(), referenceBuilding.getName(), referenceBuilding.getFile(), referenceBuilding.getLevel(), 
 												referenceBuilding.getTexture(), referenceBuilding.getType(), referenceBuilding.getBuildingTypeId(), 
@@ -271,7 +333,7 @@ public class AjaxFactory extends Action
 				player.setFictiveRessourceAmount(player.getFictiveRessourceAmount() - referenceBuilding.getFictiveCost());
 				players.set(playerArrayId, player);
 				
-				area.setDoodad(buildingToAdd);
+				area.setBuilding(buildingToAdd);
 				gameMap.getAreas().set(areaArrayId, area);
 				
 				PaperSession.setGamePlayersSession(request, players);
@@ -361,35 +423,35 @@ public class AjaxFactory extends Action
 				if(baseAreaArrayIds.get(m) == 0) continue;
 				baseAreaArrayId = baseAreaArrayIds.get(m);
 				
-				if(gameMap.getAreas().get(baseAreaArrayId - 1).getDoodad()==null && canBuildEntityOnSelectedArea(referenceUnit.getType().getName(), gameMap.getAreas().get(baseAreaArrayId - 1).getAreaType().getType())){
+				if(gameMap.getAreas().get(baseAreaArrayId - 1).getDoodad()==null && canBuildEntityOnSelectedArea(request, playerId, "U", referenceUnit, gameMap.getAreas().get(baseAreaArrayId - 1))){
 					nearestAvailableArea = gameMap.getAreas().get(baseAreaArrayId - 1);
 					nearestAvailableAreaArrayId = baseAreaArrayId - 1;
 				}
-				else if(gameMap.getAreas().get(baseAreaArrayId + 1).getDoodad()==null && canBuildEntityOnSelectedArea(referenceUnit.getType().getName(), gameMap.getAreas().get(baseAreaArrayId + 1).getAreaType().getType())){
+				else if(gameMap.getAreas().get(baseAreaArrayId + 1).getDoodad()==null && canBuildEntityOnSelectedArea(request, playerId, "U", referenceUnit, gameMap.getAreas().get(baseAreaArrayId + 1))){
 					nearestAvailableArea = gameMap.getAreas().get(baseAreaArrayId + 1);
 					nearestAvailableAreaArrayId = baseAreaArrayId + 1;
 				}
-				else if(gameMap.getAreas().get(baseAreaArrayId - gameMap.getLength()).getDoodad()==null && canBuildEntityOnSelectedArea(referenceUnit.getType().getName(), gameMap.getAreas().get(baseAreaArrayId - gameMap.getLength()).getAreaType().getType())){
+				else if(gameMap.getAreas().get(baseAreaArrayId - gameMap.getLength()).getDoodad()==null && canBuildEntityOnSelectedArea(request, playerId, "U", referenceUnit, gameMap.getAreas().get(baseAreaArrayId - gameMap.getLength()))){
 					nearestAvailableArea = gameMap.getAreas().get(baseAreaArrayId - gameMap.getLength());
 					nearestAvailableAreaArrayId = baseAreaArrayId - gameMap.getLength();
 				}
-				else if(gameMap.getAreas().get(baseAreaArrayId + gameMap.getLength()).getDoodad()==null && canBuildEntityOnSelectedArea(referenceUnit.getType().getName(), gameMap.getAreas().get(baseAreaArrayId + gameMap.getLength()).getAreaType().getType())){
+				else if(gameMap.getAreas().get(baseAreaArrayId + gameMap.getLength()).getDoodad()==null && canBuildEntityOnSelectedArea(request, playerId, "U", referenceUnit, gameMap.getAreas().get(baseAreaArrayId + gameMap.getLength()))){
 					nearestAvailableArea = gameMap.getAreas().get(baseAreaArrayId + gameMap.getLength());
 					nearestAvailableAreaArrayId = baseAreaArrayId + gameMap.getLength();
 				}
-				else if(gameMap.getAreas().get((baseAreaArrayId - 1 - gameMap.getLength())).getDoodad()==null && canBuildEntityOnSelectedArea(referenceUnit.getType().getName(), gameMap.getAreas().get(baseAreaArrayId - 1 - gameMap.getLength()).getAreaType().getType())){
+				else if(gameMap.getAreas().get((baseAreaArrayId - 1 - gameMap.getLength())).getDoodad()==null && canBuildEntityOnSelectedArea(request, playerId, "U", referenceUnit, gameMap.getAreas().get(baseAreaArrayId - 1 - gameMap.getLength()))){
 					nearestAvailableArea = gameMap.getAreas().get((baseAreaArrayId - 1 - gameMap.getLength()));
 					nearestAvailableAreaArrayId = baseAreaArrayId - 1 - gameMap.getLength();
 				}
-				else if(gameMap.getAreas().get((baseAreaArrayId - 1 + gameMap.getLength())).getDoodad()==null && canBuildEntityOnSelectedArea(referenceUnit.getType().getName(), gameMap.getAreas().get(baseAreaArrayId - 1 + gameMap.getLength()).getAreaType().getType())){
+				else if(gameMap.getAreas().get((baseAreaArrayId - 1 + gameMap.getLength())).getDoodad()==null && canBuildEntityOnSelectedArea(request, playerId, "U", referenceUnit, gameMap.getAreas().get(baseAreaArrayId - 1 + gameMap.getLength()))){
 					nearestAvailableArea = gameMap.getAreas().get((baseAreaArrayId - 1 + gameMap.getLength()));
 					nearestAvailableAreaArrayId = baseAreaArrayId - 1 + gameMap.getLength();
 				}
-				else if(gameMap.getAreas().get((baseAreaArrayId + 1 - gameMap.getLength())).getDoodad()==null && canBuildEntityOnSelectedArea(referenceUnit.getType().getName(), gameMap.getAreas().get(baseAreaArrayId + 1 - gameMap.getLength()).getAreaType().getType())){
+				else if(gameMap.getAreas().get((baseAreaArrayId + 1 - gameMap.getLength())).getDoodad()==null && canBuildEntityOnSelectedArea(request, playerId, "U", referenceUnit, gameMap.getAreas().get(baseAreaArrayId + 1 - gameMap.getLength()))){
 					nearestAvailableArea = gameMap.getAreas().get((baseAreaArrayId + 1 - gameMap.getLength()));
 					nearestAvailableAreaArrayId = baseAreaArrayId + 1 - gameMap.getLength();
 				}
-				else if(gameMap.getAreas().get((baseAreaArrayId + 1 + gameMap.getLength())).getDoodad()==null && canBuildEntityOnSelectedArea(referenceUnit.getType().getName(), gameMap.getAreas().get(baseAreaArrayId + 1 + gameMap.getLength()).getAreaType().getType())){
+				else if(gameMap.getAreas().get((baseAreaArrayId + 1 + gameMap.getLength())).getDoodad()==null && canBuildEntityOnSelectedArea(request, playerId, "U", referenceUnit, gameMap.getAreas().get(baseAreaArrayId + 1 + gameMap.getLength()))){
 					nearestAvailableArea = gameMap.getAreas().get((baseAreaArrayId + 1 + gameMap.getLength()));
 					nearestAvailableAreaArrayId = baseAreaArrayId + 1 + gameMap.getLength();
 				}

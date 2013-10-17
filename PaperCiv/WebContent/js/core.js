@@ -25,6 +25,8 @@ var canSelectAreas = true;
 var entityToCreate;
 var entityToCreateTexture;
 
+//FIXME : Now, use actions and define what is a turn
+
 function include (url) {
 	var xhr = null;
 	if (window.XMLHttpRequest) xhr = new XMLHttpRequest();
@@ -212,10 +214,14 @@ function build(){
 			else if(area.Doodad.MeshType == "Deposit"){
 				generateDeposit(area);
 			}
-			else if(area.Doodad.MeshType == "Building" || area.Doodad.MeshType == "Unit"){
+			else if(area.Doodad.MeshType == "Unit"){
 				var texture = THREE.ImageUtils.loadTexture(area.Doodad.Texture);
 				area.Mesh.material.map = texture;
 			}
+		}
+		if(area.Building){
+			var texture = THREE.ImageUtils.loadTexture(area.Building.Texture);
+			area.Mesh.material.map = texture;
 		}
 	}
 	
@@ -268,7 +274,7 @@ function overArea(){
 				var area = getAreaByAreaMeshUuid(ints[0].object.uuid);
 				
 				if(area){
-					if(!canBuildEntityOnSelectedArea(entityToCreate, area)){
+					if(!canBuildEntityOnSelectedArea("B", entityToCreate, area)){
 						ints[0].object.material = new THREE.MeshBasicMaterial( { color:0xff0000, map:entityToCreateTexture } );
 					}
 				}
@@ -304,7 +310,7 @@ function selectArea(){
 		var area = getAreaByAreaMeshUuid(ints[0].object.uuid);
 		
 		if(entityToCreate && area){
-			if(canBuildEntityOnSelectedArea(entityToCreate, area)){
+			if(canBuildEntityOnSelectedArea("B",entityToCreate, area)){
 				ints[0].object.material = new THREE.MeshBasicMaterial( { color:0x00ff00, map:entityToCreateTexture } );
 				ints[0].object.name = "selected";
 				
@@ -325,17 +331,17 @@ function selectArea(){
 			if(area){		
 				$("#areaimg").attr("src", area.Mesh.material.map.sourceFile);
 				
-				if(area.Doodad){
+				if(area.Building){
+					var buildingtext = area.Building.Name+"<br />"+area.Building.Life+" PV<br />Armure : "+area.Building.Armor;
+					$("#areatext").html(buildingtext);
+				}
+				else if(area.Doodad){
 					if(area.Doodad.MeshType == "Deposit"){
 						var doodadtext = "Gisement : "+(area.Doodad.Type ? area.Doodad.Type.Name : "Papier")+"<br />Quantité : "+area.Doodad.Quantity;
 						$("#areatext").html(doodadtext);
 					}
 					else if(area.Doodad.MeshType == "Tree"){
 						$("#areatext").html("Forêt");
-					}
-					else if(area.Doodad.MeshType == "Building"){
-						var doodadtext = area.Doodad.Name+"<br />"+area.Doodad.Life+" PV<br />Armure : "+area.Doodad.Armor;
-						$("#areatext").html(doodadtext);
 					}
 					else if(area.Doodad.MeshType == "Unit"){
 						var doodadtext = area.Doodad.Name+"<br />"+area.Doodad.Life+" PV<br />Puissance : "+area.Doodad.Power+"<br />"
@@ -458,6 +464,10 @@ function cleanAreasMesh(){
 		if(areas[i].Doodad && areas[i].Doodad.Mesh){
 			areas[i].Doodad.Y += result;
 			areas[i].Doodad.Mesh.position.y += result;
+		}
+		if(areas[i].Building && areas[i].Building.Mesh){
+			areas[i].Building.Y += result;
+			areas[i].Building.Mesh.position.y += result;
 		}
 	}
 }
@@ -693,27 +703,34 @@ function selectEntityToCreate(img, entityIdentifier, entity){
 	}
 }
 
-//FIXME : see how to place harvester buildings ( maybe think about area.Building )
-function canBuildEntityOnSelectedArea(entity, area){
-	if((area && area.Doodad) || !area)
-		return false;
-	else{
-		var result = $.ajax({
-			url: "ajax.do",
-			async: false,
-			data: { playerId: humanPlayer.Id, 
-					method: "canBuildEntityOnSelectedArea", 
-					entityType: entity.Type.Name, 
-					areaType: area.AreaType.Type }
-		}).done(function(msg){
-			return msg;
-		}).responseText;
-		
-		if(result == "OK"){
-			return true;
-		}
-		else return false;
+function canBuildEntityOnSelectedArea(entityIdentifier, entity, area){
+	
+	if(entityIdentifier == "B" && entity.Type.Name == "DepositBuilding"){
+		if(!area || (area && !area.Doodad) || (area.Doodad && area.Doodad.MeshType != "Deposit"))
+			return false;
 	}
+	else if((entityIdentifier == "B" && entity.Type.Name != "DepositBuilding")
+			|| entityIdentifier == "U"){
+		if((area && area.Doodad) || (area && area.Building) || !area)
+			return false;
+	}
+
+	var result = $.ajax({
+		url: "ajax.do",
+		async: false,
+		data: { playerId: humanPlayer.Id, 
+				method: "canBuildEntityOnSelectedArea", 
+				entityIdentifier: entityIdentifier,
+				entityType: entity.Type.Name,
+				xzCoord: area.X+";"+area.Z }
+	}).done(function(msg){
+		return msg;
+	}).responseText;
+	
+	if(result == "OK"){
+		return true;
+	}
+	else return false;
 }
 
 function addPlayerBuildingAtCoordinate(id, area){
@@ -731,7 +748,7 @@ function addPlayerBuildingAtCoordinate(id, area){
 	}).responseText;
 	
 	if(result != "KO"){
-		area.Doodad = $.parseJSON(result.split(";")[0]);
+		area.Building = $.parseJSON(result.split(";")[0]);
 		humanPlayer = $.parseJSON(result.split(";")[1]);
 		
 		entityToCreate = null;

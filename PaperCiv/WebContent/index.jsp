@@ -36,7 +36,7 @@
 	<div align="center">
 		<div style="background-color: lightgray;text-align: center;width: 25%;border: 5px ridge grey; opacity: 0.9;">
 			<br /><br />
-			<b style="font-size: 22px;"><u>PAPERCIV v0.6 alpha</u></b>
+			<b style="font-size: 22px;"><u>PAPERCIV v0.7 alpha</u></b>
 			<br /><br />
 			<div id="message" style="color: red;"></div>
 	 		<br /><br />

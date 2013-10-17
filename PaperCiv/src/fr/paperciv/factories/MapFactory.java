@@ -49,7 +49,7 @@ public class MapFactory
 				Vertex[] vertices = { new Vertex(0, 0, 0), new Vertex(0, 0, 0),
 									new Vertex(0, 0, 0), new Vertex(0, 0, 0)};
 				
-				Area area = new Area(tempX, 0, tempZ, vertices, gameMap.getTexture(), new AreaType(AreaType.GROUND_AREA), null);
+				Area area = new Area(tempX, 0, tempZ, vertices, gameMap.getTexture(), new AreaType(AreaType.GROUND_AREA), null, null);
 				areas.add(i, area);
 				
 				tempX += 1;
