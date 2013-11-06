@@ -1,7 +1,7 @@
 var SCREEN_WIDTH = window.innerWidth, SCREEN_HEIGHT = window.innerHeight;
 var container;
-var rightHud, leftHud, ressourceStock;
-var unitsListDiv, buildingsListDiv;
+var rightHud, leftHud, topHud, ressourceStock;
+var unitsListDiv, buildingsListDiv, actionTurnDiv;
 var projector, camera, scene, renderer;
 var clock = new THREE.Clock(), delta, mouse = { x: 0, y: 0 };
 
@@ -25,7 +25,9 @@ var canSelectAreas = true;
 var entityToCreate;
 var entityToCreateTexture;
 
-//FIXME : Now, use actions and define what is a turn
+var turnNumber = 1;
+
+//FIXME NEXT TO DO : Define starting pos and buildings buildable zone.Use actions and define what is a turn. 
 
 function include (url) {
 	var xhr = null;
@@ -124,9 +126,18 @@ function render() {
 	
 	moveCamera();
 	
-	if(humanPlayer)
+	if(humanPlayer){
 		$(ressourceStock).html("Paper : "+humanPlayer.PaperAmount+"&nbsp;&nbsp;&nbsp;&nbsp;" +
 				""+humanPlayer.PlayerRace.FictiveRessource.Name+" : "+humanPlayer.FictiveRessourceAmount);
+		
+		var actionTurnText = "Tour N°"+turnNumber+"<br />";
+			actionTurnText += "Actions de Production : "+humanPlayer.BuildActionAmount+"/"+gameProperties.BuildActionNumber+"<br />";
+			actionTurnText += "Actions de Déplacement : "+humanPlayer.MoveActionAmount+"/"+gameProperties.MoveActionNumber+"<br />";
+			actionTurnText += "Actions d'Attaque : "+humanPlayer.AttackActionAmount+"/"+gameProperties.AttackActionNumber+"<br />";
+		
+		$(actionTurnDiv).html(actionTurnText);
+	}
+		
 	
 	renderer.clear();
 	renderer.render( scene, camera );
@@ -265,7 +276,7 @@ function overArea(){
 			child.name = "";
 		}
 	
-		if(ints[0].object.name == ""){	
+		if(ints[0].object.name == "" && (!ints[0].object.disabled || (ints[0].object.disabled && ints[0].object.disabled == 0))){	
 			previousOverTexture = ints[0].object.material.map;
 			
 			if(entityToCreate){
@@ -298,7 +309,7 @@ function selectArea(){
 	
 	var ints = ray.intersectObjects(gameMap.Mesh.getDescendants());
 	
-	if(ints.length > 0){
+	if(ints.length > 0 && (!ints[0].object.disabled || (ints[0].object.disabled && ints[0].object.disabled == 0))){
 		if(gameMap.Mesh.getObjectByName("selected")!=null){
 			var child = gameMap.Mesh.getObjectByName("selected");
 			
@@ -332,7 +343,14 @@ function selectArea(){
 				$("#areaimg").attr("src", area.Mesh.material.map.sourceFile);
 				
 				if(area.Building){
-					var buildingtext = area.Building.Name+"<br />"+area.Building.Life+" PV<br />Armure : "+area.Building.Armor;
+					var buildingtext;
+					
+					if(area.Building.Type.Name == "DepositBuilding"){
+						buildingtext = area.Building.Name+"<br />"+area.Building.Life+" PV<br />Armure : "+area.Building.Armor;
+						buildingtext += "<br /><br />"+(area.Doodad.Type ? area.Doodad.Type.Name : "Papier")+" restant : "+area.Doodad.Quantity;
+					}
+					else buildingtext = area.Building.Name+"<br />"+area.Building.Life+" PV<br />Armure : "+area.Building.Armor;
+					
 					$("#areatext").html(buildingtext);
 				}
 				else if(area.Doodad){
@@ -370,6 +388,23 @@ function deselectArea(){
 		var previousTexture = child.material.map;
 		child.material = new THREE.MeshBasicMaterial( { color:0xffffff, map:previousTexture } );
 		child.name = "";
+	}
+	
+	if(entityToCreate){
+		for(var i=0;i<areas.length;i++){
+			if(areas[i].Mesh.disabled && areas[i].Mesh.disabled == 1){
+				var texture;
+				if(areas[i].Doodad && areas[i].Doodad.MeshType == "Deposit"){
+					if(areas[i].Doodad.Type)
+						texture = THREE.ImageUtils.loadTexture(areas[i].Doodad.Type.Texture);
+					else texture = THREE.ImageUtils.loadTexture("img/maptexture/paper.jpg");
+				}
+				else  texture = THREE.ImageUtils.loadTexture(areas[i].Texture); 
+				
+				areas[i].Mesh.material = new THREE.MeshBasicMaterial({ color:0xffffff, map: texture });
+				areas[i].Mesh.disabled = 0;
+			}
+		}
 	}
 	
 	$(".rightHud img").removeClass("selected");
@@ -530,6 +565,10 @@ function constructHUD(){
 	$(leftHud).addClass("leftHud");
 	document.body.appendChild( leftHud );
 	
+	topHud  = document.createElement('div');
+	$(topHud).addClass("topHud");
+	document.body.appendChild( topHud );
+	
 	//TRANSPARENT OVERLAYS
 	var rightHudTransparentOverlay = document.createElement('div');
 	$(rightHudTransparentOverlay).addClass("hudTransparentOverlay");
@@ -538,6 +577,10 @@ function constructHUD(){
 	var leftHudTransparentOverlay = document.createElement('div');
 	$(leftHudTransparentOverlay).addClass("hudTransparentOverlay");
 	leftHud.appendChild(leftHudTransparentOverlay);
+	
+	var topHudTransparentOverlay = document.createElement('div');
+	$(topHudTransparentOverlay).addClass("hudTransparentOverlay");
+	topHud.appendChild(topHudTransparentOverlay);
 	
 	//RESSOURCE STOCK
 	ressourceStock = document.createElement('div');
@@ -603,6 +646,22 @@ function constructHUD(){
 	$(areatext).attr("id","areatext");
 	$(areatext).attr("class","hudElement");
 	leftHud.appendChild(areatext);
+	
+	//ACTIONS AND TURNS BOX
+	var topHudCenter = document.createElement('center');
+	topHud.appendChild(topHudCenter);
+	
+	actionTurnDiv = document.createElement('div');
+	$(actionTurnDiv).attr("id","actionTurnDiv");
+	$(actionTurnDiv).attr("class","topHudElement");
+	topHudCenter.appendChild(actionTurnDiv);
+		
+	var nextTurnButton = document.createElement('input');
+	$(nextTurnButton).attr("id","nextTurnButton");
+	$(nextTurnButton).attr("type","button");
+	$(nextTurnButton).attr("value","Fin de Tour");
+	$(nextTurnButton).attr("onclick","alert('Vous êtes seul, impossible...');");
+	topHudCenter.appendChild(nextTurnButton);
 }
 
 function refreshUnitAndBuildingLists(){
@@ -684,17 +743,76 @@ function haveEnoughRessourceFor(img, entityIdentifier, entityArrayId){
 	if(result == "OK"){
 		selectEntityToCreate(img, entityIdentifier, entity);
 	}
-	else alert("Vous n'avez pas assez de ressource pour "+entity.Name);
+	else {
+		if(humanPlayer.BuildActionAmount == 0)
+			alert("Vous n'avez plus d'action de production pour "+entity.Name);
+		else alert("Vous n'avez pas assez de ressource pour "+entity.Name);
+	}
 }
 
 function selectEntityToCreate(img, entityIdentifier, entity){
 	
 	if(entityIdentifier == "B"){
-		$(".rightHud img").removeClass("selected");
+		deselectArea();
 		$(img).addClass("selected");
-		buildingToCreateHudImage = img;
 		entityToCreate = entity;
 		entityToCreateTexture = THREE.ImageUtils.loadTexture(entity.Texture);
+		
+		//FIXME : for unbuildable fog (again think about a server generation, same for moving unit)
+		if(humanPlayer.Buildings.length == 0){
+			for(var i=0;i<areas.length;i++){
+				if(gameMap.Mesh.getObjectByName("over")!=null){
+					var child = gameMap.Mesh.getObjectByName("over");
+					
+					child.material = new THREE.MeshBasicMaterial( { color:0xffffff, map:previousOverTexture } );
+					child.name = "";
+				}
+				
+				if(i > ((areas.length / 4) - 1)){
+					var texture;
+					if(areas[i].Doodad && areas[i].Doodad.MeshType == "Deposit"){
+						if(areas[i].Doodad.Type)
+							texture = THREE.ImageUtils.loadTexture(areas[i].Doodad.Type.Texture);
+						else texture = THREE.ImageUtils.loadTexture("img/maptexture/paper.jpg");
+					}
+					else  texture = THREE.ImageUtils.loadTexture(areas[i].Texture); 
+					
+					areas[i].Mesh.material = new THREE.MeshBasicMaterial({ color:0x555555, map: texture });
+					areas[i].Mesh.disabled = 1;
+				}
+			}
+		}
+		else if(humanPlayer.Buildings.length > 0){
+			var hq = humanPlayer.Buildings[0];
+		
+			for(var i=0;i<areas.length;i++){
+				if(gameMap.Mesh.getObjectByName("over")!=null){
+					var child = gameMap.Mesh.getObjectByName("over");
+					
+					child.material = new THREE.MeshBasicMaterial( { color:0xffffff, map:previousOverTexture } );
+					child.name = "";
+				}
+				
+				if(
+					(areas[i].X < (hq.X - parseInt(gameProperties.FogDistanceFromBuildding)) 
+					|| areas[i].X > (hq.X + parseInt(gameProperties.FogDistanceFromBuildding)))
+				|| 
+					(areas[i].Z < (hq.Z - parseInt(gameProperties.FogDistanceFromBuildding)) 
+					|| areas[i].Z > (hq.Z + parseInt(gameProperties.FogDistanceFromBuildding)))
+				){
+					var texture;
+					if(areas[i].Doodad && areas[i].Doodad.MeshType == "Deposit"){
+						if(areas[i].Doodad.Type)
+							texture = THREE.ImageUtils.loadTexture(areas[i].Doodad.Type.Texture);
+						else texture = THREE.ImageUtils.loadTexture("img/maptexture/paper.jpg");
+					}
+					else  texture = THREE.ImageUtils.loadTexture(areas[i].Texture); 
+					
+					areas[i].Mesh.material = new THREE.MeshBasicMaterial({ color:0x555555, map: texture });
+					areas[i].Mesh.disabled = 1;
+				}
+			}
+		}
 	}
 	else if(entityIdentifier == "U"){
 		if(!addPlayerUnitAtCoordinate(entity.Id))
@@ -751,8 +869,8 @@ function addPlayerBuildingAtCoordinate(id, area){
 		area.Building = $.parseJSON(result.split(";")[0]);
 		humanPlayer = $.parseJSON(result.split(";")[1]);
 		
-		entityToCreate = null;
-		entityToCreateTexture = null;
+		deselectArea();
+
 		return true;
 	}
 	else return false;

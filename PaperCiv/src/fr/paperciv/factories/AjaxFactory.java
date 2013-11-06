@@ -83,7 +83,7 @@ public class AjaxFactory extends Action
 				int areaArrayId = addPlayerBuildingAtCoordinate(request, playerId, buildingId, X, Y, Z);
 				
 				if(areaArrayId > 0)
-				{
+				{				
 					String returnObjects = XmlFactory.getJSONStringFromObject(
 												PaperSession.getGameMapSession(request).getAreas().get(areaArrayId).getBuilding())
 										+";"+XmlFactory.getJSONStringFromObject(
@@ -189,7 +189,8 @@ public class AjaxFactory extends Action
 		{
 			player = Constants.getPlayerById(request, playerId);
 			
-			if(player.getPaperAmount() >= paperCost && player.getFictiveRessourceAmount() >= fictiveCost)
+			if(player.getPaperAmount() >= paperCost && player.getFictiveRessourceAmount() >= fictiveCost
+			&& player.getBuildActionAmount() > 0)
 				return true;
 			else return false;
 		}
@@ -334,6 +335,7 @@ public class AjaxFactory extends Action
 				player.getBuildings().add(buildingToAdd);
 				player.setPaperAmount(player.getPaperAmount() - referenceBuilding.getPaperCost());
 				player.setFictiveRessourceAmount(player.getFictiveRessourceAmount() - referenceBuilding.getFictiveCost());
+				player.setBuildActionAmount(player.getBuildActionAmount() - 1);
 				players.set(playerArrayId, player);
 				
 				area.setBuilding(buildingToAdd);
@@ -475,6 +477,7 @@ public class AjaxFactory extends Action
 				player.getUnits().add(unitToAdd);
 				player.setPaperAmount(player.getPaperAmount() - referenceUnit.getPaperCost());
 				player.setFictiveRessourceAmount(player.getFictiveRessourceAmount() - referenceUnit.getFictiveCost());
+				player.setBuildActionAmount(player.getBuildActionAmount() - 1);
 				players.set(playerArrayId, player);
 							
 				nearestAvailableArea.setDoodad(unitToAdd);

@@ -25,10 +25,6 @@ body {
 	top:1%;
 	right: 0.5%;
 }
-.rightHud * {
-	position:relative;
-}
-	
 .leftHud {
 	display:none;
 	position:absolute;
@@ -37,10 +33,17 @@ body {
 	top:1%;
 	left: 0.5%;
 }
-.leftHud * {
-	position:relative;
+.topHud {
+	position:absolute;
+	top:1%;
+	width:20%;
+	left:40%; 
 }
 
+.rightHud *, .leftHud *, .topHud * {
+	position:relative;
+}
+	
 .hudTransparentOverlay {
 	position:inherit;
 	border-radius:20px;
@@ -54,6 +57,10 @@ body {
 	margin: 5% 0% 5% 5%;
 	font-weight: bold;
 }
+.topHudElement {
+	margin: 2.5% 0% 2.5% 2.5%;
+	font-weight: bold;
+}
 
 .rightHud img {
 	height: 64px;
@@ -64,6 +71,11 @@ body {
 	height: 56px;
 	width: 56px;
 	border: 4px outset #00ff00;
+}
+
+#nextTurnButton {
+	margin-bottom: 5px;
+	font-weight: bold;
 }
 
 /* .hudOverlay img {
