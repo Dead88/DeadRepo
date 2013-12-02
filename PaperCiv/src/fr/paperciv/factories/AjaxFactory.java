@@ -1,6 +1,7 @@
 package fr.paperciv.factories;
 
 import java.util.ArrayList;
+import java.util.Properties;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -23,7 +24,7 @@ import fr.paperciv.objs.units.Unit;
 
 public class AjaxFactory extends Action
 {
-	//FIXME : handle add unit and building errors text
+	//FIXME : handle add unit and building, and move unit errors text
 	@Override
 	public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)throws Exception 
 	{
@@ -110,6 +111,54 @@ public class AjaxFactory extends Action
 					Constants.sendResponse(response, returnObjects);
 				}
 				else Constants.sendResponse(response, "KO");	
+			}
+			else if("movePlayerUnitAtCoordinate".equals(method))
+			{
+				int unitX = Integer.parseInt(Constants.getParameter(request, "unitX"));
+				int unitZ = Integer.parseInt(Constants.getParameter(request, "unitZ"));
+				int X = Integer.parseInt(Constants.getParameter(request, "X"));
+				double Y = Double.parseDouble(Constants.getParameter(request, "Y"));
+				int Z = Integer.parseInt(Constants.getParameter(request, "Z"));
+				
+				String areaAndUnitAreaArrayId = movePlayerUnitAtCoordinate(request, playerId, unitX, unitZ, X, Y, Z);
+				
+				if(!"".equals(areaAndUnitAreaArrayId) && areaAndUnitAreaArrayId.split(";").length > 0)
+				{
+					String[] ArrayIds = areaAndUnitAreaArrayId.split(";");
+					
+					String returnObjects = ArrayIds[0]
+										+";"+ArrayIds[1]
+										+";"+XmlFactory.getJSONStringFromObject(
+												PaperSession.getGameMapSession(request).getAreas().get(Integer.parseInt(ArrayIds[0])).getDoodad())
+										+";"+XmlFactory.getJSONStringFromObject(
+												Constants.getPlayerById(request, playerId));
+					
+					Constants.sendResponse(response, returnObjects);
+				}
+				else Constants.sendResponse(response, "KO");	
+			}
+			else if("disableAreasOutOfOriginRange".equals(method))
+			{
+				int centerAreaArrayId = Integer.parseInt(Constants.getParameter(request, "centerAreaArrayId"));
+				int width = Integer.parseInt(Constants.getParameter(request, "width"));
+				
+				String areaArrayIds = disableAreasOutOfOriginRange(request, playerId, centerAreaArrayId, width);
+		
+				if(!"".equals(areaArrayIds))
+				{			
+					Constants.sendResponse(response, areaArrayIds);
+				}
+				else Constants.sendResponse(response, "KO");
+			}
+			else if("disableAreasOutOfBuildingsRange".equals(method))
+			{
+				String areaArrayIds = disableAreasOutOfBuildingsRange(request, playerId);
+				
+				if(!"".equals(areaArrayIds))
+				{			
+					Constants.sendResponse(response, areaArrayIds);
+				}
+				else Constants.sendResponse(response, "KO");
 			}
 		}
 		catch(Exception e)
@@ -496,5 +545,194 @@ public class AjaxFactory extends Action
 		}
 		if(uAdded) return nearestAvailableAreaArrayId;
 		else return 0;
+	}
+	
+	public static String movePlayerUnitAtCoordinate(HttpServletRequest request, int playerId, int unitX, int unitZ, int x, double y, int z) throws Exception
+	{
+		ArrayList<Player> players = null;
+		GameMap gameMap = null;
+		
+		Player player = null;
+		int playerArrayId = 0;
+		Unit selectedUnit = null;
+		int selectedUnitArrayId = 0;
+		Area area = null;
+		int areaArrayId = 0;
+		Area selectedUnitArea = null;
+		int selectedUnitAreaArrayId = 0;
+		boolean uMoved = false;
+		
+		try
+		{
+			players = PaperSession.getGamePlayersSession(request);
+			gameMap = PaperSession.getGameMapSession(request);
+			
+			for(int i=0;i<players.size();i++)
+			{
+				if(players.get(i).getId() == playerId)
+				{
+					player = players.get(i);
+					playerArrayId = i;
+					break;
+				}
+			}
+			
+			if(player == null) return "";
+			
+			for(int j=0;j<player.getUnits().size();j++)
+			{
+				if(player.getUnits().get(j).getX() == unitX
+				&& player.getUnits().get(j).getZ() == unitZ)
+				{
+					selectedUnit = player.getUnits().get(j);
+					selectedUnitArrayId = j;
+					break;
+				}
+			}
+			
+			if(selectedUnit == null) return "";
+			
+			for(int k=0;k<gameMap.getAreas().size();k++)
+			{
+				if(gameMap.getAreas().get(k).getX() == x && gameMap.getAreas().get(k).getZ() == z)
+				{
+					area = gameMap.getAreas().get(k);
+					areaArrayId = k;
+				}	
+				else if(gameMap.getAreas().get(k).getX() == selectedUnit.getX() && gameMap.getAreas().get(k).getZ() == selectedUnit.getZ())
+				{
+					selectedUnitArea = gameMap.getAreas().get(k);
+					selectedUnitAreaArrayId = k;
+				}
+			}
+			
+			if(area == null) return "";
+			
+			if(canBuildEntityOnSelectedArea(request, playerId, "U", selectedUnit, area)
+			&& player.getMoveActionAmount() > 0)
+			{
+				selectedUnit.setX(x);
+				selectedUnit.setY(y);
+				selectedUnit.setZ(z);
+				
+				player.getUnits().set(selectedUnitArrayId, selectedUnit);	
+				player.setMoveActionAmount(player.getMoveActionAmount() - 1);
+				players.set(playerArrayId, player);
+		
+				selectedUnitArea.setDoodad(null);
+				gameMap.getAreas().set(selectedUnitAreaArrayId, selectedUnitArea);
+				
+				area.setDoodad(selectedUnit);
+				gameMap.getAreas().set(areaArrayId, area);
+				
+				PaperSession.setGamePlayersSession(request, players);
+				PaperSession.setGameMapSession(request, gameMap);
+				
+				uMoved = true;
+			}
+		}
+		finally
+		{
+			players = null;
+			gameMap = null;
+		}
+		if(uMoved) return areaArrayId+";"+selectedUnitAreaArrayId;
+		else return "";
+	}
+	
+	public static String disableAreasOutOfBuildingsRange(HttpServletRequest request, int playerId) throws Exception
+	{
+		Properties gameProperties = null;
+		Player player = null;
+		GameMap gameMap = null;
+		
+		String areaArrayIds = "";
+		int width = 0;
+		int OutOfBuildingsRangeCount = 0;
+		
+		try
+		{
+			gameProperties = PaperSession.getGameProperties(request);
+			player = Constants.getPlayerById(request, playerId);
+			gameMap = PaperSession.getGameMapSession(request);
+			
+			try{
+				width = Integer.parseInt(gameProperties.get("FogDistanceFromBuilding")+"");
+			}catch(NumberFormatException n){
+				throw new NumberFormatException("FogDistanceFromBuilding unparsable");
+			}
+			
+			for(int i=0;i<gameMap.getAreas().size();i++)
+			{
+				Area area = gameMap.getAreas().get(i);
+				OutOfBuildingsRangeCount = 0;
+				
+				for(int j=0;j<player.getBuildings().size();j++)
+				{
+					Building b = player.getBuildings().get(j);
+					
+					if(		
+						(area.getX() < (b.getX() - width) 
+						|| area.getX() > (b.getX() + width))
+					||
+						(area.getZ() < (b.getZ() - width) 
+						|| area.getZ() > (b.getZ() + width))
+					)
+					{
+						OutOfBuildingsRangeCount++;
+					}
+				}
+				
+				if(OutOfBuildingsRangeCount == player.getBuildings().size())
+				{
+					if("".equals(areaArrayIds))
+						areaArrayIds += i;
+					else areaArrayIds += ";"+i;
+				}
+			}
+		}
+		finally
+		{
+			gameProperties = null;
+			player = null;
+			gameMap = null;
+		}
+		return areaArrayIds;
+	}
+	
+	public static String disableAreasOutOfOriginRange(HttpServletRequest request, int playerId, int centerAreaArrayId, int width) throws Exception
+	{
+		String areaArrayIds = "";
+		GameMap gameMap = null;
+		Area centerArea = null;
+		
+		try
+		{
+			gameMap = PaperSession.getGameMapSession(request);
+			centerArea = gameMap.getAreas().get(centerAreaArrayId);
+			
+			for(int i=0;i<gameMap.getAreas().size();i++)
+			{
+				Area area = gameMap.getAreas().get(i);
+				
+				if(		
+					(area.getX() < (centerArea.getX() - width) 
+					|| area.getX() > (centerArea.getX() + width))
+				||
+					(area.getZ() < (centerArea.getZ() - width) 
+					|| area.getZ() > (centerArea.getZ() + width))
+				)
+				{
+					if("".equals(areaArrayIds))
+						areaArrayIds += i;
+					else areaArrayIds += ";"+i;
+				}
+			}
+		}
+		finally
+		{
+			gameMap = null;
+		}
+		return areaArrayIds;
 	}
 }
