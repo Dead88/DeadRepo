@@ -56,11 +56,7 @@ public class LoginAction extends Action
 				{
 					PaperSession.setUserSession(request, userObj);
 					Constants.initGameProperties(request);
-					
-					if(username.equals("admin")){
-						response.sendRedirect(Constants.getUrlRedirect(request, "skirmish.do?playerRaceId=1&enemyRaceId=2&gameMapId=1"));
-					}
-					Constants.sendResponse(response, "OK");
+					Constants.sendResponse(response, XmlFactory.getJSONStringFromObject(userObj));
 				}
 			}
 			else

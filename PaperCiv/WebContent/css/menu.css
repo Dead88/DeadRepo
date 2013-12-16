@@ -82,3 +82,35 @@ body {
 	width:32px;
 	height:32px;
 } */
+
+#mainmenuwrapper {
+	font-family: Times New Roman, Times, serif;
+	background-color: lightgray;
+	text-align: center;
+	width: 25%;
+	border: 5px ridge grey; 
+	border-radius: 25px; 
+	margin-top: 30%; 
+	margin-left: 40%;
+	opacity: 0.9;
+	position: absolute;
+	float: left;
+}
+
+#chatwrapper {
+	font-family: Times New Roman, Times, serif;
+	background-color: lightgray;
+	text-align: center;
+	width: 20%;
+	margin-top: 30%;
+	margin-left: 5%;
+	border: 5px ridge grey; 
+	border-radius: 25px; 
+	opacity: 0.9;
+	position: absolute;
+	float: left;
+}
+
+#chatwrapper, #chatbox {
+	display: none;
+}
