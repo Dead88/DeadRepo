@@ -10,53 +10,6 @@ var user;
 var connectedToChat = false;
 var chatWS;
 
-function changeMenu(previousMenu, newMenu){
-	$("#"+previousMenu).slideUp(500, function(){
-	  	$("#"+newMenu).slideDown(500);
-	});  
-}
-
-function submitLogin(){
-	var username = $("#user").val();
-	var pass = $("#pass").val();
-	
-	if(!username){
-		alert("Veuillez saisir votre Username !");
-		$("#user").focus();
-		return;
-	}
-	if(!pass){
-	  	alert("Veuillez saisir votre Password !");
-		$("#pass").focus();
-		return;
-	}
-	
-	$.ajax({
-		url: "login.do?user="+username+"&pass="+pass,
-	}).complete(function(xhr, status) {
-		if(xhr.responseText.indexOf("{")!=-1){
-			user = $.parseJSON(xhr.responseText);
-			$("#message").html("");
-			changeMenu("login","menu");
-			$("#chatwrapper").show(500);
-		}
-		else $("#message").html(xhr.responseText);
-	});
-}
-
-function newSkirmish(){
-	changeMenu("menu","skirmish");
-}
-
-function submitSkirmish(){
-//	var playerRace = $("#playerRace").val();
-//	var enemyRace = $("#enemyRace").val();
-//	var map = $("#map").val();
-	
-	$("#formSkirmish").submit();
-}
-
-
 function init() {	
 	//CAMERA
 	projector = new THREE.Projector();
@@ -91,13 +44,15 @@ function animate() {
 function render() {
 	delta = clock.getDelta();
 	
-	if(titleDirection == "R" && titleMesh.position.x < 5)
+	if(titleDirection == "R" && titleMesh.position.x < 5){
 		titleMesh.position.x += 0.025;
+	}	
 	else if(titleDirection == "R" && titleMesh.position.x >= 5)
 		titleDirection = "L";
 	
-	if(titleDirection == "L" && titleMesh.position.x > -10)
+	if(titleDirection == "L" && titleMesh.position.x > -10){
 		titleMesh.position.x -= 0.025;
+	}
 	else if(titleDirection == "L" && titleMesh.position.x <= -10)
 		titleDirection = "R";
 	
@@ -144,16 +99,11 @@ function build(){
 	});
 	// font: helvetiker, gentilis, droid sans, droid serif, optimer
 	// weight: normal, bold
-			
-	titleTexture = THREE.ImageUtils.loadTexture("img/maptexture/paper.jpg");
-	titleTexture.anisotropy = 16;
-	titleTexture.wrapS = titleTexture.wrapT = THREE.RepeatWrapping;
-	titleTexture.repeat.set( 2, 2 );
 	
-	titleMaterial = new THREE.MeshBasicMaterial( { color:0xFFFFFF, map: titleTexture } );		
+	titleMaterial = new THREE.MeshBasicMaterial( { color:0xB50000 } );		
 	
 	titleMesh = new THREE.Mesh(titleGeo, titleMaterial);
-	titleMesh.position.set(-5, 2, 4);
+	titleMesh.position.set(-5, 4, 4);
 	
 	scene.add(titleMesh);
 	
@@ -174,48 +124,36 @@ function build(){
 	scene.add(sprite);
 }
 
-function checkSession(_user){
-		user = _user;
-	
-		$("#login").hide();
-		$("#menu").hide();
-		$("#skirmish").hide();
-		
-		if(user){
-			$("#chatwrapper").show(500);
-			$("#menu").slideDown(500);
-		}
-		else if(!user)
-			$("#login").slideDown(500);
-}
-
 function toggleChatConnection(){
 	if(!connectedToChat){
-		chatWS = new WebSocket("ws://localhost:8080/PaperCiv/chat");
-		chatWS.onopen = function(evt) { onChatOpen(evt) };
-		chatWS.onclose = function(evt) { onChatClose(evt) }; 
-		chatWS.onmessage = function(evt) { onChatMessage(evt) }; 
-		chatWS.onerror = function(evt) { onChatError(evt) };	
+		chatWS = new WebSocket("ws://nicolas-pc:8080/PaperCiv/chat/"+user.UserName);
+		chatWS.onopen = function(evt) { onChatOpen(evt); };
+		chatWS.onclose = function(evt) { onChatClose(evt); }; 
+		chatWS.onmessage = function(evt) { onChatMessage(evt); }; 
+		chatWS.onerror = function(evt) { onChatError(evt); };
 	}
 	else if(connectedToChat) {
-		chatWS.send(user.UserName+" is now disconnected.");
 		chatWS.close();
 	}
 }
 
 function submitChatMessage(){
-	chatWS.send(user.UserName+" : "+$("#chatinput").val());
-	$("#chatinput").val("");
+	if($("#chatinput").val() && $("#chatinput").val() != ""){
+		chatWS.send(user.UserName + " : " + $("#chatinput").val());
+		$("#chatinput").val("");
+	}
 }
 
+//FIXME : retrieve users who are connected to the chat
 function onChatOpen(evt) { 
+	chatWS.send(user.UserName+"_CONNECT_CHAT");
+	$("#chatoutput").html("");
 	$("#chatbox").slideDown(500);
 	$("#chattogglebutton").val("Deconnexion");
-	chatWS.send(user.UserName+" is now connected.");
-	$("#chatoutput").html("");
 	connectedToChat = true;
 }  
 function onChatClose(evt) {
+	chatWS.send(user.UserName+"_DISCONNECT_CHAT");
 	$("#chatoutput").html("");
 	$("#chatbox").slideUp(500);
 	$("#chattogglebutton").val("Connexion");
@@ -231,4 +169,62 @@ function onChatError(evt) {
 
 function writeChatOutput(msg) {
 	$("#chatoutput").append("&#10;"+msg);
+}
+
+function checkSession(_user){
+	user = _user;
+
+	$("#login").hide();
+	$("#menu").hide();
+	$("#skirmish").hide();
+	$("#multiplayer").hide();
+	
+	if(user){
+		$("#chatwrapper").show(800);
+		$("#menu").slideDown(800);
+	}
+	else if(!user)
+		$("#login").slideDown(800);
+}
+
+function changeMenu(previousMenu, newMenu){
+	$("#"+previousMenu).slideUp(400, function(){
+	  	$("#"+newMenu).slideDown(400);
+	});  
+}
+
+function submitLogin(){
+	var username = $("#user").val();
+	var pass = $("#pass").val();
+	
+	if(!username){
+		alert("Veuillez saisir votre Username !");
+		$("#user").focus();
+		return;
+	}
+	if(!pass){
+	  	alert("Veuillez saisir votre Password !");
+		$("#pass").focus();
+		return;
+	}
+	
+	$.ajax({
+		url: "login.do?user="+username+"&pass="+pass,
+	}).complete(function(xhr, status) {
+		if(xhr.responseText.indexOf("{")!=-1){
+			user = $.parseJSON(xhr.responseText);
+			$("#message").html("");
+			changeMenu("login","menu");
+			$("#chatwrapper").show(500);
+		}
+		else $("#message").html(xhr.responseText);
+	});
+}
+
+function submitSkirmish(){
+	$("#formSkirmish").submit();
+}
+
+function newMultiGame(){
+	alert("On peut pas encore créer ducon");
 }

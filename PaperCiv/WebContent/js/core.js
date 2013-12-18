@@ -17,6 +17,7 @@ var moveForward = false;
 var moveBackward = false;
 var moveLeft = false;
 var moveRight = false;
+var divSpeed = 200;
 
 var previousOverTexture;
 var displayAreasOver = true;
@@ -29,7 +30,6 @@ var selectedUnit;
 var selectedUnitTexture;
 
 var turnNumber = 1;
-
 
 function include (url) {
 	var xhr = null;
@@ -422,7 +422,7 @@ function selectArea(){
 				}
 			}
 			
-			$(leftHud).show();
+			$(leftHud).show(divSpeed);
 		}
 	}
 	else{ deselectArea(); }
@@ -465,7 +465,7 @@ function deselectArea(){
 	entityToCreateTexture = null;
 	selectedUnit = null;
 	selectedUnitTexture = null;
-	$(leftHud).hide();
+	$(leftHud).hide(divSpeed);
 }
 
 function getAreaByAreaMeshUuid(uuid){

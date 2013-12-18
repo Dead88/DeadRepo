@@ -1,9 +1,10 @@
+<%@page import="javax.websocket.Session"%>
 <%@page import="fr.paperciv.factories.XmlFactory"%>
 <%@page import="fr.paperciv.objs.User"%>
 <%@page import="fr.paperciv.common.PaperSession"%>
 <%
 	User user = PaperSession.getUserSession(request);
- %>
+%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
   <head>
@@ -17,11 +18,13 @@
    	<script type="text/javascript">
 	   	$(document).ready(function(){
 	   		var user = $.parseJSON('<%=XmlFactory.getJSONStringFromObject(user)%>');
-	   		
+	   
 	   		checkSession(user);
 	   		
 	   		init();	
 	   		animate();
+	   		
+	   		$("#chatinput").keydown(function(e){ e.which == 13 ? submitChatMessage():null; });
 	   	});
    	</script>
   </head>
@@ -41,6 +44,9 @@
 		<div id="skirmish">
 			<jsp:include flush="true" page="include/skirmish.jsp" />
 		</div>
+		<div id="multiplayer">
+			<jsp:include flush="true" page="include/multiplayer.jsp" />
+		</div>
 		<br />
 	</div>
 	<div id="chatwrapper">
@@ -50,9 +56,11 @@
 		<input type="button" id="chattogglebutton" value="Connexion" onclick="toggleChatConnection();" />
 		<br /><br />
 		<div id="chatbox">
-			<textarea id="chatoutput" cols="40" rows="8" disabled="disabled" style="resize:none;font-weight:bold;"></textarea>
+			<textarea id="chatoutput" cols="40" rows="8"></textarea>
+			<textarea id="chatusers" cols="15" rows="8"></textarea>
+			<br class="clear" />
 			<br /><br />
-			<input type="text" size="30" id="chatinput" /><input type="button" value="Envoyer" onclick="submitChatMessage();" />
+			<input type="text" id="chatinput" /><input type="button" id="chatsubmitbutton" value="Envoyer" onclick="submitChatMessage();" />
 			<br /><br />
 		</div>
 	</div>

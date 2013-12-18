@@ -3,6 +3,7 @@
 }
 
 body {
+	overflow: hidden;
 	margin-bottom: 0px;
 	margin-left: 0px;
 	margin-right: 0px;
@@ -24,6 +25,8 @@ body {
 	width:15%;
 	top:1%;
 	right: 0.5%;
+	border: 5px ridge silver; 
+	border-radius: 25px; 
 }
 .leftHud {
 	display:none;
@@ -32,12 +35,16 @@ body {
 	width:15%;
 	top:1%;
 	left: 0.5%;
+	border: 5px ridge silver; 
+	border-radius: 25px; 
 }
 .topHud {
 	position:absolute;
 	top:1%;
 	width:20%;
 	left:40%; 
+	border: 5px ridge silver; 
+	border-radius: 25px; 
 }
 
 .rightHud *, .leftHud *, .topHud * {
@@ -46,7 +53,7 @@ body {
 	
 .hudTransparentOverlay {
 	position:inherit;
-	border-radius:20px;
+	border-radius:25px;
 	height:100%;
 	width:100%;
 	background-color:#DDDDDD;
@@ -83,12 +90,16 @@ body {
 	height:32px;
 } */
 
+.clear {
+	clear: both;
+}
+
 #mainmenuwrapper {
 	font-family: Times New Roman, Times, serif;
 	background-color: lightgray;
 	text-align: center;
 	width: 25%;
-	border: 5px ridge grey; 
+	border: 5px ridge silver; 
 	border-radius: 25px; 
 	margin-top: 30%; 
 	margin-left: 40%;
@@ -101,10 +112,10 @@ body {
 	font-family: Times New Roman, Times, serif;
 	background-color: lightgray;
 	text-align: center;
-	width: 20%;
+	width: 30%;
 	margin-top: 30%;
 	margin-left: 5%;
-	border: 5px ridge grey; 
+	border: 5px ridge silver; 
 	border-radius: 25px; 
 	opacity: 0.9;
 	position: absolute;
@@ -113,4 +124,16 @@ body {
 
 #chatwrapper, #chatbox {
 	display: none;
+}
+
+#chatbox textarea {
+	resize:none;
+	pointer-events: none;
+	font-weight:bold;
+	margin-left: 5%;
+	float:left;
+}	
+
+#chatinput {
+	width: 70%;
 }
