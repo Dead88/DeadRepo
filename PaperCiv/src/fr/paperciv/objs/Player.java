@@ -14,7 +14,6 @@ public class Player
 	private Race PlayerRace;
 	private boolean isHumanControlled;
 	private int BuildActionAmount;
-	private int MoveActionAmount;
 	private int AttackActionAmount;
 	private ArrayList<Unit> Units;
 	private ArrayList<Building> Buildings;
@@ -43,9 +42,6 @@ public class Player
 	public int getBuildActionAmount() {return BuildActionAmount;}
 	public void setBuildActionAmount(int buildActionAmount) {BuildActionAmount = buildActionAmount;}
 	
-	public int getMoveActionAmount() {return MoveActionAmount;}
-	public void setMoveActionAmount(int moveActionAmount) {MoveActionAmount = moveActionAmount;}
-	
 	public int getAttackActionAmount() {return AttackActionAmount;}
 	public void setAttackActionAmount(int attackActionAmount) {AttackActionAmount = attackActionAmount;}
 	
@@ -60,7 +56,6 @@ public class Player
 		PlayerRace = playerRace;
 		this.isHumanControlled = isHumanControlled;
 		BuildActionAmount = buildActionAmount;
-		MoveActionAmount = moveActionAmount;
 		AttackActionAmount = attackActionAmount;
 		Units = units;
 		Buildings = buildings;

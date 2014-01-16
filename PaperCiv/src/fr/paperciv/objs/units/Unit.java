@@ -20,6 +20,7 @@ public class Unit extends Mesh
 	private int Power;
 	private int Armor;
 	private int Speed;
+	private int SpeedRemaining;
 	private int Range;
 	private int FireFrequency;
 	
@@ -65,6 +66,9 @@ public class Unit extends Mesh
 	public int getSpeed() {return Speed;}
 	public void setSpeed(int speed) {Speed = speed;}
 	
+	public int getSpeedRemaining() {return SpeedRemaining;}
+	public void setSpeedRemaining(int speedRemaining) {SpeedRemaining = speedRemaining;}
+	
 	public int getRange() {return Range;}
 	public void setRange(int range) {Range = range;}
 	
@@ -94,6 +98,7 @@ public class Unit extends Mesh
 		Power = power;
 		Armor = armor;
 		Speed = speed;
+		SpeedRemaining = speed;
 		Range = range;
 		FireFrequency = fireFrequency;
 	}

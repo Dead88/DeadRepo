@@ -193,23 +193,27 @@ function changeMenu(previousMenu, newMenu){
 	});  
 }
 
-function submitLogin(){
+function submitLogin(godmode){
 	var username = $("#user").val();
 	var pass = $("#pass").val();
 	
-	if(!username){
+	if(!username && !godmode){
 		alert("Veuillez saisir votre Username !");
 		$("#user").focus();
 		return;
 	}
-	if(!pass){
+	if(!pass && !godmode){
 	  	alert("Veuillez saisir votre Password !");
 		$("#pass").focus();
 		return;
 	}
+
+	if(godmode){
+		document.location.href="login.do?godmode=1";
+	}
 	
 	$.ajax({
-		url: "login.do?user="+username+"&pass="+pass,
+		url: "login.do?user="+username+"&pass="+pass
 	}).complete(function(xhr, status) {
 		if(xhr.responseText.indexOf("{")!=-1){
 			user = $.parseJSON(xhr.responseText);

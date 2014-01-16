@@ -31,37 +31,47 @@ public class LoginAction extends Action
 		
 		try
 		{			
-			if(request.getParameter("user")!=null && request.getParameter("pass")!=null)
+			if("1".equals(request.getParameter("godmode")))
 			{
-				username = request.getParameter("user");
-				pass = request.getParameter("pass");
-
-				users = XmlFactory.getUsers();
+				userObj = new User(0, "God", "");
+				PaperSession.setUserSession(request, userObj);
 				
-				for(int i=0;i<users.size();i++)
-				{
-					if(username.equals(users.get(i).getUserName())
-					&& pass.equals(users.get(i).getPassWord()))
-					{
-						isLogged = true;
-						userObj = new User(users.get(i).getId(), users.get(i).getUserName(), users.get(i).getPassWord());
-					}
-				}
-				
-				if(!isLogged)
-				{
-					Constants.sendResponse(response, "Connexion refusé");
-				}
-				else
-				{
-					PaperSession.setUserSession(request, userObj);
-					Constants.initGameProperties(request);
-					Constants.sendResponse(response, XmlFactory.getJSONStringFromObject(userObj));
-				}
+				response.sendRedirect(Constants.getUrlRedirect(request, "skirmish.do?playerRaceId=1&enemyRaceId=2&gameMapId=1"));
 			}
 			else
 			{
-				Constants.sendResponse(response, "Problème lors de la récupération du formulaire");
+				if(request.getParameter("user")!=null && request.getParameter("pass")!=null)
+				{
+					username = request.getParameter("user");
+					pass = request.getParameter("pass");
+
+					users = XmlFactory.getUsers();
+					
+					for(int i=0;i<users.size();i++)
+					{
+						if(username.equals(users.get(i).getUserName())
+						&& pass.equals(users.get(i).getPassWord()))
+						{
+							isLogged = true;
+							userObj = new User(users.get(i).getId(), users.get(i).getUserName(), users.get(i).getPassWord());
+						}
+					}
+					
+					if(!isLogged)
+					{
+						Constants.sendResponse(response, "Connexion refusé");
+					}
+					else
+					{
+						PaperSession.setUserSession(request, userObj);
+						Constants.initGameProperties(request);
+						Constants.sendResponse(response, XmlFactory.getJSONStringFromObject(userObj));
+					}
+				}
+				else
+				{
+					Constants.sendResponse(response, "Problème lors de la récupération du formulaire");
+				}
 			}
 		}
 		catch(Exception e)

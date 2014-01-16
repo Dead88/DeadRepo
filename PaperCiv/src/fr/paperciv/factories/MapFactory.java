@@ -13,6 +13,7 @@ import fr.paperciv.objs.map.AreaType;
 import fr.paperciv.objs.map.GameMap;
 import fr.paperciv.objs.map.Tree;
 import fr.paperciv.objs.map.Vertex;
+import fr.paperciv.objs.units.Unit;
 
 public class MapFactory 
 {	
@@ -49,7 +50,7 @@ public class MapFactory
 				Vertex[] vertices = { new Vertex(0, 0, 0), new Vertex(0, 0, 0),
 									new Vertex(0, 0, 0), new Vertex(0, 0, 0)};
 				
-				Area area = new Area(tempX, 0, tempZ, vertices, gameMap.getTexture(), new AreaType(AreaType.GROUND_AREA), null, null);
+				Area area = new Area(tempX, 0, tempZ, vertices, i, gameMap.getTexture(), new AreaType(AreaType.GROUND_AREA), null, null);
 				areas.add(i, area);
 				
 				tempX += 1;
@@ -385,5 +386,93 @@ public class MapFactory
 				areas.get(rand).setDoodad(deposit);
 			}
 		}
+	}
+	
+	public static ArrayList<Area> getNearestAreas(Area originArea, ArrayList<Area> areas) throws Exception
+	{
+		ArrayList<Area> nearestAreas = new ArrayList<Area>();
+		
+		for(int i=0;i<areas.size();i++)
+		{
+			Area area = areas.get(i);
+			
+			if(
+				(area.getX() == (originArea.getX() + 1) 
+				|| area.getX() == (originArea.getX() - 1))
+			&&
+				(area.getZ() == (originArea.getZ() + 1) 
+				|| area.getZ() == (originArea.getZ() - 1))
+			)
+			{
+				nearestAreas.add(area);
+			}
+		}
+
+		return nearestAreas;
+	}
+	
+	public static boolean isAreaInArrayList(Area area, ArrayList<Area> areas) throws Exception
+	{
+		boolean isAreaInArrayList = false;
+		
+		for(int i=0;i<areas.size();i++)
+		{
+			if(area.getX() == areas.get(i).getX()
+			&& area.getZ() == areas.get(i).getZ())
+			{			
+				isAreaInArrayList = true;
+				break;
+			}
+		}
+		
+		return isAreaInArrayList;
+	}
+	
+	public static ArrayList<Area> setAreaDistanceFromUnitRange(HttpServletRequest request, int playerId, Area area, Unit unit, ArrayList<Area> initialAreas, ArrayList<Area> distanceSettedAreas) throws Exception
+	{
+		System.out.println("Calling setAreaDistanceFromUnitRange");
+		ArrayList<Area> nearestAreas = null;
+		
+		if(distanceSettedAreas.size() == 0)
+		{
+			nearestAreas = getNearestAreas(area, initialAreas);
+			
+			for(int i=0;i<nearestAreas.size();i++)
+			{
+				if(AjaxFactory.canBuildEntityOnSelectedArea(request, playerId, "U", unit, nearestAreas.get(i)))
+				{
+					nearestAreas.get(i).setDistance( 1 );
+					distanceSettedAreas.add( nearestAreas.get(i) );
+				}
+			}
+			
+			distanceSettedAreas = setAreaDistanceFromUnitRange(request, playerId, area, unit, initialAreas, distanceSettedAreas);
+		}
+		else
+		{
+			for(int i=(distanceSettedAreas.size()-1);i >= 0;i--)
+			{
+				nearestAreas = getNearestAreas(distanceSettedAreas.get(i), initialAreas);
+				
+				if((distanceSettedAreas.get(i).getDistance() + 1) <= unit.getSpeedRemaining())
+				{
+					for(int j=0;j<nearestAreas.size();j++)
+					{
+						if(AjaxFactory.canBuildEntityOnSelectedArea(request, playerId, "U", unit, nearestAreas.get(j))
+						&& !isAreaInArrayList(area, distanceSettedAreas)
+						&& (nearestAreas.get(j).getX() != area.getX() 
+							|| nearestAreas.get(j).getZ() != area.getZ()))
+						{
+							nearestAreas.get(j).setDistance( distanceSettedAreas.get(i).getDistance() + 1);
+							distanceSettedAreas.add(nearestAreas.get(j));
+						}
+					}
+					
+					distanceSettedAreas = setAreaDistanceFromUnitRange(request, playerId, area, unit, initialAreas, distanceSettedAreas);
+				}
+			}
+		}
+		
+		return distanceSettedAreas;
 	}
 }

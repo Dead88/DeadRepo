@@ -160,6 +160,18 @@ public class AjaxFactory extends Action
 				}
 				else Constants.sendResponse(response, "KO");
 			}
+			else if("disableAreasOutOfUnitRange".equals(method))
+			{
+				int centerAreaArrayId = Integer.parseInt(Constants.getParameter(request, "centerAreaArrayId"));
+				
+				String areaArrayIds = disableAreasOutOfUnitRange(request, playerId, centerAreaArrayId);
+				
+				if(!"".equals(areaArrayIds))
+				{			
+					Constants.sendResponse(response, areaArrayIds);
+				}
+				else Constants.sendResponse(response, "KO");
+			}
 		}
 		catch(Exception e)
 		{
@@ -294,10 +306,6 @@ public class AjaxFactory extends Action
 	{
 		boolean b = false;
 		Race playerRace = Constants.getPlayerById(request, playerId).getPlayerRace();
-		Deposit deposit = null;
-		
-		if(area.getDoodad()!=null)
-			deposit = (Deposit) area.getDoodad();
 		
 		if("U".equals(entityIdentifier))
 		{
@@ -310,11 +318,21 @@ public class AjaxFactory extends Action
 		else if("B".equals(entityIdentifier))
 		{
 			Building building = (Building) entity;
+			Deposit deposit = null;
 			
-			if("GroundBuilding".equals(building.getType().getName()) && AreaType.GROUND_AREA.equals(area.getAreaType().getType()) && area.getDoodad() == null && area.getBuilding() == null)
+			if(area.getDoodad()!=null && area.getDoodad() instanceof Deposit)
+				deposit = (Deposit) area.getDoodad();
+			
+			if("GroundBuilding".equals(building.getType().getName()) 
+			&& AreaType.GROUND_AREA.equals(area.getAreaType().getType()) 
+			&& area.getDoodad() == null
+			&& area.getBuilding() == null)
 				b = true;
-			else if("DepositBuilding".equals(building.getType().getName()) && (deposit!=null && "Deposit".equals(deposit.getMeshType())) && area.getBuilding() == null
-				&& ((deposit.getType() == null) || (deposit.getType()!=null && deposit.getType().getId() == playerRace.getFictiveRessource().getId())))
+			else if("DepositBuilding".equals(building.getType().getName())
+			&& area.getDoodad()!=null 
+			&& area.getDoodad() instanceof Deposit 
+			&& area.getBuilding() == null
+			&& ((deposit.getType() == null) || (deposit.getType()!=null && deposit.getType().getId() == playerRace.getFictiveRessource().getId())))
 				b = true;
 		}
 		return b;
@@ -557,9 +575,7 @@ public class AjaxFactory extends Action
 		Unit selectedUnit = null;
 		int selectedUnitArrayId = 0;
 		Area area = null;
-		int areaArrayId = 0;
 		Area selectedUnitArea = null;
-		int selectedUnitAreaArrayId = 0;
 		boolean uMoved = false;
 		
 		try
@@ -597,33 +613,34 @@ public class AjaxFactory extends Action
 				if(gameMap.getAreas().get(k).getX() == x && gameMap.getAreas().get(k).getZ() == z)
 				{
 					area = gameMap.getAreas().get(k);
-					areaArrayId = k;
 				}	
 				else if(gameMap.getAreas().get(k).getX() == selectedUnit.getX() && gameMap.getAreas().get(k).getZ() == selectedUnit.getZ())
 				{
 					selectedUnitArea = gameMap.getAreas().get(k);
-					selectedUnitAreaArrayId = k;
 				}
 			}
 			
 			if(area == null) return "";
 			
 			if(canBuildEntityOnSelectedArea(request, playerId, "U", selectedUnit, area)
-			&& player.getMoveActionAmount() > 0)
+			&& selectedUnit.getSpeedRemaining() > 0)
 			{
+				//FIXME : code pathfinding(1 by 1 movment and use stored counter to decrease remaining speed)
+				double squareRootDistance = Math.sqrt( Math.pow((selectedUnit.getX() - x), 2) + Math.pow((selectedUnit.getZ() - z), 2) );
 				selectedUnit.setX(x);
 				selectedUnit.setY(y);
 				selectedUnit.setZ(z);
 				
+				selectedUnit.setSpeedRemaining( selectedUnit.getSpeedRemaining() - (int)squareRootDistance );
+				
 				player.getUnits().set(selectedUnitArrayId, selectedUnit);	
-				player.setMoveActionAmount(player.getMoveActionAmount() - 1);
 				players.set(playerArrayId, player);
 		
 				selectedUnitArea.setDoodad(null);
-				gameMap.getAreas().set(selectedUnitAreaArrayId, selectedUnitArea);
+				gameMap.getAreas().set(selectedUnitArea.getId(), selectedUnitArea);
 				
 				area.setDoodad(selectedUnit);
-				gameMap.getAreas().set(areaArrayId, area);
+				gameMap.getAreas().set(area.getId(), area);
 				
 				PaperSession.setGamePlayersSession(request, players);
 				PaperSession.setGameMapSession(request, gameMap);
@@ -636,7 +653,7 @@ public class AjaxFactory extends Action
 			players = null;
 			gameMap = null;
 		}
-		if(uMoved) return areaArrayId+";"+selectedUnitAreaArrayId;
+		if(uMoved) return area.getId()+";"+selectedUnitArea.getId();
 		else return "";
 	}
 	
@@ -686,8 +703,8 @@ public class AjaxFactory extends Action
 				if(OutOfBuildingsRangeCount == player.getBuildings().size())
 				{
 					if("".equals(areaArrayIds))
-						areaArrayIds += i;
-					else areaArrayIds += ";"+i;
+						areaArrayIds += area.getId();
+					else areaArrayIds += ";"+area.getId();
 				}
 			}
 		}
@@ -724,10 +741,61 @@ public class AjaxFactory extends Action
 				)
 				{
 					if("".equals(areaArrayIds))
-						areaArrayIds += i;
-					else areaArrayIds += ";"+i;
+						areaArrayIds += area.getId();
+					else areaArrayIds += ";"+area.getId();
 				}
 			}
+		}
+		finally
+		{
+			gameMap = null;
+		}
+		return areaArrayIds;
+	}
+	
+	public static String disableAreasOutOfUnitRange(HttpServletRequest request, int playerId, int centerAreaArrayId) throws Exception
+	{
+		String areaArrayIds = "";
+		GameMap gameMap = null;
+		Area centerArea = null;
+		Unit unit = null;
+		
+		ArrayList<Area> workingAreas = null;
+		
+		try
+		{
+			gameMap = PaperSession.getGameMapSession(request);
+			centerArea = gameMap.getAreas().get(centerAreaArrayId);
+			unit = (Unit) centerArea.getDoodad();
+			
+			workingAreas = new ArrayList<Area>();
+			
+			for(int i=0;i<gameMap.getAreas().size();i++)
+			{
+				Area area = gameMap.getAreas().get(i);
+				
+				if(
+					(area.getX() >= (centerArea.getX() - unit.getSpeedRemaining()) 
+					&& area.getX() <= (centerArea.getX() + unit.getSpeedRemaining()))
+				&&
+					(area.getZ() >= (centerArea.getZ() - unit.getSpeedRemaining()) 
+					&& area.getZ() <= (centerArea.getZ() + unit.getSpeedRemaining()))
+				)
+				{
+					workingAreas.add(area);
+				}
+			}
+			
+			workingAreas = MapFactory.setAreaDistanceFromUnitRange(request, playerId, centerArea, unit, workingAreas, new ArrayList<Area>());
+			
+			for(int j=0;j<workingAreas.size();j++)
+			{
+				if("".equals(areaArrayIds))
+					areaArrayIds += workingAreas.get(j).getId();
+				else areaArrayIds += ";"+workingAreas.get(j).getId();
+			}
+			
+			//FIXME : count the speed used for each travel to an area in cleanedAreas	
 		}
 		finally
 		{

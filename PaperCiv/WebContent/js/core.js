@@ -134,7 +134,6 @@ function render() {
 		
 		var actionTurnText = "Tour N°"+turnNumber+"<br />";
 			actionTurnText += "Actions de Production : "+humanPlayer.BuildActionAmount+"/"+gameProperties.BuildActionNumber+"<br />";
-			actionTurnText += "Actions de Déplacement : "+humanPlayer.MoveActionAmount+"/"+gameProperties.MoveActionNumber+"<br />";
 			actionTurnText += "Actions d'Attaque : "+humanPlayer.AttackActionAmount+"/"+gameProperties.AttackActionNumber+"<br />";
 		
 		$(actionTurnDiv).html(actionTurnText);
@@ -241,17 +240,6 @@ function build(){
 	gameMap.Mesh = obj;
 	
 	generateHeightOn9(gameMap.HeightsQuantity,gameMap.Height);
-	
-	//TODO : find a way to build mounts
-//	for(var j=0;j<20;j++){
-//		var r = Math.floor( getRandomBetween( 0 + gameMap.Length, areas.length - gameMap.Length ) );
-//		
-//		generateHeightOn9(1, getRandomBetween(0.5, 1.5), r);
-//		
-//		if(j%2 != 0)
-//			generateHeightOn9(1, getRandomBetween(0.5, 1.5), r - gameMap.Length + 1);
-//		else generateHeightOn9(1, getRandomBetween(0.5, 1.5), r - gameMap.Length - 1);
-//	}
 	
 	cleanAreasMesh();
 	
@@ -383,44 +371,46 @@ function selectArea(){
 			ints[0].object.material = new THREE.MeshBasicMaterial( { color:0x00ff00, map:previousTexture } );
 			ints[0].object.name = "selected";
 			
-			if(area){		
-				$("#areaimg").attr("src", area.Mesh.material.map.sourceFile);
-				
-				if(area.Building){
-					var buildingtext;
+			$(leftHud).hide(divSpeed, function(){
+				if(area){		
+					$("#areaimg").attr("src", area.Mesh.material.map.sourceFile);
 					
-					if(area.Building.Type.Name == "DepositBuilding"){
-						buildingtext = area.Building.Name+"<br />"+area.Building.Life+" PV<br />Armure : "+area.Building.Armor;
-						buildingtext += "<br /><br />"+(area.Doodad.Type ? area.Doodad.Type.Name : "Papier")+" restant : "+area.Doodad.Quantity;
-					}
-					else buildingtext = area.Building.Name+"<br />"+area.Building.Life+" PV<br />Armure : "+area.Building.Armor;
-					
-					$("#areatext").html(buildingtext);
-				}
-				else if(area.Doodad){
-					if(area.Doodad.MeshType == "Deposit"){
-						var doodadtext = "Gisement : "+(area.Doodad.Type ? area.Doodad.Type.Name : "Papier")+"<br />Quantité : "+area.Doodad.Quantity;
-						$("#areatext").html(doodadtext);
-					}
-					else if(area.Doodad.MeshType == "Tree"){
-						$("#areatext").html("Forêt");
-					}
-					else if(area.Doodad.MeshType == "Unit"){
-						var doodadtext = area.Doodad.Name+"<br />"+area.Doodad.Life+" PV<br />Puissance : "+area.Doodad.Power+"<br />"
-						+"Armure : "+area.Doodad.Armor+"<br />Fréquence de Tir : "+area.Doodad.FireFrequency+"<br />Portée : "+area.Doodad.Range+"<br />"+
-						"Vitesse : "+area.Doodad.Speed;
-						$("#areatext").html(doodadtext);
+					if(area.Building){
+						var buildingtext;
 						
-						selectUnitAtCoordinate(area.Doodad.X, area.Doodad.Z);
+						if(area.Building.Type.Name == "DepositBuilding"){
+							buildingtext = area.Building.Name+"<br />"+area.Building.Life+" PV<br />Armure : "+area.Building.Armor;
+							buildingtext += "<br /><br />"+(area.Doodad.Type ? area.Doodad.Type.Name : "Papier")+" restant : "+area.Doodad.Quantity;
+						}
+						else buildingtext = area.Building.Name+"<br />"+area.Building.Life+" PV<br />Armure : "+area.Building.Armor;
+						
+						$("#areatext").html(buildingtext);
+					}
+					else if(area.Doodad){
+						if(area.Doodad.MeshType == "Deposit"){
+							var doodadtext = "Gisement : "+(area.Doodad.Type ? area.Doodad.Type.Name : "Papier")+"<br />Quantité : "+area.Doodad.Quantity;
+							$("#areatext").html(doodadtext);
+						}
+						else if(area.Doodad.MeshType == "Tree"){
+							$("#areatext").html("Forêt");
+						}
+						else if(area.Doodad.MeshType == "Unit"){
+							var doodadtext = area.Doodad.Name+"<br />"+area.Doodad.Life+" PV<br />Puissance : "+area.Doodad.Power+"<br />"
+							+"Armure : "+area.Doodad.Armor+"<br />Fréquence de Tir : "+area.Doodad.FireFrequency+"<br />Portée : "+area.Doodad.Range+"<br />"+
+							"Vitesse : "+area.Doodad.SpeedRemaining+" / "+area.Doodad.Speed;
+							$("#areatext").html(doodadtext);
+							
+							selectUnitAtCoordinate(area.Doodad.X, area.Doodad.Z);
+						}
+					}
+					else{
+						if(area.AreaType.Type.indexOf("ground")!=-1){
+							$("#areatext").html("Terre déserte<br />Distance : "+area.Distance);
+						}
+						else $("#areatext").html("Eau");
 					}
 				}
-				else{
-					if(area.AreaType.Type.indexOf("ground")!=-1){
-						$("#areatext").html("Terre déserte");
-					}
-					else $("#areatext").html("Eau");
-				}
-			}
+			});		
 			
 			$(leftHud).show(divSpeed);
 		}
@@ -1030,24 +1020,89 @@ function disableAreasOutOfOriginRange(areaArrayId, range){
 	else return false;
 }
 
-//FIXME : warn threejs map is undefined
-function selectUnitAtCoordinate(X, Z){
-	if(humanPlayer.MoveActionAmount > 0 || humanPlayer.AttackActionAmount > 0){
-		for(var u=0;u<humanPlayer.Units.length;u++){
-			if(humanPlayer.Units[u].X == X && humanPlayer.Units[u].Z == Z){
-				selectedUnit = humanPlayer.Units[u];
-				selectedUnitTexture = THREE.ImageUtils.loadTexture(humanPlayer.Units[u].Texture);
-				break;
-			}
+function disableAreasOutOfUnitRange(unitAreaArrayId){
+	var result = $.ajax({
+		url: "ajax.do",
+		async: false,
+		data: { playerId: humanPlayer.Id, 
+			method: "disableAreasOutOfUnitRange", 
+			centerAreaArrayId : unitAreaArrayId,
+		}
+	}).done(function(msg){
+		return msg;
+	}).responseText;
+	
+	if(result != "KO"){
+		var areaArrayIds = result.split(";");
+		
+		if(gameMap.Mesh.getObjectByName("over")!=null){
+			var child = gameMap.Mesh.getObjectByName("over");
+			
+			child.material = new THREE.MeshBasicMaterial( { color:0xffffff, map:previousOverTexture } );
+			child.name = "";
 		}
 		
 		for(var i=0;i<gameMap.Areas.length;i++){
-			var a = gameMap.Areas[i];
+			var area = gameMap.Areas[i];
 			
-			if(a.X == selectedUnit.X && a.Z == selectedUnit.Z){
-				disableAreasOutOfOriginRange(i, selectedUnit.Speed);
-				break;
-			}					
+			var texture;
+			if(area.Building){
+				texture = THREE.ImageUtils.loadTexture(area.Building.Texture);
+			}
+			else if(area.Doodad && area.Doodad.MeshType == "Deposit"){
+				if(area.Doodad.Type)
+					texture = THREE.ImageUtils.loadTexture(area.Doodad.Type.Texture);
+				else texture = THREE.ImageUtils.loadTexture("img/maptexture/paper.jpg");
+			}
+			else if(area.Doodad && area.Doodad.MeshType == "Unit"){
+				texture = THREE.ImageUtils.loadTexture(area.Doodad.Texture);
+			}
+			else  texture = THREE.ImageUtils.loadTexture(area.Texture); 
+			
+			area.Mesh.material = new THREE.MeshBasicMaterial({ color:0xA8A8A8, map: texture });
+			area.Mesh.disabled = 1;
 		}
+		
+		for(var i=0;i<areaArrayIds.length;i++){
+			var area = gameMap.Areas[areaArrayIds[i]];
+			
+			var texture;
+			if(area.Building){
+				texture = THREE.ImageUtils.loadTexture(area.Building.Texture);
+			}
+			else if(area.Doodad && area.Doodad.MeshType == "Deposit"){
+				if(area.Doodad.Type)
+					texture = THREE.ImageUtils.loadTexture(area.Doodad.Type.Texture);
+				else texture = THREE.ImageUtils.loadTexture("img/maptexture/paper.jpg");
+			}
+			else if(area.Doodad && area.Doodad.MeshType == "Unit"){
+				texture = THREE.ImageUtils.loadTexture(area.Doodad.Texture);
+			}
+			else  texture = THREE.ImageUtils.loadTexture(area.Texture); 
+			
+			area.Mesh.material = new THREE.MeshBasicMaterial({ color:0xffffff, map: texture });
+			area.Mesh.disabled = 0;
+		}
+	}
+	else return false;
+}
+
+//FIXME : warn threejs map is undefined
+function selectUnitAtCoordinate(X, Z){
+	for(var u=0;u<humanPlayer.Units.length;u++){
+		if(humanPlayer.Units[u].X == X && humanPlayer.Units[u].Z == Z){
+			selectedUnit = humanPlayer.Units[u];
+			selectedUnitTexture = THREE.ImageUtils.loadTexture(humanPlayer.Units[u].Texture);
+			break;
+		}
+	}
+	
+	for(var i=0;i<gameMap.Areas.length;i++){
+		var a = gameMap.Areas[i];
+		
+		if(a.X == selectedUnit.X && a.Z == selectedUnit.Z){
+			disableAreasOutOfUnitRange(i);
+			break;
+		}					
 	}
 }
