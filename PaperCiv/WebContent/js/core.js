@@ -20,6 +20,7 @@ var moveRight = false;
 var divSpeed = 200;
 
 var previousOverTexture;
+var previousOverColor;
 var displayAreasOver = true;
 var canSelectAreas = true;
 
@@ -262,37 +263,42 @@ function overArea(){
 		if(gameMap.Mesh.getObjectByName("over")!=null){
 			var child = gameMap.Mesh.getObjectByName("over");
 			
-			child.material = new THREE.MeshBasicMaterial( { color:0xffffff, map:previousOverTexture } );
+			child.material = new THREE.MeshBasicMaterial( { color: previousOverColor, map:previousOverTexture } );
 			child.name = "";
 		}
 	
-		if(ints[0].object.name == "" && ints[0].object.disabled != 1){	
+		if(ints[0].object.name == ""){	
 			previousOverTexture = ints[0].object.material.map;
+			previousOverColor = ints[0].object.material.color;
 			
-			if(entityToCreate){				
-				var area = getAreaByAreaMeshUuid(ints[0].object.uuid);
-				
-				if(area){
-					if(!canBuildEntityOnSelectedArea("B", entityToCreate, area)){
-						ints[0].object.material = new THREE.MeshBasicMaterial( { color:0xff0000, map:entityToCreateTexture } );
+			if(((entityToCreate || selectedUnit) && ints[0].object.usable == 1)
+			|| (!entityToCreate && !selectedUnit))
+			{
+				if(entityToCreate){				
+					var area = getAreaByAreaMeshUuid(ints[0].object.uuid);
+					
+					if(area){
+						if(!canBuildEntityOnSelectedArea("B", entityToCreate, area)){
+							ints[0].object.material = new THREE.MeshBasicMaterial( { color:0xff0000, map:entityToCreateTexture } );
+						}
+						else ints[0].object.material = new THREE.MeshBasicMaterial( { color:0xffffff, map:entityToCreateTexture} );
 					}
-					else ints[0].object.material = new THREE.MeshBasicMaterial( { color:0xffffff, map:entityToCreateTexture} );
 				}
-			}
-			else if(selectedUnit){
-				var area = getAreaByAreaMeshUuid(ints[0].object.uuid);
-				
-				if(area){
-					if(!canBuildEntityOnSelectedArea("U", selectedUnit, area)){
-						ints[0].object.material = new THREE.MeshBasicMaterial( { color:0xff0000, map:selectedUnitTexture } );
+				else if(selectedUnit){
+					var area = getAreaByAreaMeshUuid(ints[0].object.uuid);
+					
+					if(area){
+						if(!canBuildEntityOnSelectedArea("U", selectedUnit, area)){
+							ints[0].object.material = new THREE.MeshBasicMaterial( { color:0xff0000, map:selectedUnitTexture } );
+						}
+						else ints[0].object.material = new THREE.MeshBasicMaterial( { color:0xffffff, map:selectedUnitTexture} );
 					}
-					else ints[0].object.material = new THREE.MeshBasicMaterial( { color:0xffffff, map:selectedUnitTexture} );
 				}
+				else {
+					ints[0].object.material = new THREE.MeshBasicMaterial( { color:0xcccccc, map:previousOverTexture } );
+				}
+				ints[0].object.name = "over";
 			}
-			else {
-				ints[0].object.material = new THREE.MeshBasicMaterial( { color:0xcccccc, map:previousOverTexture } );
-			}
-			ints[0].object.name = "over";
 		}
 	}
 }
@@ -319,7 +325,7 @@ function selectArea(){
 				child.name = "";
 			}
 			
-			if(ints[0].object.disabled && ints[0].object.disabled == 1){
+			if(area.Mesh.usable != 1){
 				deselectArea();
 			}
 			else{
@@ -338,7 +344,7 @@ function selectArea(){
 			}
 		}
 		else if(selectedUnit && area){
-			if(ints[0].object.disabled && ints[0].object.disabled == 1){
+			if(area.Mesh.usable != 1){
 				deselectArea();
 			}
 			else{
@@ -425,10 +431,17 @@ function deselectArea(){
 		child.material = new THREE.MeshBasicMaterial( { color:0xffffff, map:previousTexture } );
 		child.name = "";
 	}
+	if(gameMap.Mesh.getObjectByName("over")!=null){
+		var child = gameMap.Mesh.getObjectByName("over");
+		
+		var previousTexture = child.material.map;
+		child.material = new THREE.MeshBasicMaterial( { color:0xffffff, map:previousOverTexture } );
+		child.name = "";
+	}
 	
 	if(entityToCreate || selectedUnit){
 		for(var i=0;i<areas.length;i++){
-			if(areas[i].Mesh.disabled && areas[i].Mesh.disabled == 1){
+			if(areas[i].Mesh.usable && areas[i].Mesh.usable == 1){
 				var texture;
 				if(areas[i].Building){
 					texture = THREE.ImageUtils.loadTexture(areas[i].Building.Texture);
@@ -444,7 +457,7 @@ function deselectArea(){
 				else  texture = THREE.ImageUtils.loadTexture(areas[i].Texture); 
 				
 				areas[i].Mesh.material = new THREE.MeshBasicMaterial({ color:0xffffff, map: texture });
-				areas[i].Mesh.disabled = 0;
+				areas[i].Mesh.usable = 0;
 			}
 		}
 	}
@@ -806,12 +819,12 @@ function selectEntityToCreate(img, entityIdentifier, entity){
 				var a = gameMap.Areas[i];
 				
 				if(a.X == 1 && a.Z == (gameMap.Length/2)){
-					disableAreasOutOfOriginRange(i, (gameMap.Length/2)/2);
+					getBuildableAreasFromOriginRange(i, (gameMap.Length/2)/2);
 					break;
 				}					
 			}
 		}
-		else disableAreasOutOfBuildingsRange();
+		else getBuildableAreasFromBuildingsRange();
 	}
 	else if(entityIdentifier == "U"){
 		if(!addPlayerUnitAtCoordinate(entity.Id))
@@ -929,12 +942,12 @@ function movePlayerUnitAtCoordinate(area){
 	else return false;
 }
 
-function disableAreasOutOfBuildingsRange(){
+function getBuildableAreasFromBuildingsRange(){
 	var result = $.ajax({
 		url: "ajax.do",
 		async: false,
 		data: { playerId: humanPlayer.Id, 
-			method: "disableAreasOutOfBuildingsRange"
+			method: "getBuildableAreasFromBuildingsRange"
 		}
 	}).done(function(msg){
 		return msg;
@@ -967,19 +980,19 @@ function disableAreasOutOfBuildingsRange(){
 			}
 			else  texture = THREE.ImageUtils.loadTexture(area.Texture); 
 			
-			area.Mesh.material = new THREE.MeshBasicMaterial({ color:0xA8A8A8, map: texture });
-			area.Mesh.disabled = 1;
+			area.Mesh.material = new THREE.MeshBasicMaterial({ color:0xA0F092, map: texture });
+			area.Mesh.usable = 1;
 		}
 	}
 	else return false;
 }
 
-function disableAreasOutOfOriginRange(areaArrayId, range){
+function getBuildableAreasFromOriginRange(areaArrayId, range){
 	var result = $.ajax({
 		url: "ajax.do",
 		async: false,
 		data: { playerId: humanPlayer.Id, 
-			method: "disableAreasOutOfOriginRange", 
+			method: "getBuildableAreasFromOriginRange", 
 			centerAreaArrayId : areaArrayId,
 			width: range}
 	}).done(function(msg){
@@ -1013,75 +1026,8 @@ function disableAreasOutOfOriginRange(areaArrayId, range){
 			}
 			else  texture = THREE.ImageUtils.loadTexture(area.Texture); 
 			
-			area.Mesh.material = new THREE.MeshBasicMaterial({ color:0xA8A8A8, map: texture });
-			area.Mesh.disabled = 1;
-		}
-	}
-	else return false;
-}
-
-function disableAreasOutOfUnitRange(unitAreaArrayId){
-	var result = $.ajax({
-		url: "ajax.do",
-		async: false,
-		data: { playerId: humanPlayer.Id, 
-			method: "disableAreasOutOfUnitRange", 
-			centerAreaArrayId : unitAreaArrayId,
-		}
-	}).done(function(msg){
-		return msg;
-	}).responseText;
-	
-	if(result != "KO"){
-		var areaArrayIds = result.split(";");
-		
-		if(gameMap.Mesh.getObjectByName("over")!=null){
-			var child = gameMap.Mesh.getObjectByName("over");
-			
-			child.material = new THREE.MeshBasicMaterial( { color:0xffffff, map:previousOverTexture } );
-			child.name = "";
-		}
-		
-		for(var i=0;i<gameMap.Areas.length;i++){
-			var area = gameMap.Areas[i];
-			
-			var texture;
-			if(area.Building){
-				texture = THREE.ImageUtils.loadTexture(area.Building.Texture);
-			}
-			else if(area.Doodad && area.Doodad.MeshType == "Deposit"){
-				if(area.Doodad.Type)
-					texture = THREE.ImageUtils.loadTexture(area.Doodad.Type.Texture);
-				else texture = THREE.ImageUtils.loadTexture("img/maptexture/paper.jpg");
-			}
-			else if(area.Doodad && area.Doodad.MeshType == "Unit"){
-				texture = THREE.ImageUtils.loadTexture(area.Doodad.Texture);
-			}
-			else  texture = THREE.ImageUtils.loadTexture(area.Texture); 
-			
-			area.Mesh.material = new THREE.MeshBasicMaterial({ color:0xA8A8A8, map: texture });
-			area.Mesh.disabled = 1;
-		}
-		
-		for(var i=0;i<areaArrayIds.length;i++){
-			var area = gameMap.Areas[areaArrayIds[i]];
-			
-			var texture;
-			if(area.Building){
-				texture = THREE.ImageUtils.loadTexture(area.Building.Texture);
-			}
-			else if(area.Doodad && area.Doodad.MeshType == "Deposit"){
-				if(area.Doodad.Type)
-					texture = THREE.ImageUtils.loadTexture(area.Doodad.Type.Texture);
-				else texture = THREE.ImageUtils.loadTexture("img/maptexture/paper.jpg");
-			}
-			else if(area.Doodad && area.Doodad.MeshType == "Unit"){
-				texture = THREE.ImageUtils.loadTexture(area.Doodad.Texture);
-			}
-			else  texture = THREE.ImageUtils.loadTexture(area.Texture); 
-			
-			area.Mesh.material = new THREE.MeshBasicMaterial({ color:0xffffff, map: texture });
-			area.Mesh.disabled = 0;
+			area.Mesh.material = new THREE.MeshBasicMaterial({ color:0xA0F092, map: texture });
+			area.Mesh.usable = 1;
 		}
 	}
 	else return false;
@@ -1096,12 +1042,12 @@ function selectUnitAtCoordinate(X, Z){
 			break;
 		}
 	}
-	
+
 	for(var i=0;i<gameMap.Areas.length;i++){
 		var a = gameMap.Areas[i];
 		
-		if(a.X == selectedUnit.X && a.Z == selectedUnit.Z){
-			disableAreasOutOfUnitRange(i);
+		if(a.X == X && a.Z == Z){
+			getBuildableAreasFromOriginRange(i, selectedUnit.SpeedRemaining);
 			break;
 		}					
 	}

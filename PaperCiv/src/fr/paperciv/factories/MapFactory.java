@@ -417,8 +417,7 @@ public class MapFactory
 		
 		for(int i=0;i<areas.size();i++)
 		{
-			if(area.getX() == areas.get(i).getX()
-			&& area.getZ() == areas.get(i).getZ())
+			if(area.getId() == areas.get(i).getId())
 			{			
 				isAreaInArrayList = true;
 				break;
