@@ -133,6 +133,7 @@ function toggleChatConnection(){
 		chatWS.onerror = function(evt) { onChatError(evt); };
 	}
 	else if(connectedToChat) {
+		chatWS.send(user.UserName+"_DISCONNECT_CHAT");
 		chatWS.close();
 	}
 }
@@ -153,7 +154,6 @@ function onChatOpen(evt) {
 	connectedToChat = true;
 }  
 function onChatClose(evt) {
-	chatWS.send(user.UserName+"_DISCONNECT_CHAT");
 	$("#chatoutput").html("");
 	$("#chatbox").slideUp(500);
 	$("#chattogglebutton").val("Connexion");

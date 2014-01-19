@@ -22,6 +22,8 @@ public class ChatEndpoint
 	@OnMessage
 	public void message(Session session, String msg) throws IOException
 	{
+		System.out.println("Chat WS receive the message : "+msg);
+		
 		for (Session sess : session.getOpenSessions()) 
 		{
 			if(msg.indexOf("_CONNECT_CHAT")!= -1){
