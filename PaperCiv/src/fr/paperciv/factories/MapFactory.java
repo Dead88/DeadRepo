@@ -1,6 +1,7 @@
 package fr.paperciv.factories;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -388,27 +389,21 @@ public class MapFactory
 		}
 	}
 	
-	public static ArrayList<Area> getNearestAreas(Area originArea, ArrayList<Area> areas) throws Exception
+	public static HashMap<Integer, Area> getNeighboursAreasFromRange(HttpServletRequest request, Area originArea, int range) throws Exception
 	{
-		ArrayList<Area> nearestAreas = new ArrayList<Area>();
-		
-		for(int i=0;i<areas.size();i++)
-		{
-			Area area = areas.get(i);
-			
-			if(
-				(area.getX() == (originArea.getX() + 1) 
-				|| area.getX() == (originArea.getX() - 1))
-			&&
-				(area.getZ() == (originArea.getZ() + 1) 
-				|| area.getZ() == (originArea.getZ() - 1))
-			)
-			{
-				nearestAreas.add(area);
-			}
-		}
+		GameMap gameMap = PaperSession.getGameMapSession(request);
+		HashMap<Integer, Area> neighboursAreas = new HashMap<Integer, Area>();
 
-		return nearestAreas;
+		neighboursAreas.put( (originArea.getId() - range) , gameMap.getAreas().get( originArea.getId() - range ) );
+		neighboursAreas.put( (originArea.getId() + range) , gameMap.getAreas().get( originArea.getId() + range ) );
+		neighboursAreas.put( (originArea.getId() + gameMap.getLength()), gameMap.getAreas().get( originArea.getId() + gameMap.getLength() ) );
+		neighboursAreas.put( (originArea.getId() + gameMap.getLength() - range), gameMap.getAreas().get( originArea.getId() + gameMap.getLength() - range ) );
+		neighboursAreas.put( (originArea.getId() + gameMap.getLength() + range), gameMap.getAreas().get( originArea.getId() + gameMap.getLength() + range ) );
+		neighboursAreas.put( (originArea.getId() - gameMap.getLength()), gameMap.getAreas().get( originArea.getId() - gameMap.getLength() ) );
+		neighboursAreas.put( (originArea.getId() - gameMap.getLength() - range), gameMap.getAreas().get( originArea.getId() - gameMap.getLength() - range ) );
+		neighboursAreas.put( (originArea.getId() - gameMap.getLength() + range), gameMap.getAreas().get( originArea.getId() - gameMap.getLength() + range ) );
+
+		return neighboursAreas;
 	}
 	
 	public static boolean isAreaInArrayList(Area area, ArrayList<Area> areas) throws Exception
@@ -427,51 +422,52 @@ public class MapFactory
 		return isAreaInArrayList;
 	}
 	
-	public static ArrayList<Area> setAreaDistanceFromUnitRange(HttpServletRequest request, int playerId, Area area, Unit unit, ArrayList<Area> initialAreas, ArrayList<Area> distanceSettedAreas) throws Exception
+	public static ArrayList<Area> getReachableAreas(HttpServletRequest request, int playerId, Area unitArea, Unit unit) throws Exception
 	{
-		System.out.println("Calling setAreaDistanceFromUnitRange");
-		ArrayList<Area> nearestAreas = null;
+		ArrayList <Area> reachableAreas = new ArrayList <Area>();
+		int weight = 0;
 		
-		if(distanceSettedAreas.size() == 0)
+		unitArea.setDistance( weight );
+		
+		HashMap<Integer, Area> weightedNeighbours = new HashMap<Integer, Area>();
+		weightedNeighbours.put( unitArea.getId(), unitArea );
+		
+		getWeightedNeighbours( request, unitArea, weightedNeighbours, weight, unit.getSpeedRemaining() );
+		
+		for (Area reachableArea : weightedNeighbours.values()) 
 		{
-			nearestAreas = getNearestAreas(area, initialAreas);
-			
-			for(int i=0;i<nearestAreas.size();i++)
-			{
-				if(AjaxFactory.canBuildEntityOnSelectedArea(request, playerId, "U", unit, nearestAreas.get(i)))
-				{
-					nearestAreas.get(i).setDistance( 1 );
-					distanceSettedAreas.add( nearestAreas.get(i) );
-				}
-			}
-			
-			distanceSettedAreas = setAreaDistanceFromUnitRange(request, playerId, area, unit, initialAreas, distanceSettedAreas);
+			reachableAreas.add( reachableArea );
 		}
-		else
+		
+		return reachableAreas;
+	}
+	
+	public static void getWeightedNeighbours( HttpServletRequest request, Area firstArea, HashMap<Integer, Area> weightedNeighbours, int weight, int speedRemaining) throws Exception
+	{	
+		weight++;
+		
+		if( weight > speedRemaining )
 		{
-			for(int i=(distanceSettedAreas.size()-1);i >= 0;i--)
+			return;
+		}
+		
+		HashMap<Integer, Area> neighbours = getNeighboursAreasFromRange( request, firstArea, 1 );
+		
+		for ( Area area : neighbours.values() ) 
+		{
+			if(weightedNeighbours.get( area.getId() ) != null && weightedNeighbours.get( area.getId() ).getDistance() > weight)
 			{
-				nearestAreas = getNearestAreas(distanceSettedAreas.get(i), initialAreas);
+				weightedNeighbours.get( area.getId() ).setDistance( weight );
 				
-				if((distanceSettedAreas.get(i).getDistance() + 1) <= unit.getSpeedRemaining())
-				{
-					for(int j=0;j<nearestAreas.size();j++)
-					{
-						if(AjaxFactory.canBuildEntityOnSelectedArea(request, playerId, "U", unit, nearestAreas.get(j))
-						&& !isAreaInArrayList(area, distanceSettedAreas)
-						&& (nearestAreas.get(j).getX() != area.getX() 
-							|| nearestAreas.get(j).getZ() != area.getZ()))
-						{
-							nearestAreas.get(j).setDistance( distanceSettedAreas.get(i).getDistance() + 1);
-							distanceSettedAreas.add(nearestAreas.get(j));
-						}
-					}
-					
-					distanceSettedAreas = setAreaDistanceFromUnitRange(request, playerId, area, unit, initialAreas, distanceSettedAreas);
-				}
+				getWeightedNeighbours( request, area, weightedNeighbours, weight, speedRemaining );
+			}
+			else
+			{
+				area.setDistance( weight );
+				weightedNeighbours.put( area.getId(),  area );
+				
+				getWeightedNeighbours( request, area, weightedNeighbours, weight, speedRemaining );
 			}
 		}
-		
-		return distanceSettedAreas;
 	}
 }

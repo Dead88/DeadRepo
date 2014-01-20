@@ -389,7 +389,7 @@ function selectArea(){
 					}
 					else{
 						if(area.AreaType.Type.indexOf("ground")!=-1){
-							$("#areatext").html("Terre déserte<br />Distance : "+area.Distance);
+							$("#areatext").html("Terre déserte");
 						}
 						else $("#areatext").html("Eau");
 					}
@@ -1000,6 +1000,31 @@ function getBuildableAreasFromOriginRange(areaId, _range){
 	else return false;
 }
 
+function getReachableAreasFromUnitRange(areaId){
+	var result = $.ajax({
+		url: "ajax.do",
+		async: false,
+		data: { playerId: humanPlayer.Id, 
+			method: "getReachableAreasFromUnitRange", 
+			centerAreaId : areaId,
+		}
+	}).done(function(msg){
+		return msg;
+	}).responseText;
+	
+	console.warn(result);
+	
+	if(result != "KO"){
+		var areaIds = result.split(";");
+		
+		deselectOverArea();
+		
+		displayUsableAreas(areaIds);
+	}
+	else return false;
+}
+
+
 //FIXME : warn threejs map is undefined
 function selectUnitByAreaId(areaId){
 	var a = gameMap.Areas[areaId];
@@ -1007,5 +1032,6 @@ function selectUnitByAreaId(areaId){
 	selectedUnit = a.Doodad;
 	selectedUnitTexture = THREE.ImageUtils.loadTexture(selectedUnit.Texture);
 
-	getBuildableAreasFromOriginRange(areaId, selectedUnit.SpeedRemaining);
+	//getBuildableAreasFromOriginRange(areaId, selectedUnit.SpeedRemaining);
+	getReachableAreasFromUnitRange(areaId);
 }

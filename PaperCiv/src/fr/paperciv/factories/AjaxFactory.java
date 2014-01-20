@@ -155,6 +155,18 @@ public class AjaxFactory extends Action
 				}
 				else Constants.sendResponse(response, "KO");
 			}
+			else if("getReachableAreasFromUnitRange".equals(method))
+			{
+				int centerAreaId = Integer.parseInt(Constants.getParameter(request, "centerAreaId"));
+				
+				String areaIds = getReachableAreasFromUnitRange(request, playerId, centerAreaId);
+				
+				if(!"".equals(areaIds))
+				{			
+					Constants.sendResponse(response, areaIds);
+				}
+				else Constants.sendResponse(response, "KO");
+			}
 		}
 		catch(Exception e)
 		{
@@ -723,6 +735,37 @@ public class AjaxFactory extends Action
 						areaIds += area.getId();
 					else areaIds += ";"+area.getId();
 				}
+			}
+		}
+		finally
+		{
+			gameMap = null;
+		}
+		return areaIds;
+	}
+	
+	public static String getReachableAreasFromUnitRange(HttpServletRequest request, int playerId, int centerAreaId) throws Exception
+	{
+		String areaIds = "";
+		GameMap gameMap = null;
+		Area unitArea = null;
+		Unit unit = null;
+		
+		ArrayList<Area> reachableAreas = null;
+		
+		try
+		{
+			gameMap = PaperSession.getGameMapSession(request);
+			unitArea = gameMap.getAreas().get(centerAreaId);
+			unit = (Unit) unitArea.getDoodad();
+		
+			reachableAreas = MapFactory.getReachableAreas(request, playerId, unitArea, unit);
+			
+			for(int j=0;j<reachableAreas.size();j++)
+			{
+				if("".equals(areaIds))
+					areaIds += reachableAreas.get(j).getId();
+				else areaIds += ";"+reachableAreas.get(j).getId();
 			}
 		}
 		finally
