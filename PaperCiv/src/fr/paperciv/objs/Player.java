@@ -47,8 +47,7 @@ public class Player
 	
 	public Player() {}
 	public Player(int id, int paperAmount, int fictiveRessourceAmount,
-			Race playerRace, boolean isHumanControlled, int buildActionAmount,
-			int moveActionAmount, int attackActionAmount,
+			Race playerRace, boolean isHumanControlled, int buildActionAmount, int attackActionAmount,
 			ArrayList<Unit> units, ArrayList<Building> buildings) {
 		Id = id;
 		PaperAmount = paperAmount;

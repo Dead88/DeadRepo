@@ -112,24 +112,19 @@ public class AjaxFactory extends Action
 				}
 				else Constants.sendResponse(response, "KO");	
 			}
-			else if("movePlayerUnitAtCoordinate".equals(method))
+			else if("movePlayerUnitToArea".equals(method))
 			{
 				int unitX = Integer.parseInt(Constants.getParameter(request, "unitX"));
 				int unitZ = Integer.parseInt(Constants.getParameter(request, "unitZ"));
-				int X = Integer.parseInt(Constants.getParameter(request, "X"));
-				double Y = Double.parseDouble(Constants.getParameter(request, "Y"));
-				int Z = Integer.parseInt(Constants.getParameter(request, "Z"));
+				int destinationAreaId = Integer.parseInt(Constants.getParameter(request, "destinationAreaId"));
 				
-				String areaAndUnitAreaArrayId = movePlayerUnitAtCoordinate(request, playerId, unitX, unitZ, X, Y, Z);
+				String unitAreaId = movePlayerUnitToArea(request, playerId, unitX, unitZ, destinationAreaId);
 				
-				if(!"".equals(areaAndUnitAreaArrayId) && areaAndUnitAreaArrayId.split(";").length > 0)
+				if(!"".equals(unitAreaId))
 				{
-					String[] ArrayIds = areaAndUnitAreaArrayId.split(";");
-					
-					String returnObjects = ArrayIds[0]
-										+";"+ArrayIds[1]
+					String returnObjects = unitAreaId
 										+";"+XmlFactory.getJSONStringFromObject(
-												PaperSession.getGameMapSession(request).getAreas().get(Integer.parseInt(ArrayIds[0])).getDoodad())
+												PaperSession.getGameMapSession(request).getAreas().get(destinationAreaId).getDoodad())
 										+";"+XmlFactory.getJSONStringFromObject(
 												Constants.getPlayerById(request, playerId));
 					
@@ -139,24 +134,24 @@ public class AjaxFactory extends Action
 			}
 			else if("getBuildableAreasFromBuildingsRange".equals(method))
 			{
-				String areaArrayIds = getBuildableAreasFromBuildingsRange(request, playerId);
+				String areaIds = getBuildableAreasFromBuildingsRange(request, playerId);
 				
-				if(!"".equals(areaArrayIds))
+				if(!"".equals(areaIds))
 				{			
-					Constants.sendResponse(response, areaArrayIds);
+					Constants.sendResponse(response, areaIds);
 				}
 				else Constants.sendResponse(response, "KO");
 			}
 			else if("getBuildableAreasFromOriginRange".equals(method))
 			{
-				int centerAreaArrayId = Integer.parseInt(Constants.getParameter(request, "centerAreaArrayId"));
-				int width = Integer.parseInt(Constants.getParameter(request, "width"));
+				int centerAreaId = Integer.parseInt(Constants.getParameter(request, "centerAreaId"));
+				int range = Integer.parseInt(Constants.getParameter(request, "range"));
 				
-				String areaArrayIds = getBuildableAreasFromOriginRange(request, playerId, centerAreaArrayId, width);
+				String areaIds = getBuildableAreasFromOriginRange(request, playerId, centerAreaId, range);
 		
-				if(!"".equals(areaArrayIds))
+				if(!"".equals(areaIds))
 				{			
-					Constants.sendResponse(response, areaArrayIds);
+					Constants.sendResponse(response, areaIds);
 				}
 				else Constants.sendResponse(response, "KO");
 			}
@@ -553,7 +548,7 @@ public class AjaxFactory extends Action
 		else return 0;
 	}
 	
-	public static String movePlayerUnitAtCoordinate(HttpServletRequest request, int playerId, int unitX, int unitZ, int x, double y, int z) throws Exception
+	public static String movePlayerUnitToArea(HttpServletRequest request, int playerId, int unitX, int unitZ, int destinationAreaId) throws Exception
 	{
 		ArrayList<Player> players = null;
 		GameMap gameMap = null;
@@ -562,7 +557,7 @@ public class AjaxFactory extends Action
 		int playerArrayId = 0;
 		Unit selectedUnit = null;
 		int selectedUnitArrayId = 0;
-		Area area = null;
+		Area destinationArea = null;
 		Area selectedUnitArea = null;
 		boolean uMoved = false;
 		
@@ -571,53 +566,43 @@ public class AjaxFactory extends Action
 			players = PaperSession.getGamePlayersSession(request);
 			gameMap = PaperSession.getGameMapSession(request);
 			
-			for(int i=0;i<players.size();i++)
-			{
-				if(players.get(i).getId() == playerId)
-				{
-					player = players.get(i);
-					playerArrayId = i;
-					break;
-				}
-			}
+			player = Constants.getPlayerById(request, playerId);
 			
 			if(player == null) return "";
 			
-			for(int j=0;j<player.getUnits().size();j++)
+			for(int i=0;i<player.getUnits().size();i++)
 			{
-				if(player.getUnits().get(j).getX() == unitX
-				&& player.getUnits().get(j).getZ() == unitZ)
+				if(player.getUnits().get(i).getX() == unitX
+				&& player.getUnits().get(i).getZ() == unitZ)
 				{
-					selectedUnit = player.getUnits().get(j);
-					selectedUnitArrayId = j;
+					selectedUnit = player.getUnits().get(i);
+					selectedUnitArrayId = i;
 					break;
 				}
 			}
 			
 			if(selectedUnit == null) return "";
 			
-			for(int k=0;k<gameMap.getAreas().size();k++)
+			destinationArea = gameMap.getAreas().get(destinationAreaId);
+			
+			for(int j=0;j<gameMap.getAreas().size();j++)
 			{
-				if(gameMap.getAreas().get(k).getX() == x && gameMap.getAreas().get(k).getZ() == z)
+				if(gameMap.getAreas().get(j).getX() == selectedUnit.getX() && gameMap.getAreas().get(j).getZ() == selectedUnit.getZ())
 				{
-					area = gameMap.getAreas().get(k);
-				}	
-				else if(gameMap.getAreas().get(k).getX() == selectedUnit.getX() && gameMap.getAreas().get(k).getZ() == selectedUnit.getZ())
-				{
-					selectedUnitArea = gameMap.getAreas().get(k);
+					selectedUnitArea = gameMap.getAreas().get(j);
 				}
 			}
 			
-			if(area == null) return "";
+			if(destinationArea == null || selectedUnitArea == null) return "";
 			
-			if(canBuildEntityOnSelectedArea(request, playerId, "U", selectedUnit, area)
+			if(canBuildEntityOnSelectedArea(request, playerId, "U", selectedUnit, destinationArea)
 			&& selectedUnit.getSpeedRemaining() > 0)
 			{
 				//FIXME : code pathfinding(1 by 1 movment and use stored counter to decrease remaining speed)
-				double squareRootDistance = Math.sqrt( Math.pow((selectedUnit.getX() - x), 2) + Math.pow((selectedUnit.getZ() - z), 2) );
-				selectedUnit.setX(x);
-				selectedUnit.setY(y);
-				selectedUnit.setZ(z);
+				double squareRootDistance = Math.sqrt( Math.pow((selectedUnit.getX() - destinationArea.getX()), 2) + Math.pow((selectedUnit.getZ() - destinationArea.getZ()), 2) );
+				selectedUnit.setX(destinationArea.getX());
+				selectedUnit.setY(destinationArea.getY());
+				selectedUnit.setZ(destinationArea.getZ());
 				
 				selectedUnit.setSpeedRemaining( selectedUnit.getSpeedRemaining() - (int)squareRootDistance );
 				
@@ -627,8 +612,8 @@ public class AjaxFactory extends Action
 				selectedUnitArea.setDoodad(null);
 				gameMap.getAreas().set(selectedUnitArea.getId(), selectedUnitArea);
 				
-				area.setDoodad(selectedUnit);
-				gameMap.getAreas().set(area.getId(), area);
+				destinationArea.setDoodad(selectedUnit);
+				gameMap.getAreas().set(destinationAreaId, destinationArea);
 				
 				PaperSession.setGamePlayersSession(request, players);
 				PaperSession.setGameMapSession(request, gameMap);
@@ -641,7 +626,7 @@ public class AjaxFactory extends Action
 			players = null;
 			gameMap = null;
 		}
-		if(uMoved) return area.getId()+";"+selectedUnitArea.getId();
+		if(uMoved) return selectedUnitArea.getId()+"";
 		else return "";
 	}
 	
@@ -651,7 +636,7 @@ public class AjaxFactory extends Action
 		Player player = null;
 		GameMap gameMap = null;
 		
-		String areaArrayIds = "";
+		String areaIds = "";
 		int width = 0;
 		
 		ArrayList<Area> buildableAreas = null;
@@ -697,9 +682,9 @@ public class AjaxFactory extends Action
 			
 			for(int k=0;k<buildableAreas.size();k++)
 			{
-				if("".equals(areaArrayIds))
-					areaArrayIds += buildableAreas.get(k).getId();
-				else areaArrayIds += ";"+buildableAreas.get(k).getId();
+				if("".equals(areaIds))
+					areaIds += buildableAreas.get(k).getId();
+				else areaIds += ";"+buildableAreas.get(k).getId();
 			}
 		}
 		finally
@@ -708,19 +693,19 @@ public class AjaxFactory extends Action
 			player = null;
 			gameMap = null;
 		}
-		return areaArrayIds;
+		return areaIds;
 	}
 	
-	public static String getBuildableAreasFromOriginRange(HttpServletRequest request, int playerId, int centerAreaArrayId, int width) throws Exception
+	public static String getBuildableAreasFromOriginRange(HttpServletRequest request, int playerId, int centerAreaId, int width) throws Exception
 	{
-		String areaArrayIds = "";
+		String areaIds = "";
 		GameMap gameMap = null;
 		Area centerArea = null;
 		
 		try
 		{
 			gameMap = PaperSession.getGameMapSession(request);
-			centerArea = gameMap.getAreas().get(centerAreaArrayId);
+			centerArea = gameMap.getAreas().get(centerAreaId);
 			
 			for(int i=0;i<gameMap.getAreas().size();i++)
 			{
@@ -734,9 +719,9 @@ public class AjaxFactory extends Action
 					&& area.getZ() <= (centerArea.getZ() + width))
 				)
 				{
-					if("".equals(areaArrayIds))
-						areaArrayIds += area.getId();
-					else areaArrayIds += ";"+area.getId();
+					if("".equals(areaIds))
+						areaIds += area.getId();
+					else areaIds += ";"+area.getId();
 				}
 			}
 		}
@@ -744,6 +729,6 @@ public class AjaxFactory extends Action
 		{
 			gameMap = null;
 		}
-		return areaArrayIds;
+		return areaIds;
 	}
 }

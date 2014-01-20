@@ -24,8 +24,7 @@ public class PlayerFactory
 			gameProps = PaperSession.getGameProperties(request);
 			race = RaceFactory.buildRace(request, raceId);
 			player = new Player(id, startingPaper, 100, race, isHumanControlled, 
-					Integer.parseInt(gameProps.get("BuildActionNumber")+"") , 
-					Integer.parseInt(gameProps.get("MoveActionNumber")+"") , 
+					Integer.parseInt(gameProps.get("BuildActionNumber")+"") ,  
 					Integer.parseInt(gameProps.get("AttackActionNumber")+""), 
 					new ArrayList<Unit>(), 
 					new ArrayList<Building>());
