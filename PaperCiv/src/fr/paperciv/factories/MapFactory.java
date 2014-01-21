@@ -394,14 +394,18 @@ public class MapFactory
 		GameMap gameMap = PaperSession.getGameMapSession(request);
 		HashMap<Integer, Area> neighboursAreas = new HashMap<Integer, Area>();
 
-		neighboursAreas.put( (originArea.getId() - range) , gameMap.getAreas().get( originArea.getId() - range ) );
-		neighboursAreas.put( (originArea.getId() + range) , gameMap.getAreas().get( originArea.getId() + range ) );
-		neighboursAreas.put( (originArea.getId() + gameMap.getLength()), gameMap.getAreas().get( originArea.getId() + gameMap.getLength() ) );
-		neighboursAreas.put( (originArea.getId() + gameMap.getLength() - range), gameMap.getAreas().get( originArea.getId() + gameMap.getLength() - range ) );
-		neighboursAreas.put( (originArea.getId() + gameMap.getLength() + range), gameMap.getAreas().get( originArea.getId() + gameMap.getLength() + range ) );
-		neighboursAreas.put( (originArea.getId() - gameMap.getLength()), gameMap.getAreas().get( originArea.getId() - gameMap.getLength() ) );
-		neighboursAreas.put( (originArea.getId() - gameMap.getLength() - range), gameMap.getAreas().get( originArea.getId() - gameMap.getLength() - range ) );
-		neighboursAreas.put( (originArea.getId() - gameMap.getLength() + range), gameMap.getAreas().get( originArea.getId() - gameMap.getLength() + range ) );
+		try
+		{
+			neighboursAreas.put( (originArea.getId() - range) , gameMap.getAreas().get( originArea.getId() - range ) );
+			neighboursAreas.put( (originArea.getId() + range) , gameMap.getAreas().get( originArea.getId() + range ) );
+			neighboursAreas.put( (originArea.getId() + gameMap.getLength()), gameMap.getAreas().get( originArea.getId() + gameMap.getLength() ) );
+			neighboursAreas.put( (originArea.getId() + gameMap.getLength() - range), gameMap.getAreas().get( originArea.getId() + gameMap.getLength() - range ) );
+			neighboursAreas.put( (originArea.getId() + gameMap.getLength() + range), gameMap.getAreas().get( originArea.getId() + gameMap.getLength() + range ) );
+			neighboursAreas.put( (originArea.getId() - gameMap.getLength()), gameMap.getAreas().get( originArea.getId() - gameMap.getLength() ) );
+			neighboursAreas.put( (originArea.getId() - gameMap.getLength() - range), gameMap.getAreas().get( originArea.getId() - gameMap.getLength() - range ) );
+			neighboursAreas.put( (originArea.getId() - gameMap.getLength() + range), gameMap.getAreas().get( originArea.getId() - gameMap.getLength() + range ) );
+		}
+		catch(ArrayIndexOutOfBoundsException e){ }
 
 		return neighboursAreas;
 	}
@@ -432,7 +436,7 @@ public class MapFactory
 		HashMap<Integer, Area> weightedNeighbours = new HashMap<Integer, Area>();
 		weightedNeighbours.put( unitArea.getId(), unitArea );
 		
-		getWeightedNeighbours( request, unitArea, weightedNeighbours, weight, unit.getSpeedRemaining() );
+		getWeightedNeighbours( request, playerId, unitArea, weightedNeighbours, weight, unit );
 		
 		for (Area reachableArea : weightedNeighbours.values()) 
 		{
@@ -442,11 +446,11 @@ public class MapFactory
 		return reachableAreas;
 	}
 	
-	public static void getWeightedNeighbours( HttpServletRequest request, Area firstArea, HashMap<Integer, Area> weightedNeighbours, int weight, int speedRemaining) throws Exception
+	public static void getWeightedNeighbours( HttpServletRequest request, int playerId, Area firstArea, HashMap<Integer, Area> weightedNeighbours, int weight, Unit unit) throws Exception
 	{	
 		weight++;
 		
-		if( weight > speedRemaining )
+		if( weight > unit.getSpeedRemaining() )
 		{
 			return;
 		}
@@ -458,15 +462,15 @@ public class MapFactory
 			if(weightedNeighbours.get( area.getId() ) != null && weightedNeighbours.get( area.getId() ).getDistance() > weight)
 			{
 				weightedNeighbours.get( area.getId() ).setDistance( weight );
-				
-				getWeightedNeighbours( request, area, weightedNeighbours, weight, speedRemaining );
+			
+				getWeightedNeighbours( request, playerId, area, weightedNeighbours, weight, unit );
 			}
-			else
+			else if(AjaxFactory.canBuildEntityOnSelectedArea(request, playerId, "U", unit, area))
 			{
 				area.setDistance( weight );
 				weightedNeighbours.put( area.getId(),  area );
 				
-				getWeightedNeighbours( request, area, weightedNeighbours, weight, speedRemaining );
+				getWeightedNeighbours( request, playerId, area, weightedNeighbours, weight, unit );
 			}
 		}
 	}

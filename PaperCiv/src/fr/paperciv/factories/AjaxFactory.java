@@ -610,13 +610,13 @@ public class AjaxFactory extends Action
 			if(canBuildEntityOnSelectedArea(request, playerId, "U", selectedUnit, destinationArea)
 			&& selectedUnit.getSpeedRemaining() > 0)
 			{
-				//FIXME : code pathfinding(1 by 1 movment and use stored counter to decrease remaining speed)
-				double squareRootDistance = Math.sqrt( Math.pow((selectedUnit.getX() - destinationArea.getX()), 2) + Math.pow((selectedUnit.getZ() - destinationArea.getZ()), 2) );
 				selectedUnit.setX(destinationArea.getX());
 				selectedUnit.setY(destinationArea.getY());
 				selectedUnit.setZ(destinationArea.getZ());
 				
-				selectedUnit.setSpeedRemaining( selectedUnit.getSpeedRemaining() - (int)squareRootDistance );
+				System.out.println("distance = "+destinationArea.getDistance());
+				
+				selectedUnit.setSpeedRemaining( selectedUnit.getSpeedRemaining() - destinationArea.getDistance() );
 				
 				player.getUnits().set(selectedUnitArrayId, selectedUnit);	
 				players.set(playerArrayId, player);
@@ -762,11 +762,15 @@ public class AjaxFactory extends Action
 			reachableAreas = MapFactory.getReachableAreas(request, playerId, unitArea, unit);
 			
 			for(int j=0;j<reachableAreas.size();j++)
-			{
+			{			
+				gameMap.getAreas().get( reachableAreas.get(j).getId() ).setDistance( reachableAreas.get(j).getDistance() );
+				
 				if("".equals(areaIds))
 					areaIds += reachableAreas.get(j).getId();
 				else areaIds += ";"+reachableAreas.get(j).getId();
 			}
+			
+			PaperSession.setGameMapSession(request, gameMap);
 		}
 		finally
 		{
