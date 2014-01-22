@@ -610,7 +610,14 @@ public class AjaxFactory extends Action
 			if(canBuildEntityOnSelectedArea(request, playerId, "U", selectedUnit, destinationArea)
 			&& selectedUnit.getSpeedRemaining() > 0)
 			{
-				double squareRootDistance = Math.sqrt( Math.pow((destinationArea.getX() - selectedUnit.getX()), 2) + Math.pow((destinationArea.getZ() - selectedUnit.getZ()), 2) );
+				double squareRootDistance = 0.00;
+				
+				if(
+					(destinationArea.getX() - selectedUnit.getX()) == (destinationArea.getZ() - selectedUnit.getZ())
+				)
+					squareRootDistance = (destinationArea.getX() - selectedUnit.getX()) > 0 ? (destinationArea.getX() - selectedUnit.getX()) : -((destinationArea.getX() - selectedUnit.getX()));
+				else squareRootDistance = Math.sqrt( Math.pow((destinationArea.getX() - selectedUnit.getX()), 2) + Math.pow((destinationArea.getZ() - selectedUnit.getZ()), 2) );
+				
 				selectedUnit.setX(destinationArea.getX());
 				selectedUnit.setY(destinationArea.getY());
 				selectedUnit.setZ(destinationArea.getZ());
