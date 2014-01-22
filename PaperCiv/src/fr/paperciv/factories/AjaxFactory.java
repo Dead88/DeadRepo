@@ -610,13 +610,12 @@ public class AjaxFactory extends Action
 			if(canBuildEntityOnSelectedArea(request, playerId, "U", selectedUnit, destinationArea)
 			&& selectedUnit.getSpeedRemaining() > 0)
 			{
+				double squareRootDistance = Math.sqrt( Math.pow((destinationArea.getX() - selectedUnit.getX()), 2) + Math.pow((destinationArea.getZ() - selectedUnit.getZ()), 2) );
 				selectedUnit.setX(destinationArea.getX());
 				selectedUnit.setY(destinationArea.getY());
 				selectedUnit.setZ(destinationArea.getZ());
 				
-				System.out.println("distance = "+destinationArea.getDistance());
-				
-				selectedUnit.setSpeedRemaining( selectedUnit.getSpeedRemaining() - destinationArea.getDistance() );
+				selectedUnit.setSpeedRemaining( selectedUnit.getSpeedRemaining() - (int)squareRootDistance );
 				
 				player.getUnits().set(selectedUnitArrayId, selectedUnit);	
 				players.set(playerArrayId, player);
@@ -763,14 +762,10 @@ public class AjaxFactory extends Action
 			
 			for(int j=0;j<reachableAreas.size();j++)
 			{			
-				gameMap.getAreas().get( reachableAreas.get(j).getId() ).setDistance( reachableAreas.get(j).getDistance() );
-				
 				if("".equals(areaIds))
 					areaIds += reachableAreas.get(j).getId();
 				else areaIds += ";"+reachableAreas.get(j).getId();
 			}
-			
-			PaperSession.setGameMapSession(request, gameMap);
 		}
 		finally
 		{
