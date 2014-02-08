@@ -133,7 +133,6 @@ function toggleChatConnection(){
 		chatWS.onerror = function(evt) { onChatError(evt); };
 	}
 	else if(connectedToChat) {
-		chatWS.send(user.UserName+"_DISCONNECT_CHAT");
 		chatWS.close();
 	}
 }
@@ -147,7 +146,6 @@ function submitChatMessage(){
 
 //FIXME : retrieve users who are connected to the chat
 function onChatOpen(evt) { 
-	chatWS.send(user.UserName+"_CONNECT_CHAT");
 	$("#chatoutput").html("");
 	$("#chatbox").slideDown(500);
 	$("#chattogglebutton").val("Deconnexion");

@@ -16,33 +16,33 @@ public class ChatEndpoint
 	@OnOpen
 	public void open(Session session, EndpointConfig conf) throws IOException 
 	{ 
-		
+		for (Session sess : session.getOpenSessions()) 
+		{
+			if(!session.getPathParameters().get("username").equals(sess.getPathParameters().get("username")))
+			{
+				sess.getBasicRemote().sendText(session.getPathParameters().get("username")+" is now connected");
+			}
+		}
 	}
 	
 	@OnMessage
 	public void message(Session session, String msg) throws IOException
 	{
-		System.out.println("Chat WS receive the message : "+msg);
-		
 		for (Session sess : session.getOpenSessions()) 
 		{
-			if(msg.indexOf("_CONNECT_CHAT")!= -1){
-				if(msg.equals( sess.getPathParameters().get("username") + "_CONNECT_CHAT")){
-					sess.getBasicRemote().sendText("Bienvenue "+sess.getPathParameters().get("username"));
-				}
-				else sess.getBasicRemote().sendText(sess.getPathParameters().get("username")+" is now connected");
-			}
-			else if(msg.indexOf("_DISCONNECT_CHAT")!= -1){
-				if(!msg.equals( sess.getPathParameters().get("username") + "_DISCONNECT_CHAT"))
-					sess.getBasicRemote().sendText(sess.getPathParameters().get("username")+" is now disconnected");
-			}
-			else sess.getBasicRemote().sendText(msg);
+			sess.getBasicRemote().sendText(msg);
         }
 	}
 	
 	@OnClose
 	public void close(Session session, CloseReason closeReason) throws IOException
 	{
-	
+		for (Session sess : session.getOpenSessions()) 
+		{
+			if(!session.getPathParameters().get("username").equals(sess.getPathParameters().get("username")))
+			{
+				sess.getBasicRemote().sendText(session.getPathParameters().get("username")+" is now disconnected");
+			}
+		}
 	}
 }

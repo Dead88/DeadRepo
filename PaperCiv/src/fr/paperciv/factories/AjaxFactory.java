@@ -614,6 +614,7 @@ public class AjaxFactory extends Action
 				
 				if(
 					(destinationArea.getX() - selectedUnit.getX()) == (destinationArea.getZ() - selectedUnit.getZ())
+					|| -(destinationArea.getX() - selectedUnit.getX()) == (destinationArea.getZ() - selectedUnit.getZ())
 				)
 					squareRootDistance = (destinationArea.getX() - selectedUnit.getX()) > 0 ? (destinationArea.getX() - selectedUnit.getX()) : -((destinationArea.getX() - selectedUnit.getX()));
 				else squareRootDistance = Math.sqrt( Math.pow((destinationArea.getX() - selectedUnit.getX()), 2) + Math.pow((destinationArea.getZ() - selectedUnit.getZ()), 2) );
