@@ -560,6 +560,7 @@ public class AjaxFactory extends Action
 		else return 0;
 	}
 	
+	@SuppressWarnings({ "unchecked" })
 	public static String movePlayerUnitToArea(HttpServletRequest request, int playerId, int unitX, int unitZ, int destinationAreaId) throws Exception
 	{
 		ArrayList<Player> players = null;
@@ -610,20 +611,25 @@ public class AjaxFactory extends Action
 			if(canBuildEntityOnSelectedArea(request, playerId, "U", selectedUnit, destinationArea)
 			&& selectedUnit.getSpeedRemaining() > 0)
 			{
-				double squareRootDistance = 0.00;
+				//TODO : use papersession
+				ArrayList<Area> reachableAreas = (ArrayList<Area>)request.getSession().getAttribute("reachableAreas");
+				int distance = 0;
 				
-				if(
-					(destinationArea.getX() - selectedUnit.getX()) == (destinationArea.getZ() - selectedUnit.getZ())
-					|| -(destinationArea.getX() - selectedUnit.getX()) == (destinationArea.getZ() - selectedUnit.getZ())
-				)
-					squareRootDistance = (destinationArea.getX() - selectedUnit.getX()) > 0 ? (destinationArea.getX() - selectedUnit.getX()) : -((destinationArea.getX() - selectedUnit.getX()));
-				else squareRootDistance = Math.sqrt( Math.pow((destinationArea.getX() - selectedUnit.getX()), 2) + Math.pow((destinationArea.getZ() - selectedUnit.getZ()), 2) );
+				for(int a=0;a<reachableAreas.size();a++)
+				{
+					if(reachableAreas.get(a).getX() == destinationArea.getX()
+					&& reachableAreas.get(a).getZ() == destinationArea.getZ())
+					{
+						distance = reachableAreas.get(a).getDistance();
+						break;
+					}
+				}
 				
 				selectedUnit.setX(destinationArea.getX());
 				selectedUnit.setY(destinationArea.getY());
 				selectedUnit.setZ(destinationArea.getZ());
 				
-				selectedUnit.setSpeedRemaining( selectedUnit.getSpeedRemaining() - (int)squareRootDistance );
+				selectedUnit.setSpeedRemaining( selectedUnit.getSpeedRemaining() - distance );
 				
 				player.getUnits().set(selectedUnitArrayId, selectedUnit);	
 				players.set(playerArrayId, player);
@@ -767,6 +773,8 @@ public class AjaxFactory extends Action
 			unit = (Unit) unitArea.getDoodad();
 		
 			reachableAreas = MapFactory.getReachableAreas(request, playerId, unitArea, unit);
+			
+			request.getSession().setAttribute("reachableAreas", reachableAreas);
 			
 			for(int j=0;j<reachableAreas.size();j++)
 			{			

@@ -17,6 +17,7 @@ public class Unit extends Mesh
 	private int[] RequiredBuildingIds;
 	
 	private int Life;
+	private int LifeRemaining;
 	private int Power;
 	private int Armor;
 	private int Speed;
@@ -57,6 +58,9 @@ public class Unit extends Mesh
 	public int getLife() {return Life;}
 	public void setLife(int life) {Life = life;}
 	
+	public int getLifeRemaining() {return LifeRemaining;}
+	public void setLifeRemaining(int lifeRemaining) {LifeRemaining = lifeRemaining;}
+	
 	public int getPower() {return Power;}
 	public void setPower(int power) {Power = power;}
 	
@@ -95,6 +99,7 @@ public class Unit extends Mesh
 		FictiveCost = fictiveCost;
 		RequiredBuildingIds = requiredBuildingIds;
 		Life = life;
+		LifeRemaining = life;
 		Power = power;
 		Armor = armor;
 		Speed = speed;

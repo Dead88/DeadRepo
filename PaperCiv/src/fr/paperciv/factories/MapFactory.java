@@ -21,7 +21,7 @@ public class MapFactory
 	public static final int minQuantityOfDeposit = 50;
 	public static final int maxQuantityOfDeposit = 100;
 	
-	public static void generateMap(HttpServletRequest request, int gameMapId) throws Exception
+	public static void generateMap(HttpServletRequest request, ArrayList<Player> players, int gameMapId) throws Exception
 	{
 		GameMap gameMap = null;
 		
@@ -60,7 +60,7 @@ public class MapFactory
 			generateWater(gameMap, areas);
 			generateTrees(gameMap, areas);
 			generatePaperDeposits(gameMap, areas);
-			generateFictiveDeposits(request, gameMap, areas);
+			generateFictiveDeposits(request, players, gameMap, areas);
 			
 			//TODO: Use server to height map
 			//MapFactory.generateHeightOn9(areas, gameMap.getLength(), gameMap.getHeightsQuantity(), gameMap.getHeight(), 0);
@@ -364,9 +364,8 @@ public class MapFactory
 		}
 	}
 	
-	public static void generateFictiveDeposits(HttpServletRequest request, GameMap gameMap, ArrayList<Area> areas) throws Exception
+	public static void generateFictiveDeposits(HttpServletRequest request, ArrayList<Player> players, GameMap gameMap, ArrayList<Area> areas) throws Exception
 	{
-		ArrayList<Player> players = PaperSession.getGamePlayersSession(request);
 		int fictiveDepositQuantity = gameMap.getFictiveDepositsQuantity();
 		
 		for(int m=0;m<players.size();m++)
@@ -459,10 +458,8 @@ public class MapFactory
 		
 		for ( Area area : neighbours.values() ) 
 		{
-			if(weightedNeighbours.get( area.getId() ) != null && weightedNeighbours.get( area.getId() ).getDistance() > weight)
+			if(weightedNeighbours.get( area.getId() ) != null && weightedNeighbours.get( area.getId() ).getDistance() < weight)
 			{
-				weightedNeighbours.get( area.getId() ).setDistance( weight );
-			
 				getWeightedNeighbours( request, playerId, area, weightedNeighbours, weight, unit );
 			}
 			else if(AjaxFactory.canBuildEntityOnSelectedArea(request, playerId, "U", unit, area))

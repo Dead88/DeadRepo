@@ -16,6 +16,7 @@ public class Building extends Mesh
 	private int[] RequiredBuildingIds;
 	
 	private int Life;
+	private int LifeRemaining;
 	private int Armor;
 	
 	public int getId() {return Id;}
@@ -51,6 +52,9 @@ public class Building extends Mesh
 	public int getLife() {return Life;}
 	public void setLife(int life) {Life = life;}
 	
+	public int getLifeRemaining() {return LifeRemaining;}
+	public void setLifeRemaining(int lifeRemaining) {LifeRemaining = lifeRemaining;}
+	
 	public int getArmor() {return Armor;}
 	public void setArmor(int armor) {Armor = armor;}
 	
@@ -73,6 +77,7 @@ public class Building extends Mesh
 		FictiveCost = fictiveCost;
 		RequiredBuildingIds = requiredBuildingIds;
 		Life = life;
+		LifeRemaining = life;
 		Armor = armor;
 	}
 }
