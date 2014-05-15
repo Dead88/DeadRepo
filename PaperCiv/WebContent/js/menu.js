@@ -226,7 +226,3 @@ function submitLogin(godmode){
 function submitSkirmish(){
 	$("#formSkirmish").submit();
 }
-
-function newMultiGame(){
-	alert("On peut pas encore créer ducon");
-}

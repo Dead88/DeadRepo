@@ -92,7 +92,7 @@ public class SkirmishAction extends Action
 						randomUnit.getUnitTypeId(), randomUnit.getPaperCost(), randomUnit.getFictiveCost(), 
 						randomUnit.getRequiredBuildingIds(), randomUnit.getLife(), randomUnit.getPower(), 
 						randomUnit.getArmor(), randomUnit.getSpeed(), randomUnit.getRange(), randomUnit.getFireFrequency(), 
-						randomArea.getX(), randomArea.getY(), randomArea.getZ());
+						randomArea.getX(), randomArea.getY(), randomArea.getZ(), playerId);
 				
 				player.getUnits().add( unitToAdd );
 				randomArea.setDoodad( unitToAdd );

@@ -534,7 +534,7 @@ public class AjaxFactory extends Action
 										referenceUnit.getUnitTypeId(), referenceUnit.getPaperCost(), referenceUnit.getFictiveCost(), 
 										referenceUnit.getRequiredBuildingIds(), referenceUnit.getLife(), referenceUnit.getPower(), 
 										referenceUnit.getArmor(), referenceUnit.getSpeed(), referenceUnit.getRange(), referenceUnit.getFireFrequency(), 
-										nearestAvailableArea.getX(), nearestAvailableArea.getY(), nearestAvailableArea.getZ());
+										nearestAvailableArea.getX(), nearestAvailableArea.getY(), nearestAvailableArea.getZ(), playerId);
 				
 				player.getUnits().add(unitToAdd);
 				player.setPaperAmount(player.getPaperAmount() - referenceUnit.getPaperCost());

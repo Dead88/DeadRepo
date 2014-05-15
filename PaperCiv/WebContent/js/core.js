@@ -280,6 +280,8 @@ function overArea(){
 					}
 				}
 				else if(selectedUnit){
+					$("*").css("cursor","url(img/move.gif), auto");
+					
 					var area = getAreaByAreaMeshUuid(ints[0].object.uuid);
 					
 					if(area){
@@ -288,11 +290,22 @@ function overArea(){
 						}
 						else ints[0].object.material = new THREE.MeshBasicMaterial( { color:0xffffff, map:selectedUnitTexture} );
 					}
-				}
+				} 
 				else {
 					ints[0].object.material = new THREE.MeshBasicMaterial( { color:0xcccccc, map:previousOverTexture } );
 				}
+				
 				ints[0].object.name = "over";
+			}
+			else if(selectedUnit){
+				var area = getAreaByAreaMeshUuid(ints[0].object.uuid);
+				
+				if(area && area.Doodad){
+					
+					if(area.Doodad.MeshType == "Unit" && area.Doodad.PlayerId != humanPlayer.Id){
+						$("*").css("cursor","url(img/attack.gif), auto");
+					}
+				}
 			}
 		}
 	}
@@ -379,16 +392,18 @@ function selectArea(){
 						else if(area.Doodad.MeshType == "Unit"){
 							var doodadtext = area.Doodad.Name+"<br />"+area.Doodad.LifeRemaining+"/"+area.Doodad.Life+" PV<br />Puissance : "+area.Doodad.Power+"<br />"
 							+"Armure : "+area.Doodad.Armor+"<br />Fréquence de Tir : "+area.Doodad.FireFrequency+"<br />Portée : "+area.Doodad.Range+"<br />"+
-							"Vitesse : "+area.Doodad.SpeedRemaining+" / "+area.Doodad.Speed;
+							"Vitesse : "+area.Doodad.SpeedRemaining+" / "+area.Doodad.Speed+"<br />"+
+							"ID Joueur : "+area.Doodad.PlayerId;
 							$("#areatext").html(doodadtext);
 							
-							selectUnitByAreaId(area.Id);
+							if(area.Doodad.PlayerId == humanPlayer.Id)
+								selectUnitByAreaId(area.Id);
+							else ints[0].object.material = new THREE.MeshBasicMaterial( { color:0xff0000, map:previousTexture } );
 						}
 					}
 					else{
 						if(area.AreaType.Type.indexOf("ground")!=-1){
-							$("#areatext").html("Terre déserte<br />X : "+area.X+" Z : "+area.Z);
-							
+							$("#areatext").html("Terre déserte<br />X : "+area.X+" Z : "+area.Z);	
 						}
 						else $("#areatext").html("Eau");
 					}
