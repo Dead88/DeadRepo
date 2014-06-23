@@ -8,6 +8,8 @@ import javax.servlet.http.HttpServletRequest;
 import fr.paperciv.common.Constants;
 import fr.paperciv.common.PaperSession;
 import fr.paperciv.objs.Player;
+import fr.paperciv.objs.Turn;
+import fr.paperciv.objs.Turn.PhaseNames;
 import fr.paperciv.objs.deposits.Deposit;
 import fr.paperciv.objs.map.Area;
 import fr.paperciv.objs.map.AreaType;
@@ -26,6 +28,7 @@ public class MapFactory
 		GameMap gameMap = null;
 		
 		ArrayList<Area> areas = null;
+		Turn turn = new Turn();
 		int tempX = 0;
 		int tempZ = 0;
 		
@@ -65,6 +68,11 @@ public class MapFactory
 			//TODO: Use server to height map
 			//MapFactory.generateHeightOn9(areas, gameMap.getLength(), gameMap.getHeightsQuantity(), gameMap.getHeight(), 0);
 			gameMap.setAreas(areas);
+			
+			String phaseName = PhaseNames.Phase_Production.toString();
+			turn = new Turn(1, turn.new Phase(phaseName, true, false, false));
+			
+			gameMap.setTurn(turn);
 			
 			PaperSession.setGameMapSession(request, gameMap);
 		}
@@ -180,6 +188,7 @@ public class MapFactory
 	public static void generateWater(GameMap gameMap, ArrayList<Area> areas) throws Exception
 	{
 		int randLakeMode = 0;
+		String waterTexture = "img/maptexture/water.gif";
 		
 		for(int j=0;j<gameMap.getWaterQuantity();j++)
 		{				
@@ -188,139 +197,139 @@ public class MapFactory
 			if(randLakeMode == 1)
 			{
 				int rand = Constants.getRandomBetween(0, areas.size()-1 - (5 * gameMap.getLength()));
-				areas.get(rand).setTexture("img/water2.jpg");
+				areas.get(rand).setTexture(waterTexture);
 				areas.get(rand).getAreaType().setType(AreaType.SEA_AREA);
 				
-				areas.get(rand + gameMap.getLength()).setTexture("img/water2.jpg");
+				areas.get(rand + gameMap.getLength()).setTexture(waterTexture);
 				areas.get(rand + gameMap.getLength()).getAreaType().setType(AreaType.SEA_AREA);
 				
-				areas.get(rand - 1 + gameMap.getLength()).setTexture("img/water2.jpg");
+				areas.get(rand - 1 + gameMap.getLength()).setTexture(waterTexture);
 				areas.get(rand - 1 + gameMap.getLength()).getAreaType().setType(AreaType.SEA_AREA);
 				
-				areas.get(rand + 1 + gameMap.getLength()).setTexture("img/water2.jpg");
+				areas.get(rand + 1 + gameMap.getLength()).setTexture(waterTexture);
 				areas.get(rand + 1 + gameMap.getLength()).getAreaType().setType(AreaType.SEA_AREA);
 				
-				areas.get(rand + 2 + gameMap.getLength()).setTexture("img/water2.jpg");
+				areas.get(rand + 2 + gameMap.getLength()).setTexture(waterTexture);
 				areas.get(rand + 2 + gameMap.getLength()).getAreaType().setType(AreaType.SEA_AREA);
 				
-				areas.get(rand + (2 * gameMap.getLength())).setTexture("img/water2.jpg");
+				areas.get(rand + (2 * gameMap.getLength())).setTexture(waterTexture);
 				areas.get(rand + (2 * gameMap.getLength())).getAreaType().setType(AreaType.SEA_AREA);
 				
-				areas.get(rand + 1 + (2 * gameMap.getLength())).setTexture("img/water2.jpg");
+				areas.get(rand + 1 + (2 * gameMap.getLength())).setTexture(waterTexture);
 				areas.get(rand + 1 + (2 * gameMap.getLength())).getAreaType().setType(AreaType.SEA_AREA);
 				
-				areas.get(rand + 2 + (2 * gameMap.getLength())).setTexture("img/water2.jpg");
+				areas.get(rand + 2 + (2 * gameMap.getLength())).setTexture(waterTexture);
 				areas.get(rand + 2 + (2 * gameMap.getLength())).getAreaType().setType(AreaType.SEA_AREA);
 				
-				areas.get(rand + 3 + (2 * gameMap.getLength())).setTexture("img/water2.jpg");
+				areas.get(rand + 3 + (2 * gameMap.getLength())).setTexture(waterTexture);
 				areas.get(rand + 3 + (2 * gameMap.getLength())).getAreaType().setType(AreaType.SEA_AREA);
 				
-				areas.get(rand + 2 + (3 * gameMap.getLength())).setTexture("img/water2.jpg");
+				areas.get(rand + 2 + (3 * gameMap.getLength())).setTexture(waterTexture);
 				areas.get(rand + 2 + (3 * gameMap.getLength())).getAreaType().setType(AreaType.SEA_AREA);
 			}
 			else if(randLakeMode == 2)
 			{
 				int rand = Constants.getRandomBetween(0, areas.size()-1 - (5 * gameMap.getLength()));
-				areas.get(rand).setTexture("img/water2.jpg");
+				areas.get(rand).setTexture(waterTexture);
 				areas.get(rand).getAreaType().setType(AreaType.SEA_AREA);
 				
-				areas.get(rand + gameMap.getLength()).setTexture("img/water2.jpg");
+				areas.get(rand + gameMap.getLength()).setTexture(waterTexture);
 				areas.get(rand + gameMap.getLength()).getAreaType().setType(AreaType.SEA_AREA);
 				
-				areas.get(rand + 1 + gameMap.getLength()).setTexture("img/water2.jpg");
+				areas.get(rand + 1 + gameMap.getLength()).setTexture(waterTexture);
 				areas.get(rand + 1 + gameMap.getLength()).getAreaType().setType(AreaType.SEA_AREA);
 				
-				areas.get(rand - 1 + gameMap.getLength()).setTexture("img/water2.jpg");
+				areas.get(rand - 1 + gameMap.getLength()).setTexture(waterTexture);
 				areas.get(rand - 1 + gameMap.getLength()).getAreaType().setType(AreaType.SEA_AREA);
 				
-				areas.get(rand - 2 + gameMap.getLength()).setTexture("img/water2.jpg");
+				areas.get(rand - 2 + gameMap.getLength()).setTexture(waterTexture);
 				areas.get(rand - 2 + gameMap.getLength()).getAreaType().setType(AreaType.SEA_AREA);
 				
-				areas.get(rand + (2 * gameMap.getLength())).setTexture("img/water2.jpg");
+				areas.get(rand + (2 * gameMap.getLength())).setTexture(waterTexture);
 				areas.get(rand + (2 * gameMap.getLength())).getAreaType().setType(AreaType.SEA_AREA);
 				
-				areas.get(rand - 1 + (2 * gameMap.getLength())).setTexture("img/water2.jpg");
+				areas.get(rand - 1 + (2 * gameMap.getLength())).setTexture(waterTexture);
 				areas.get(rand - 1 + (2 * gameMap.getLength())).getAreaType().setType(AreaType.SEA_AREA);
 				
-				areas.get(rand - 2 + (2 * gameMap.getLength())).setTexture("img/water2.jpg");
+				areas.get(rand - 2 + (2 * gameMap.getLength())).setTexture(waterTexture);
 				areas.get(rand - 2 + (2 * gameMap.getLength())).getAreaType().setType(AreaType.SEA_AREA);
 				
-				areas.get(rand - 3 + (2 * gameMap.getLength())).setTexture("img/water2.jpg");
+				areas.get(rand - 3 + (2 * gameMap.getLength())).setTexture(waterTexture);
 				areas.get(rand - 3 + (2 * gameMap.getLength())).getAreaType().setType(AreaType.SEA_AREA);
 				
-				areas.get(rand - 2 + (3 * gameMap.getLength())).setTexture("img/water2.jpg");
+				areas.get(rand - 2 + (3 * gameMap.getLength())).setTexture(waterTexture);
 				areas.get(rand - 2 + (3 * gameMap.getLength())).getAreaType().setType(AreaType.SEA_AREA);
 			}
 			else if(randLakeMode == 3)
 			{
 				int rand = Constants.getRandomBetween(0, areas.size()-1 - (5 * gameMap.getLength()));
-				areas.get(rand).setTexture("img/water2.jpg");
+				areas.get(rand).setTexture(waterTexture);
 				areas.get(rand).getAreaType().setType(AreaType.SEA_AREA);
 				
-				areas.get(rand - 1).setTexture("img/water2.jpg");
+				areas.get(rand - 1).setTexture(waterTexture);
 				areas.get(rand - 1).getAreaType().setType(AreaType.SEA_AREA);
 				
-				areas.get(rand - 2).setTexture("img/water2.jpg");
+				areas.get(rand - 2).setTexture(waterTexture);
 				areas.get(rand - 2).getAreaType().setType(AreaType.SEA_AREA);
 				
-				areas.get(rand + gameMap.getLength()).setTexture("img/water2.jpg");
+				areas.get(rand + gameMap.getLength()).setTexture(waterTexture);
 				areas.get(rand + gameMap.getLength()).getAreaType().setType(AreaType.SEA_AREA);
 				
-				areas.get(rand - 1 + gameMap.getLength()).setTexture("img/water2.jpg");
+				areas.get(rand - 1 + gameMap.getLength()).setTexture(waterTexture);
 				areas.get(rand - 1 + gameMap.getLength()).getAreaType().setType(AreaType.SEA_AREA);
 				
-				areas.get(rand + 1 + gameMap.getLength()).setTexture("img/water2.jpg");
+				areas.get(rand + 1 + gameMap.getLength()).setTexture(waterTexture);
 				areas.get(rand + 1 + gameMap.getLength()).getAreaType().setType(AreaType.SEA_AREA);
 				
-				areas.get(rand + 2 + gameMap.getLength()).setTexture("img/water2.jpg");
+				areas.get(rand + 2 + gameMap.getLength()).setTexture(waterTexture);
 				areas.get(rand + 2 + gameMap.getLength()).getAreaType().setType(AreaType.SEA_AREA);
 				
-				areas.get(rand + (2 * gameMap.getLength())).setTexture("img/water2.jpg");
+				areas.get(rand + (2 * gameMap.getLength())).setTexture(waterTexture);
 				areas.get(rand + (2 * gameMap.getLength())).getAreaType().setType(AreaType.SEA_AREA);
 				
-				areas.get(rand + 1 + (2 * gameMap.getLength())).setTexture("img/water2.jpg");
+				areas.get(rand + 1 + (2 * gameMap.getLength())).setTexture(waterTexture);
 				areas.get(rand + 1 + (2 * gameMap.getLength())).getAreaType().setType(AreaType.SEA_AREA);
 				
-				areas.get(rand + 2 + (2 * gameMap.getLength())).setTexture("img/water2.jpg");
+				areas.get(rand + 2 + (2 * gameMap.getLength())).setTexture(waterTexture);
 				areas.get(rand + 2 + (2 * gameMap.getLength())).getAreaType().setType(AreaType.SEA_AREA);
 				
-				areas.get(rand + 3 + (2 * gameMap.getLength())).setTexture("img/water2.jpg");
+				areas.get(rand + 3 + (2 * gameMap.getLength())).setTexture(waterTexture);
 				areas.get(rand + 3 + (2 * gameMap.getLength())).getAreaType().setType(AreaType.SEA_AREA);
 			}
 			else if(randLakeMode == 4)
 			{
 				int rand = Constants.getRandomBetween(0, areas.size()-1 - (5 * gameMap.getLength()));
-				areas.get(rand).setTexture("img/water2.jpg");
+				areas.get(rand).setTexture(waterTexture);
 				areas.get(rand).getAreaType().setType(AreaType.SEA_AREA);
 				
-				areas.get(rand + 1).setTexture("img/water2.jpg");
+				areas.get(rand + 1).setTexture(waterTexture);
 				areas.get(rand + 1).getAreaType().setType(AreaType.SEA_AREA);
 				
-				areas.get(rand + 2).setTexture("img/water2.jpg");
+				areas.get(rand + 2).setTexture(waterTexture);
 				areas.get(rand + 2).getAreaType().setType(AreaType.SEA_AREA);
 				
-				areas.get(rand + gameMap.getLength()).setTexture("img/water2.jpg");
+				areas.get(rand + gameMap.getLength()).setTexture(waterTexture);
 				areas.get(rand + gameMap.getLength()).getAreaType().setType(AreaType.SEA_AREA);
 				
-				areas.get(rand - 1 + gameMap.getLength()).setTexture("img/water2.jpg");
+				areas.get(rand - 1 + gameMap.getLength()).setTexture(waterTexture);
 				areas.get(rand - 1 + gameMap.getLength()).getAreaType().setType(AreaType.SEA_AREA);
 				
-				areas.get(rand + 1 + gameMap.getLength()).setTexture("img/water2.jpg");
+				areas.get(rand + 1 + gameMap.getLength()).setTexture(waterTexture);
 				areas.get(rand + 1 + gameMap.getLength()).getAreaType().setType(AreaType.SEA_AREA);
 				
-				areas.get(rand - 2 + gameMap.getLength()).setTexture("img/water2.jpg");
+				areas.get(rand - 2 + gameMap.getLength()).setTexture(waterTexture);
 				areas.get(rand - 2 + gameMap.getLength()).getAreaType().setType(AreaType.SEA_AREA);
 				
-				areas.get(rand + (2 * gameMap.getLength())).setTexture("img/water2.jpg");
+				areas.get(rand + (2 * gameMap.getLength())).setTexture(waterTexture);
 				areas.get(rand + (2 * gameMap.getLength())).getAreaType().setType(AreaType.SEA_AREA);
 				
-				areas.get(rand - 1 + (2 * gameMap.getLength())).setTexture("img/water2.jpg");
+				areas.get(rand - 1 + (2 * gameMap.getLength())).setTexture(waterTexture);
 				areas.get(rand - 1 + (2 * gameMap.getLength())).getAreaType().setType(AreaType.SEA_AREA);
 				
-				areas.get(rand - 2 + (2 * gameMap.getLength())).setTexture("img/water2.jpg");
+				areas.get(rand - 2 + (2 * gameMap.getLength())).setTexture(waterTexture);
 				areas.get(rand - 2 + (2 * gameMap.getLength())).getAreaType().setType(AreaType.SEA_AREA);
 				
-				areas.get(rand - 3 + (2 * gameMap.getLength())).setTexture("img/water2.jpg");
+				areas.get(rand - 3 + (2 * gameMap.getLength())).setTexture(waterTexture);
 				areas.get(rand - 3 + (2 * gameMap.getLength())).getAreaType().setType(AreaType.SEA_AREA);
 			}
 		}

@@ -8,6 +8,7 @@ var clock = new THREE.Clock(), delta, mouse = { x: 0, y: 0 };
 var gameProperties;
 var gameMap;
 var areas = [];
+var animators = [];
 
 var players = [];
 var humanPlayer;
@@ -29,8 +30,7 @@ var entityToCreateTexture;
 
 var selectedUnit;
 var selectedUnitTexture;
-
-var turnNumber = 1;
+var selectedUnitIsAiming = false;
 
 function include (url) {
 	var xhr = null;
@@ -133,13 +133,14 @@ function render() {
 		$(ressourceStock).html("Paper : "+humanPlayer.PaperAmount+"&nbsp;&nbsp;&nbsp;&nbsp;" +
 				""+humanPlayer.PlayerRace.FictiveRessource.Name+" : "+humanPlayer.FictiveRessourceAmount);
 		
-		var actionTurnText = "Tour N°"+turnNumber+"<br />";
-			actionTurnText += "Actions de Production : "+humanPlayer.BuildActionAmount+"/"+gameProperties.BuildActionNumber+"<br />";
-			actionTurnText += "Actions d'Attaque : "+humanPlayer.AttackActionAmount+"/"+gameProperties.AttackActionNumber+"<br />";
+		var actionTurnText = "Tour N°"+gameMap.Turn.Number+"<br />"+gameMap.Turn.Phase.Name;
 		
 		$(actionTurnDiv).html(actionTurnText);
 	}
-		
+	
+	for(var i=0;i<animators.length;i++){
+		animators[i].update(1000 * delta);
+	}
 	
 	renderer.clear();
 	renderer.render( scene, camera );
@@ -211,7 +212,11 @@ function build(){
 		areaGeometry.vertices[2].add( area.Vertices[2] );
 		areaGeometry.vertices[3].add( area.Vertices[3] );
 		
-		var areaMaterial = new THREE.MeshBasicMaterial( { color:0xffffff, map:texture } );
+		if(area.AreaType.Type == "seaArea"){
+			animators.push(new TextureAnimator( texture, 1.01, 1.01, 2.02, 150 )); // texture, #horiz, #vert, #total, duration.
+		}
+		
+		var areaMaterial = new THREE.MeshBasicMaterial( { color:0xffffff, map:texture, side:THREE.DoubleSide } );
 		
 		var areaMesh = new THREE.Mesh(areaGeometry, areaMaterial);
 	
@@ -284,6 +289,19 @@ function overArea(){
 					
 					var area = getAreaByAreaMeshUuid(ints[0].object.uuid);
 					
+					if(selectedUnitIsAiming){
+						var selectedUnitArea = getAreaByUnitPosition(selectedUnit);
+						
+						if(selectedUnit.SpeedRemaining > 0)
+							previousOverColor = 0xA0F092;
+						else previousOverColor = 0xFFFFFF;
+						
+						deselectUsableAreas();
+						
+						getReachableAreasFromUnitRange(selectedUnitArea.Id);
+						selectedUnitIsAiming = false;
+					}
+					
 					if(area){
 						if(!canBuildEntityOnSelectedArea("U", selectedUnit, area)){
 							ints[0].object.material = new THREE.MeshBasicMaterial( { color:0xff0000, map:selectedUnitTexture } );
@@ -304,7 +322,25 @@ function overArea(){
 					
 					if(area.Doodad.MeshType == "Unit" && area.Doodad.PlayerId != humanPlayer.Id){
 						$("*").css("cursor","url(img/attack.gif), auto");
+						
+						if(!selectedUnitIsAiming){
+							var selectedUnitArea = getAreaByUnitPosition(selectedUnit);
+							
+							getAttackableAreasFromUnitRange(selectedUnitArea.Id);
+						}
 					}
+				}
+				else if(selectedUnitIsAiming){
+					var selectedUnitArea = getAreaByUnitPosition(selectedUnit);
+					
+					if(selectedUnit.SpeedRemaining > 0)
+						previousOverColor = 0xA0F092;
+					else previousOverColor = 0xFFFFFF;
+					
+					deselectUsableAreas();
+					
+					getReachableAreasFromUnitRange(selectedUnitArea.Id);
+					selectedUnitIsAiming = false;
 				}
 			}
 		}
@@ -497,6 +533,29 @@ function displayUsableAreas(areaIds){
 		else  texture = THREE.ImageUtils.loadTexture(area.Texture); 
 		
 		area.Mesh.material = new THREE.MeshBasicMaterial({ color:0xA0F092, map: texture });
+		area.Mesh.usable = 1;
+	}
+}
+
+function displayUnitRange(areaIds){
+	for(var i=0;i<areaIds.length;i++){
+		var area = gameMap.Areas[areaIds[i]];
+		
+		var texture;
+		if(area.Building){
+			texture = THREE.ImageUtils.loadTexture(area.Building.Texture);
+		}
+		else if(area.Doodad && area.Doodad.MeshType == "Deposit"){
+			if(area.Doodad.Type)
+				texture = THREE.ImageUtils.loadTexture(area.Doodad.Type.Texture);
+			else texture = THREE.ImageUtils.loadTexture("img/maptexture/paper.jpg");
+		}
+		else if(area.Doodad && area.Doodad.MeshType == "Unit"){
+			texture = THREE.ImageUtils.loadTexture(area.Doodad.Texture);
+		}
+		else  texture = THREE.ImageUtils.loadTexture(area.Texture); 
+		
+		area.Mesh.material = new THREE.MeshBasicMaterial({ color:0xff1111, map: texture });
 		area.Mesh.usable = 1;
 	}
 }
@@ -830,11 +889,7 @@ function haveEnoughRessourceFor(img, entityIdentifier, entityArrayId){
 	if(result == "OK"){
 		selectEntityToCreate(img, entityIdentifier, entity);
 	}
-	else {
-		if(humanPlayer.BuildActionAmount == 0)
-			alert("Vous n'avez plus d'action de production pour "+entity.Name);
-		else alert("Vous n'avez pas assez de ressource pour "+entity.Name);
-	}
+	else alert("Vous n'avez pas assez de ressource pour "+entity.Name);
 }
 
 function selectEntityToCreate(img, entityIdentifier, entity){
@@ -1040,6 +1095,29 @@ function getReachableAreasFromUnitRange(areaId){
 	else return false;
 }
 
+function getAttackableAreasFromUnitRange(areaId){
+	var result = $.ajax({
+		url: "ajax.do",
+		async: false,
+		data: { playerId: humanPlayer.Id, 
+			method: "getAttackableAreasFromUnitRange", 
+			centerAreaId : areaId,
+		}
+	}).done(function(msg){
+		return msg;
+	}).responseText;
+	
+	if(result != "KO"){
+		var areaIds = result.split(";");
+		
+		deselectUsableAreas();
+		
+		displayUnitRange(areaIds);
+		selectedUnitIsAiming = true;
+	}
+	else return false;
+}
+
 function selectUnitByAreaId(areaId){
 	var a = gameMap.Areas[areaId];
 	
@@ -1050,4 +1128,18 @@ function selectUnitByAreaId(areaId){
 	
 	//getBuildableAreasFromOriginRange(areaId, selectedUnit.SpeedRemaining);
 	getReachableAreasFromUnitRange(areaId);
+}
+
+function getAreaByUnitPosition(unit){
+	var area;
+
+	for(var i=0;i<gameMap.Areas.length;i++){
+		area = gameMap.Areas[i];
+		
+		if(unit.X == area.X && unit.Z == area.Z){
+			break;
+		}
+	}
+	
+	return area;
 }

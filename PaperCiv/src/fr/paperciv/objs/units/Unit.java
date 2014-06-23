@@ -1,7 +1,7 @@
 package fr.paperciv.objs.units;
 
 import fr.paperciv.objs.map.Mesh;
-
+import fr.paperciv.objs.Order;
 
 public class Unit extends Mesh
 {
@@ -26,6 +26,7 @@ public class Unit extends Mesh
 	private int FireFrequency;
 	
 	private int PlayerId;
+	private Order Order;
 	
 	public int getId() {return Id;}
 	public void setId(int id) {Id = id;}
@@ -84,6 +85,9 @@ public class Unit extends Mesh
 	public int getPlayerId() {return PlayerId;}
 	public void setPlayerId(int playerId) {PlayerId = playerId;}
 	
+	public Order getOrder() {return Order;}
+	public void setOrder(Order order) {Order = order;}
+	
 	public Unit() 
 	{
 		super("Unit", 0, 0.00, 0, null);
@@ -92,7 +96,8 @@ public class Unit extends Mesh
 	public Unit(int id, String name, String file, int level, String texture,
 			UnitType type, int unitTypeId, int paperCost, int fictiveCost,
 			int[] requiredBuildingIds, int life, int power, int armor,
-			int speed, int range, int fireFrequency, int x, double y, int z, int playerId) {
+			int speed, int range, int fireFrequency, int x, double y, int z, int playerId,
+			Order order) {
 		super("Unit", x, y, z, null);
 		Id = id;
 		Name = name;
@@ -113,5 +118,6 @@ public class Unit extends Mesh
 		Range = range;
 		FireFrequency = fireFrequency;
 		PlayerId = playerId;
+		Order = order;
 	}
 }

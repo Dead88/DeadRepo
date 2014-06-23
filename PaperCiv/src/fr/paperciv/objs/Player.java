@@ -13,8 +13,6 @@ public class Player
 	private int FictiveRessourceAmount;
 	private Race PlayerRace;
 	private boolean isHumanControlled;
-	private int BuildActionAmount;
-	private int AttackActionAmount;
 	private ArrayList<Unit> Units;
 	private ArrayList<Building> Buildings;
 	
@@ -39,23 +37,15 @@ public class Player
 	public boolean isHumanControlled() {return isHumanControlled;}
 	public void setHumanControlled(boolean isHumanControlled) {this.isHumanControlled = isHumanControlled;}
 	
-	public int getBuildActionAmount() {return BuildActionAmount;}
-	public void setBuildActionAmount(int buildActionAmount) {BuildActionAmount = buildActionAmount;}
-	
-	public int getAttackActionAmount() {return AttackActionAmount;}
-	public void setAttackActionAmount(int attackActionAmount) {AttackActionAmount = attackActionAmount;}
-	
 	public Player() {}
 	public Player(int id, int paperAmount, int fictiveRessourceAmount,
-			Race playerRace, boolean isHumanControlled, int buildActionAmount, int attackActionAmount,
-			ArrayList<Unit> units, ArrayList<Building> buildings) {
+			Race playerRace, boolean isHumanControlled, ArrayList<Unit> units, 
+			ArrayList<Building> buildings) {
 		Id = id;
 		PaperAmount = paperAmount;
 		FictiveRessourceAmount = fictiveRessourceAmount;
 		PlayerRace = playerRace;
 		this.isHumanControlled = isHumanControlled;
-		BuildActionAmount = buildActionAmount;
-		AttackActionAmount = attackActionAmount;
 		Units = units;
 		Buildings = buildings;
 	}

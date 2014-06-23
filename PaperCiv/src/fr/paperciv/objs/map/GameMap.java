@@ -1,6 +1,7 @@
 package fr.paperciv.objs.map;
 
 import java.util.ArrayList;
+import fr.paperciv.objs.Turn;
 
 public class GameMap 
 {
@@ -19,6 +20,8 @@ public class GameMap
 	private ArrayList<Area> Areas;
 	private int X;
 	private int Z;
+	
+	private Turn Turn;
 	
 	public int getId() {return Id;}
 	public void setId(int id) {Id = id;}
@@ -62,11 +65,16 @@ public class GameMap
 	public int getZ() {return Z;}
 	public void setZ(int z) {Z = z;}
 	
+	public Turn getTurn() {return Turn;}
+	public void setTurn(Turn turn) {Turn = turn;}
+	
 	public GameMap(){}
 	public GameMap(int id, String name, String file, String texture,
 			int length, int paperDepositsQuantity, int fictiveDepositsQuantity,
 			int treesQuantity, int waterQuantity, double height,
-			int heightsQuantity, ArrayList<Area> areas, int x, int z) {
+			int heightsQuantity, ArrayList<Area> areas, int x, int z,
+			Turn turn) {
+		super();
 		Id = id;
 		Name = name;
 		File = file;
@@ -81,5 +89,6 @@ public class GameMap
 		Areas = areas;
 		X = x;
 		Z = z;
+		Turn = turn;
 	}
 }

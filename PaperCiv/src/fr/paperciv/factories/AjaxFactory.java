@@ -13,12 +13,14 @@ import org.apache.struts.action.ActionMapping;
 
 import fr.paperciv.common.Constants;
 import fr.paperciv.common.PaperSession;
+import fr.paperciv.objs.Order;
 import fr.paperciv.objs.Player;
 import fr.paperciv.objs.buildings.Building;
 import fr.paperciv.objs.deposits.Deposit;
 import fr.paperciv.objs.map.Area;
 import fr.paperciv.objs.map.AreaType;
 import fr.paperciv.objs.map.GameMap;
+import fr.paperciv.objs.map.Vertex;
 import fr.paperciv.objs.races.Race;
 import fr.paperciv.objs.units.Unit;
 
@@ -167,6 +169,18 @@ public class AjaxFactory extends Action
 				}
 				else Constants.sendResponse(response, "KO");
 			}
+			else if("getAttackableAreasFromUnitRange".equals(method))
+			{
+				int centerAreaId = Integer.parseInt(Constants.getParameter(request, "centerAreaId"));
+				
+				String areaIds = getAttackableAreasFromUnitRange(request, playerId, centerAreaId);
+				
+				if(!"".equals(areaIds))
+				{			
+					Constants.sendResponse(response, areaIds);
+				}
+				else Constants.sendResponse(response, "KO");
+			}
 		}
 		catch(Exception e)
 		{
@@ -245,8 +259,7 @@ public class AjaxFactory extends Action
 		{
 			player = Constants.getPlayerById(request, playerId);
 			
-			if(player.getPaperAmount() >= paperCost && player.getFictiveRessourceAmount() >= fictiveCost
-			&& player.getBuildActionAmount() > 0)
+			if(player.getPaperAmount() >= paperCost && player.getFictiveRessourceAmount() >= fictiveCost)
 				return true;
 			else return false;
 		}
@@ -397,7 +410,6 @@ public class AjaxFactory extends Action
 				player.getBuildings().add(buildingToAdd);
 				player.setPaperAmount(player.getPaperAmount() - referenceBuilding.getPaperCost());
 				player.setFictiveRessourceAmount(player.getFictiveRessourceAmount() - referenceBuilding.getFictiveCost());
-				player.setBuildActionAmount(player.getBuildActionAmount() - 1);
 				players.set(playerArrayId, player);
 				
 				area.setBuilding(buildingToAdd);
@@ -534,12 +546,11 @@ public class AjaxFactory extends Action
 										referenceUnit.getUnitTypeId(), referenceUnit.getPaperCost(), referenceUnit.getFictiveCost(), 
 										referenceUnit.getRequiredBuildingIds(), referenceUnit.getLife(), referenceUnit.getPower(), 
 										referenceUnit.getArmor(), referenceUnit.getSpeed(), referenceUnit.getRange(), referenceUnit.getFireFrequency(), 
-										nearestAvailableArea.getX(), nearestAvailableArea.getY(), nearestAvailableArea.getZ(), playerId);
+										nearestAvailableArea.getX(), nearestAvailableArea.getY(), nearestAvailableArea.getZ(), playerId, null);
 				
 				player.getUnits().add(unitToAdd);
 				player.setPaperAmount(player.getPaperAmount() - referenceUnit.getPaperCost());
 				player.setFictiveRessourceAmount(player.getFictiveRessourceAmount() - referenceUnit.getFictiveCost());
-				player.setBuildActionAmount(player.getBuildActionAmount() - 1);
 				players.set(playerArrayId, player);
 							
 				nearestAvailableArea.setDoodad(unitToAdd);
@@ -624,6 +635,14 @@ public class AjaxFactory extends Action
 						break;
 					}
 				}
+				
+				selectedUnit.setOrder(
+					new Order(playerId, 
+							selectedUnit.getId(), 
+							Order.OrderType.Move, 
+							new Vertex(selectedUnit.getX(), selectedUnit.getY(), selectedUnit.getZ()), 
+							new Vertex(destinationArea.getX(), destinationArea.getY(), destinationArea.getZ()))
+				);
 				
 				selectedUnit.setX(destinationArea.getX());
 				selectedUnit.setY(destinationArea.getY());
@@ -742,6 +761,8 @@ public class AjaxFactory extends Action
 				&&
 					(area.getZ() >= (centerArea.getZ() - width) 
 					&& area.getZ() <= (centerArea.getZ() + width))
+				&& !area.getAreaType().getType().equals(AreaType.SEA_AREA)
+				&& area.getDoodad() == null
 				)
 				{
 					if("".equals(areaIds))
@@ -781,6 +802,46 @@ public class AjaxFactory extends Action
 				if("".equals(areaIds))
 					areaIds += reachableAreas.get(j).getId();
 				else areaIds += ";"+reachableAreas.get(j).getId();
+			}
+		}
+		finally
+		{
+			gameMap = null;
+		}
+		return areaIds;
+	}
+	
+	public static String getAttackableAreasFromUnitRange(HttpServletRequest request, int playerId, int centerAreaId) throws Exception 
+	{
+		String areaIds = "";
+		GameMap gameMap = null;
+		Area centerArea = null;
+		Unit unit = null;
+		
+		try
+		{
+			gameMap = PaperSession.getGameMapSession(request);
+			centerArea = gameMap.getAreas().get(centerAreaId);
+			unit = (Unit) centerArea.getDoodad();
+			
+			for(int i=0;i<gameMap.getAreas().size();i++)
+			{
+				Area area = gameMap.getAreas().get(i);
+				
+				if(		
+					(area.getX() >= (centerArea.getX() - unit.getRange()) 
+					&& area.getX() <= (centerArea.getX() + unit.getRange()))
+				&&
+					(area.getZ() >= (centerArea.getZ() - unit.getRange()) 
+					&& area.getZ() <= (centerArea.getZ() + unit.getRange()))
+				&& !area.getAreaType().getType().equals(AreaType.SEA_AREA)
+				&& area.getDoodad() == null
+				)
+				{
+					if("".equals(areaIds))
+						areaIds += area.getId();
+					else areaIds += ";"+area.getId();
+				}
 			}
 		}
 		finally

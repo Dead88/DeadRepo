@@ -17,6 +17,7 @@
 		<script type="text/javascript" src="http://mrdoob.github.com/three.js/build/three.js"></script>
 		<script type="text/javascript" src="js/PersonnalControl.js"></script>
 		<script type="text/javascript" src="js/simplex-noise.js"></script>
+		<script type="text/javascript" src="js/textureanim.js"></script>
 		<script type="text/javascript" src="js/core.js"></script>
 		<link href="css/menu.css" rel="stylesheet" type="text/css" />
 		<script type="text/javascript">		

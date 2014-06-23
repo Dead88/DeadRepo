@@ -139,17 +139,20 @@ function toggleChatConnection(){
 
 function submitChatMessage(){
 	if($("#chatinput").val() && $("#chatinput").val() != ""){
-		chatWS.send(user.UserName + " : " + $("#chatinput").val());
+		chatWS.send($("#chatinput").val());
 		$("#chatinput").val("");
 	}
 }
 
-//FIXME : retrieve users who are connected to the chat
+
 function onChatOpen(evt) { 
 	$("#chatoutput").html("");
 	$("#chatbox").slideDown(500);
 	$("#chattogglebutton").val("Deconnexion");
 	connectedToChat = true;
+	
+	//FIXME : this line is important, it allow receiving messages without sending one
+	chatWS.send("");
 }  
 function onChatClose(evt) {
 	$("#chatoutput").html("");
