@@ -7,6 +7,7 @@ var clock = new THREE.Clock(), delta, mouse = { x: 0, y: 0 };
 
 var gameProperties;
 var gameMap;
+var currentTurn, currentPhase;
 var areas = [];
 var animators = [];
 
@@ -30,7 +31,9 @@ var entityToCreateTexture;
 
 var selectedUnit;
 var selectedUnitTexture;
-var selectedUnitIsAiming = false;
+var selectedUnitIsAiming;
+
+var arrow;
 
 function include (url) {
 	var xhr = null;
@@ -53,6 +56,8 @@ function init(gameProps, map, players) {
 	
 	gameMap = map;
 	areas = gameMap.Areas;
+	currentTurn = map.Turn;
+	currentPhase = currentTurn.Phase;
 	
 	console.warn(players[0]);
 	humanPlayer = players[0];
@@ -262,7 +267,7 @@ function overArea(){
 			vector.sub(camera.position).normalize()
 	);
 	
-	var ints = ray.intersectObjects(gameMap.Mesh.getDescendants());
+	var ints = ray.intersectObjects(gameMap.Mesh.children);
 	
 	if(ints.length > 0){
 		deselectOverArea();
@@ -271,78 +276,52 @@ function overArea(){
 			previousOverTexture = ints[0].object.material.map;
 			previousOverColor = ints[0].object.material.color;
 			
-			if(((entityToCreate || selectedUnit) && ints[0].object.usable == 1)
-			|| (!entityToCreate && !selectedUnit))
+			var area = getAreaByAreaMeshUuid(ints[0].object.uuid);
+			
+			if(!entityToCreate && !selectedUnit) 
 			{
-				if(entityToCreate){				
-					var area = getAreaByAreaMeshUuid(ints[0].object.uuid);
+				ints[0].object.material = new THREE.MeshBasicMaterial( { color:0xcccccc, map:previousOverTexture } );
+			}
+			if(area && entityToCreate && !selectedUnit && ints[0].object.usable == 1){
+				
+				if(!canEntityUseSelectedArea("B", entityToCreate, area)){
+						ints[0].object.material = new THREE.MeshBasicMaterial( { color:0xff0000, map:entityToCreateTexture } );
+				}
+				else ints[0].object.material = new THREE.MeshBasicMaterial( { color:0xffffff, map:entityToCreateTexture} );
+			}
+			else if(area && selectedUnit){
+			
+				var selectedUnitArea = getAreaByUnitPosition(selectedUnit);
+				
+				if(area.Doodad && area.Doodad.MeshType == "Unit" && area.Doodad.PlayerId != humanPlayer.Id){
 					
-					if(area){
-						if(!canBuildEntityOnSelectedArea("B", entityToCreate, area)){
-							ints[0].object.material = new THREE.MeshBasicMaterial( { color:0xff0000, map:entityToCreateTexture } );
-						}
-						else ints[0].object.material = new THREE.MeshBasicMaterial( { color:0xffffff, map:entityToCreateTexture} );
+					if(selectedUnitIsAiming == false){
+						$("*").css("cursor","url(img/attack.gif), auto");
+						
+						getAttackableAreasFromUnitRange(selectedUnitArea.Id);
 					}
 				}
-				else if(selectedUnit){
-					$("*").css("cursor","url(img/move.gif), auto");
-					
-					var area = getAreaByAreaMeshUuid(ints[0].object.uuid);
-					
-					if(selectedUnitIsAiming){
-						var selectedUnitArea = getAreaByUnitPosition(selectedUnit);
-						
-						if(selectedUnit.SpeedRemaining > 0)
-							previousOverColor = 0xA0F092;
-						else previousOverColor = 0xFFFFFF;
+				else {
+					if(selectedUnitIsAiming == true){	
+						previousOverColor = 0xA0F092;
 						
 						deselectUsableAreas();
-						
 						getReachableAreasFromUnitRange(selectedUnitArea.Id);
-						selectedUnitIsAiming = false;
 					}
 					
-					if(area){
-						if(!canBuildEntityOnSelectedArea("U", selectedUnit, area)){
+					if(ints[0].object.usable == 1){
+						
+						$("*").css("cursor","url(img/move.gif), auto");
+						
+						if(!canEntityUseSelectedArea("U", selectedUnit, area)){
 							ints[0].object.material = new THREE.MeshBasicMaterial( { color:0xff0000, map:selectedUnitTexture } );
 						}
 						else ints[0].object.material = new THREE.MeshBasicMaterial( { color:0xffffff, map:selectedUnitTexture} );
-					}
-				} 
-				else {
-					ints[0].object.material = new THREE.MeshBasicMaterial( { color:0xcccccc, map:previousOverTexture } );
-				}
-				
-				ints[0].object.name = "over";
-			}
-			else if(selectedUnit){
-				var area = getAreaByAreaMeshUuid(ints[0].object.uuid);
-				
-				if(area && area.Doodad){
-					
-					if(area.Doodad.MeshType == "Unit" && area.Doodad.PlayerId != humanPlayer.Id){
-						$("*").css("cursor","url(img/attack.gif), auto");
-						
-						if(!selectedUnitIsAiming){
-							var selectedUnitArea = getAreaByUnitPosition(selectedUnit);
-							
-							getAttackableAreasFromUnitRange(selectedUnitArea.Id);
-						}
-					}
-				}
-				else if(selectedUnitIsAiming){
-					var selectedUnitArea = getAreaByUnitPosition(selectedUnit);
-					
-					if(selectedUnit.SpeedRemaining > 0)
-						previousOverColor = 0xA0F092;
-					else previousOverColor = 0xFFFFFF;
-					
-					deselectUsableAreas();
-					
-					getReachableAreasFromUnitRange(selectedUnitArea.Id);
-					selectedUnitIsAiming = false;
+					}	
 				}
 			}
+			
+			ints[0].object.name = "over";
 		}
 	}
 }
@@ -356,19 +335,19 @@ function selectArea(){
 			vector.sub(camera.position).normalize()
 	);
 	
-	var ints = ray.intersectObjects(gameMap.Mesh.getDescendants());
+	var ints = ray.intersectObjects(gameMap.Mesh.children);
 	
 	if(ints.length > 0){			
 		var area = getAreaByAreaMeshUuid(ints[0].object.uuid);
 		
-		if(entityToCreate && area){		
+		if(currentPhase.canProduct == true && entityToCreate && area){		
 			if(area.Mesh.usable != 1){
 				deselectArea();
 			}
 			else{
 				deselectSelectedArea();
 				
-				if(canBuildEntityOnSelectedArea("B",entityToCreate, area)){
+				if(canEntityUseSelectedArea("B",entityToCreate, area)){
 					ints[0].object.material = new THREE.MeshBasicMaterial( { color:0x00ff00, map:entityToCreateTexture } );
 					ints[0].object.name = "selected";
 					
@@ -382,20 +361,24 @@ function selectArea(){
 				}
 			}
 		}
-		else if(selectedUnit && area){
-			if(area.Mesh.usable != 1){
-				deselectArea();
-			}
-			else{	
-				if(canBuildEntityOnSelectedArea("U", selectedUnit, area)){
+		else if(currentPhase.canGiveOrders == true && selectedUnit && area){
+			
+			if( !selectedUnit.Order ){
+				if( area.Doodad && area.Doodad.MeshType == "Unit"){
 					deselectSelectedArea();
-					
-					movePlayerUnitToArea(area);					
+					giveAttackOrderToUnit(area);
 				}
-				else{ 
-					alert("Impossible déplacer l'unité ici !");
+				else {
+					if(canEntityUseSelectedArea("U", selectedUnit, area)){
+						deselectSelectedArea();
+						giveMoveOrderToUnit(area);
+					}
+					else{ 
+						alert("Impossible déplacer l'unité ici !");
+					}
 				}
 			}
+			else alert("Un seul ordre par unité pour le moment !");
 		}
 		else if(!entityToCreate && !selectedUnit && area){
 			deselectSelectedArea();
@@ -427,14 +410,23 @@ function selectArea(){
 						}
 						else if(area.Doodad.MeshType == "Unit"){
 							var doodadtext = area.Doodad.Name+"<br />"+area.Doodad.LifeRemaining+"/"+area.Doodad.Life+" PV<br />Puissance : "+area.Doodad.Power+"<br />"
-							+"Armure : "+area.Doodad.Armor+"<br />Fréquence de Tir : "+area.Doodad.FireFrequency+"<br />Portée : "+area.Doodad.Range+"<br />"+
+							+"Armure : "+area.Doodad.Armor+"<br />Fréquence de Tir : "+area.Doodad.Ammo+"<br />Portée : "+area.Doodad.Range+"<br />"+
 							"Vitesse : "+area.Doodad.SpeedRemaining+" / "+area.Doodad.Speed+"<br />"+
 							"ID Joueur : "+area.Doodad.PlayerId;
 							$("#areatext").html(doodadtext);
 							
-							if(area.Doodad.PlayerId == humanPlayer.Id)
-								selectUnitByAreaId(area.Id);
-							else ints[0].object.material = new THREE.MeshBasicMaterial( { color:0xff0000, map:previousTexture } );
+							if(area.Doodad.PlayerId == humanPlayer.Id){
+								$(".leftHud").css("border-color","#DDDDDD");
+								$(".leftHud .hudTransparentOverlay").css("background-color","#DDDDDD");
+								
+								if(currentPhase.canGiveOrders == true)
+									selectUnitByAreaId(area.Id);
+							}
+							else {
+								ints[0].object.material = new THREE.MeshBasicMaterial( { color:0xff8282, map:previousTexture } );
+								$(".leftHud").css("border-color","#FF8282");
+								$(".leftHud .hudTransparentOverlay").css("background-color","#FF8282");
+							}
 						}
 					}
 					else{
@@ -463,6 +455,7 @@ function deselectArea(){
 	entityToCreateTexture = null;
 	selectedUnit = null;
 	selectedUnitTexture = null;
+	selectedUnitIsAiming = false;
 	
 	$(".rightHud img").removeClass("selected");
 	$(".rightHud img").addClass("notselected");
@@ -534,6 +527,8 @@ function displayUsableAreas(areaIds){
 		
 		area.Mesh.material = new THREE.MeshBasicMaterial({ color:0xA0F092, map: texture });
 		area.Mesh.usable = 1;
+		
+		selectedUnitIsAiming = false;
 	}
 }
 
@@ -555,8 +550,10 @@ function displayUnitRange(areaIds){
 		}
 		else  texture = THREE.ImageUtils.loadTexture(area.Texture); 
 		
-		area.Mesh.material = new THREE.MeshBasicMaterial({ color:0xff1111, map: texture });
+		area.Mesh.material = new THREE.MeshBasicMaterial({ color:0xFF0000, map: texture });
 		area.Mesh.usable = 1;
+		
+		selectedUnitIsAiming = true;
 	}
 }
 
@@ -805,7 +802,7 @@ function constructHUD(){
 	var nextTurnButton = document.createElement('input');
 	$(nextTurnButton).attr("id","nextTurnButton");
 	$(nextTurnButton).attr("type","button");
-	$(nextTurnButton).attr("value","Fin de Tour");
+	$(nextTurnButton).attr("value","Fin de Phase");
 	$(nextTurnButton).attr("onclick","alert('Vous êtes seul, impossible...');");
 	topHudCenter.appendChild(nextTurnButton);
 }
@@ -920,7 +917,7 @@ function selectEntityToCreate(img, entityIdentifier, entity){
 	}
 }
 
-function canBuildEntityOnSelectedArea(entityIdentifier, entity, area){
+function canEntityUseSelectedArea(entityIdentifier, entity, area){
 	if(entityIdentifier == "B" && entity.Type.Name == "DepositBuilding"){
 		if(!area || (area && !area.Doodad) || (area.Doodad && area.Doodad.MeshType != "Deposit"))
 			return false;
@@ -935,7 +932,7 @@ function canBuildEntityOnSelectedArea(entityIdentifier, entity, area){
 		url: "ajax.do",
 		async: false,
 		data: { playerId: humanPlayer.Id, 
-				method: "canBuildEntityOnSelectedArea", 
+				method: "canEntityUseSelectedArea", 
 				entityIdentifier: entityIdentifier,
 				entityType: entity.Type.Name,
 				xzCoord: area.X+";"+area.Z }
@@ -1030,6 +1027,92 @@ function movePlayerUnitToArea(area){
 	else return false;
 }
 
+function giveMoveOrderToUnit(targetArea){
+	var result = $.ajax({
+		url: "ajax.do",
+		async: false,
+		data: { playerId: humanPlayer.Id, 
+			method: "giveMoveOrderToUnit", 
+			unitX : selectedUnit.X,
+			unitZ : selectedUnit.Z,
+			targetAreaId: targetArea.Id
+		}
+	}).done(function(msg){
+		return msg;
+	}).responseText;
+	
+	if(result != "KO"){
+		var cuttedResult = result.split(";");
+		
+		selectedUnit = $.parseJSON(cuttedResult[0]);
+		humanPlayer = $.parseJSON(cuttedResult[1]);	
+		
+		var particleTexture = THREE.ImageUtils.loadTexture( 'img/spark.png' );
+		var spriteMaterial;
+		
+		spriteMaterial = new THREE.SpriteMaterial( { map: particleTexture, useScreenCoordinates: false, color: 0x00ff00 } );
+		
+	    var sprite = new THREE.Sprite( spriteMaterial );
+		sprite.scale.set( 1, 1, 1);
+		sprite.position.set(selectedUnit.X, selectedUnit.Y + 0.5, selectedUnit.Z);
+		scene.add(sprite);
+		
+		sprite = new THREE.Sprite( spriteMaterial );
+		sprite.scale.set( 1, 1, 1);
+		sprite.position.set(targetArea.X, targetArea.Y + 0.5, targetArea.Z);	
+		scene.add(sprite);
+		
+		deselectArea();
+		
+		return true;
+	}
+	
+	return false;
+}
+
+function giveAttackOrderToUnit(targetArea){
+	var result = $.ajax({
+		url: "ajax.do",
+		async: false,
+		data: { playerId: humanPlayer.Id, 
+			method: "giveAttackOrderToUnit", 
+			unitX : selectedUnit.X,
+			unitZ : selectedUnit.Z,
+			targetAreaId: targetArea.Id
+		}
+	}).done(function(msg){
+		return msg;
+	}).responseText;
+	
+	if(result != "KO"){
+		var cuttedResult = result.split(";");
+		
+		selectedUnit = $.parseJSON(cuttedResult[0]);
+		humanPlayer = $.parseJSON(cuttedResult[1]);	
+		
+		var particleTexture = THREE.ImageUtils.loadTexture( 'img/spark.png' );
+		var spriteMaterial;
+		
+		spriteMaterial = new THREE.SpriteMaterial( { map: particleTexture, useScreenCoordinates: false, color: 0xff0000 } );	
+		
+	    var sprite = new THREE.Sprite( spriteMaterial );
+		sprite.scale.set( 1, 1, 1);
+		sprite.position.set(selectedUnit.X, selectedUnit.Y + 0.5, selectedUnit.Z);
+		scene.add(sprite);
+		
+		sprite = new THREE.Sprite( spriteMaterial );
+		sprite.scale.set( 1, 1, 1);
+		sprite.position.set(targetArea.X, targetArea.Y + 0.5, targetArea.Z);	
+		scene.add(sprite);
+		
+		deselectArea();
+		
+		return true;
+	}
+	
+	return false;
+}
+
 function getBuildableAreasFromBuildingsRange(){
 	var result = $.ajax({
 		url: "ajax.do",
@@ -1113,7 +1196,6 @@ function getAttackableAreasFromUnitRange(areaId){
 		deselectUsableAreas();
 		
 		displayUnitRange(areaIds);
-		selectedUnitIsAiming = true;
 	}
 	else return false;
 }

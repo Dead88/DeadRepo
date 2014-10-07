@@ -471,7 +471,7 @@ public class MapFactory
 			{
 				getWeightedNeighbours( request, playerId, area, weightedNeighbours, weight, unit );
 			}
-			else if(AjaxFactory.canBuildEntityOnSelectedArea(request, playerId, "U", unit, area))
+			else if(AjaxFactory.canEntityUseSelectedArea(request, playerId, "U", unit, area))
 			{
 				area.setDistance( weight );
 				weightedNeighbours.put( area.getId(),  area );

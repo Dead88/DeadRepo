@@ -64,15 +64,15 @@ public class AjaxFactory extends Action
 					Constants.sendResponse(response, "OK");
 				else Constants.sendResponse(response, "KO");
 			}
-			else if("canBuildEntityOnSelectedArea".equals(method))
+			else if("canEntityUseSelectedArea".equals(method))
 			{
 				String entityIdentifier = Constants.getParameter(request, "entityIdentifier");
 				String entityType = Constants.getParameter(request, "entityType");
 				String xzCoord = Constants.getParameter(request, "xzCoord");
 				
-				boolean canBuildEntityOnSelectedArea = canBuildEntityOnSelectedArea(request, playerId, entityIdentifier, entityType, xzCoord);
+				boolean canEntityUseSelectedArea = canEntityUseSelectedArea(request, playerId, entityIdentifier, entityType, xzCoord);
 				
-				if(canBuildEntityOnSelectedArea)
+				if(canEntityUseSelectedArea)
 					Constants.sendResponse(response, "OK");
 				else Constants.sendResponse(response, "KO");
 			}
@@ -127,6 +127,42 @@ public class AjaxFactory extends Action
 					String returnObjects = unitAreaId
 										+";"+XmlFactory.getJSONStringFromObject(
 												PaperSession.getGameMapSession(request).getAreas().get(destinationAreaId).getDoodad())
+										+";"+XmlFactory.getJSONStringFromObject(
+												Constants.getPlayerById(request, playerId));
+					
+					Constants.sendResponse(response, returnObjects);
+				}
+				else Constants.sendResponse(response, "KO");	
+			}
+			else if("giveMoveOrderToUnit".equals(method))
+			{
+				int unitX = Integer.parseInt(Constants.getParameter(request, "unitX"));
+				int unitZ = Integer.parseInt(Constants.getParameter(request, "unitZ"));
+				int targetAreaId = Integer.parseInt(Constants.getParameter(request, "targetAreaId"));
+				
+				Unit unit = giveMoveOrderToUnit(request, playerId, unitX, unitZ, targetAreaId);
+				
+				if(unit != null)
+				{
+					String returnObjects = XmlFactory.getJSONStringFromObject(unit)
+										+";"+XmlFactory.getJSONStringFromObject(
+												Constants.getPlayerById(request, playerId));
+					
+					Constants.sendResponse(response, returnObjects);
+				}
+				else Constants.sendResponse(response, "KO");	
+			}
+			else if("giveAttackOrderToUnit".equals(method))
+			{
+				int unitX = Integer.parseInt(Constants.getParameter(request, "unitX"));
+				int unitZ = Integer.parseInt(Constants.getParameter(request, "unitZ"));
+				int targetAreaId = Integer.parseInt(Constants.getParameter(request, "targetAreaId"));
+				
+				Unit unit = giveAttackOrderToUnit(request, playerId, unitX, unitZ, targetAreaId);
+				
+				if(unit != null)
+				{
+					String returnObjects = XmlFactory.getJSONStringFromObject(unit)
 										+";"+XmlFactory.getJSONStringFromObject(
 												Constants.getPlayerById(request, playerId));
 					
@@ -269,7 +305,7 @@ public class AjaxFactory extends Action
 		}
 	}
 	
-	public static boolean canBuildEntityOnSelectedArea(HttpServletRequest request, int playerId, String entityIdentifier, 
+	public static boolean canEntityUseSelectedArea(HttpServletRequest request, int playerId, String entityIdentifier, 
 														String entityType, String xzCoord) throws Exception
 	{
 		boolean b = false;
@@ -310,7 +346,7 @@ public class AjaxFactory extends Action
 		return b;
 	}
 	
-	public static boolean canBuildEntityOnSelectedArea(HttpServletRequest request, int playerId, String entityIdentifier, Object entity, Area area) throws Exception
+	public static boolean canEntityUseSelectedArea(HttpServletRequest request, int playerId, String entityIdentifier, Object entity, Area area) throws Exception
 	{
 		boolean b = false;
 		Race playerRace = Constants.getPlayerById(request, playerId).getPlayerRace();
@@ -400,7 +436,7 @@ public class AjaxFactory extends Action
 			if(area == null) return 0;
 			
 			if(haveEnoughRessource(request, playerId, referenceBuilding.getPaperCost(), referenceBuilding.getFictiveCost())
-			&& canBuildEntityOnSelectedArea(request, playerId, "B", referenceBuilding, area))
+			&& canEntityUseSelectedArea(request, playerId, "B", referenceBuilding, area))
 			{	
 				Building buildingToAdd = new Building(referenceBuilding.getId(), referenceBuilding.getName(), referenceBuilding.getFile(), referenceBuilding.getLevel(), 
 												referenceBuilding.getTexture(), referenceBuilding.getType(), referenceBuilding.getBuildingTypeId(), 
@@ -502,35 +538,35 @@ public class AjaxFactory extends Action
 				if(baseAreaArrayIds.get(m) == 0) continue;
 				baseAreaArrayId = baseAreaArrayIds.get(m);
 				
-				if(gameMap.getAreas().get(baseAreaArrayId - 1).getDoodad()==null && canBuildEntityOnSelectedArea(request, playerId, "U", referenceUnit, gameMap.getAreas().get(baseAreaArrayId - 1))){
+				if(gameMap.getAreas().get(baseAreaArrayId - 1).getDoodad()==null && canEntityUseSelectedArea(request, playerId, "U", referenceUnit, gameMap.getAreas().get(baseAreaArrayId - 1))){
 					nearestAvailableArea = gameMap.getAreas().get(baseAreaArrayId - 1);
 					nearestAvailableAreaArrayId = baseAreaArrayId - 1;
 				}
-				else if(gameMap.getAreas().get(baseAreaArrayId + 1).getDoodad()==null && canBuildEntityOnSelectedArea(request, playerId, "U", referenceUnit, gameMap.getAreas().get(baseAreaArrayId + 1))){
+				else if(gameMap.getAreas().get(baseAreaArrayId + 1).getDoodad()==null && canEntityUseSelectedArea(request, playerId, "U", referenceUnit, gameMap.getAreas().get(baseAreaArrayId + 1))){
 					nearestAvailableArea = gameMap.getAreas().get(baseAreaArrayId + 1);
 					nearestAvailableAreaArrayId = baseAreaArrayId + 1;
 				}
-				else if(gameMap.getAreas().get(baseAreaArrayId - gameMap.getLength()).getDoodad()==null && canBuildEntityOnSelectedArea(request, playerId, "U", referenceUnit, gameMap.getAreas().get(baseAreaArrayId - gameMap.getLength()))){
+				else if(gameMap.getAreas().get(baseAreaArrayId - gameMap.getLength()).getDoodad()==null && canEntityUseSelectedArea(request, playerId, "U", referenceUnit, gameMap.getAreas().get(baseAreaArrayId - gameMap.getLength()))){
 					nearestAvailableArea = gameMap.getAreas().get(baseAreaArrayId - gameMap.getLength());
 					nearestAvailableAreaArrayId = baseAreaArrayId - gameMap.getLength();
 				}
-				else if(gameMap.getAreas().get(baseAreaArrayId + gameMap.getLength()).getDoodad()==null && canBuildEntityOnSelectedArea(request, playerId, "U", referenceUnit, gameMap.getAreas().get(baseAreaArrayId + gameMap.getLength()))){
+				else if(gameMap.getAreas().get(baseAreaArrayId + gameMap.getLength()).getDoodad()==null && canEntityUseSelectedArea(request, playerId, "U", referenceUnit, gameMap.getAreas().get(baseAreaArrayId + gameMap.getLength()))){
 					nearestAvailableArea = gameMap.getAreas().get(baseAreaArrayId + gameMap.getLength());
 					nearestAvailableAreaArrayId = baseAreaArrayId + gameMap.getLength();
 				}
-				else if(gameMap.getAreas().get((baseAreaArrayId - 1 - gameMap.getLength())).getDoodad()==null && canBuildEntityOnSelectedArea(request, playerId, "U", referenceUnit, gameMap.getAreas().get(baseAreaArrayId - 1 - gameMap.getLength()))){
+				else if(gameMap.getAreas().get((baseAreaArrayId - 1 - gameMap.getLength())).getDoodad()==null && canEntityUseSelectedArea(request, playerId, "U", referenceUnit, gameMap.getAreas().get(baseAreaArrayId - 1 - gameMap.getLength()))){
 					nearestAvailableArea = gameMap.getAreas().get((baseAreaArrayId - 1 - gameMap.getLength()));
 					nearestAvailableAreaArrayId = baseAreaArrayId - 1 - gameMap.getLength();
 				}
-				else if(gameMap.getAreas().get((baseAreaArrayId - 1 + gameMap.getLength())).getDoodad()==null && canBuildEntityOnSelectedArea(request, playerId, "U", referenceUnit, gameMap.getAreas().get(baseAreaArrayId - 1 + gameMap.getLength()))){
+				else if(gameMap.getAreas().get((baseAreaArrayId - 1 + gameMap.getLength())).getDoodad()==null && canEntityUseSelectedArea(request, playerId, "U", referenceUnit, gameMap.getAreas().get(baseAreaArrayId - 1 + gameMap.getLength()))){
 					nearestAvailableArea = gameMap.getAreas().get((baseAreaArrayId - 1 + gameMap.getLength()));
 					nearestAvailableAreaArrayId = baseAreaArrayId - 1 + gameMap.getLength();
 				}
-				else if(gameMap.getAreas().get((baseAreaArrayId + 1 - gameMap.getLength())).getDoodad()==null && canBuildEntityOnSelectedArea(request, playerId, "U", referenceUnit, gameMap.getAreas().get(baseAreaArrayId + 1 - gameMap.getLength()))){
+				else if(gameMap.getAreas().get((baseAreaArrayId + 1 - gameMap.getLength())).getDoodad()==null && canEntityUseSelectedArea(request, playerId, "U", referenceUnit, gameMap.getAreas().get(baseAreaArrayId + 1 - gameMap.getLength()))){
 					nearestAvailableArea = gameMap.getAreas().get((baseAreaArrayId + 1 - gameMap.getLength()));
 					nearestAvailableAreaArrayId = baseAreaArrayId + 1 - gameMap.getLength();
 				}
-				else if(gameMap.getAreas().get((baseAreaArrayId + 1 + gameMap.getLength())).getDoodad()==null && canBuildEntityOnSelectedArea(request, playerId, "U", referenceUnit, gameMap.getAreas().get(baseAreaArrayId + 1 + gameMap.getLength()))){
+				else if(gameMap.getAreas().get((baseAreaArrayId + 1 + gameMap.getLength())).getDoodad()==null && canEntityUseSelectedArea(request, playerId, "U", referenceUnit, gameMap.getAreas().get(baseAreaArrayId + 1 + gameMap.getLength()))){
 					nearestAvailableArea = gameMap.getAreas().get((baseAreaArrayId + 1 + gameMap.getLength()));
 					nearestAvailableAreaArrayId = baseAreaArrayId + 1 + gameMap.getLength();
 				}
@@ -545,7 +581,7 @@ public class AjaxFactory extends Action
 										referenceUnit.getLevel(), referenceUnit.getTexture(), referenceUnit.getType(), 
 										referenceUnit.getUnitTypeId(), referenceUnit.getPaperCost(), referenceUnit.getFictiveCost(), 
 										referenceUnit.getRequiredBuildingIds(), referenceUnit.getLife(), referenceUnit.getPower(), 
-										referenceUnit.getArmor(), referenceUnit.getSpeed(), referenceUnit.getRange(), referenceUnit.getFireFrequency(), 
+										referenceUnit.getArmor(), referenceUnit.getSpeed(), referenceUnit.getRange(), referenceUnit.getAmmo(), 
 										nearestAvailableArea.getX(), nearestAvailableArea.getY(), nearestAvailableArea.getZ(), playerId, null);
 				
 				player.getUnits().add(unitToAdd);
@@ -619,7 +655,7 @@ public class AjaxFactory extends Action
 			
 			if(destinationArea == null || selectedUnitArea == null) return "";
 			
-			if(canBuildEntityOnSelectedArea(request, playerId, "U", selectedUnit, destinationArea)
+			if(canEntityUseSelectedArea(request, playerId, "U", selectedUnit, destinationArea)
 			&& selectedUnit.getSpeedRemaining() > 0)
 			{
 				//TODO : use papersession
@@ -635,14 +671,6 @@ public class AjaxFactory extends Action
 						break;
 					}
 				}
-				
-				selectedUnit.setOrder(
-					new Order(playerId, 
-							selectedUnit.getId(), 
-							Order.OrderType.Move, 
-							new Vertex(selectedUnit.getX(), selectedUnit.getY(), selectedUnit.getZ()), 
-							new Vertex(destinationArea.getX(), destinationArea.getY(), destinationArea.getZ()))
-				);
 				
 				selectedUnit.setX(destinationArea.getX());
 				selectedUnit.setY(destinationArea.getY());
@@ -672,6 +700,165 @@ public class AjaxFactory extends Action
 		}
 		if(uMoved) return selectedUnitArea.getId()+"";
 		else return "";
+	}
+	
+	public static Unit giveMoveOrderToUnit(HttpServletRequest request, int playerId, int unitX, int unitZ, int targetAreaId) throws Exception
+	{
+		ArrayList<Player> players = null;
+		GameMap gameMap = null;
+		
+		Player player = null;
+		int playerArrayId = 0;
+		Unit selectedUnit = null;
+		int selectedUnitArrayId = 0;
+		Area targetArea = null;
+		
+		try
+		{
+			players = PaperSession.getGamePlayersSession(request);
+			gameMap = PaperSession.getGameMapSession(request);
+			
+			player = Constants.getPlayerById(request, playerId);
+			
+			if(player == null) return null;
+			
+			for(int i=0;i<player.getUnits().size();i++)
+			{
+				if(player.getUnits().get(i).getX() == unitX
+				&& player.getUnits().get(i).getZ() == unitZ)
+				{
+					selectedUnit = player.getUnits().get(i);
+					selectedUnitArrayId = i;
+					break;
+				}
+			}
+			
+			if(selectedUnit == null) return null;
+			
+			targetArea = gameMap.getAreas().get(targetAreaId);
+			
+			if(targetArea == null) return null;
+			
+			if(canEntityUseSelectedArea(request, playerId, "U", selectedUnit, targetArea)
+			&& selectedUnit.getSpeedRemaining() > 0)
+			{
+				selectedUnit.setOrder(
+					new Order(playerId, 
+							selectedUnit.getId(), 
+							Order.OrderType.Move, 
+							new Vertex(selectedUnit.getX(), selectedUnit.getY(), selectedUnit.getZ()), 
+							new Vertex(targetArea.getX(), targetArea.getY(), targetArea.getZ()))
+				);
+				
+				player.getUnits().set(selectedUnitArrayId, selectedUnit);	
+				players.set(playerArrayId, player);
+				
+				PaperSession.setGamePlayersSession(request, players);
+				PaperSession.setGameMapSession(request, gameMap);
+			}
+		}
+		finally
+		{
+			players = null;
+			gameMap = null;
+		}
+		return selectedUnit;
+	}
+	
+	public static Unit giveAttackOrderToUnit(HttpServletRequest request, int playerId, int unitX, int unitZ, int targetAreaId) throws Exception
+	{
+		ArrayList<Player> players = null;
+		GameMap gameMap = null;
+		
+		Player player = null;
+		int playerArrayId = 0;
+		
+		Unit selectedUnit = null;
+		int selectedUnitArrayId = 0;
+		Area selectedUnitArea = null;
+		
+		Area targetArea = null;
+		Unit enemyUnit = null;
+		
+		boolean attackConfirmed = false;
+		
+		try
+		{
+			players = PaperSession.getGamePlayersSession(request);
+			gameMap = PaperSession.getGameMapSession(request);
+			
+			player = Constants.getPlayerById(request, playerId);
+			if(player == null) return null;
+			
+			for(int i=0;i<player.getUnits().size();i++)
+			{
+				if(player.getUnits().get(i).getX() == unitX
+				&& player.getUnits().get(i).getZ() == unitZ)
+				{
+					selectedUnit = player.getUnits().get(i);
+					selectedUnitArrayId = i;
+					break;
+				}
+			}	
+			if(selectedUnit == null || (selectedUnit != null && selectedUnit.getAmmoRemaining() == 0 ) ) return null;
+			
+			targetArea = gameMap.getAreas().get(targetAreaId);
+			if(targetArea == null) return null;
+			
+			enemyUnit = (Unit) targetArea.getDoodad();
+			
+			for(int j=0;j<gameMap.getAreas().size();j++)
+			{
+				if(gameMap.getAreas().get(j).getX() == selectedUnit.getX() 
+				&& gameMap.getAreas().get(j).getZ() == selectedUnit.getZ())
+				{
+					selectedUnitArea = gameMap.getAreas().get(j);
+					break;
+				}
+			}
+			
+			if(selectedUnitArea == null) return null;
+			
+			String attackableAreasFromUnitRange = getAttackableAreasFromUnitRange(request, playerId, selectedUnitArea.getId());
+			String[] attackableAreasIds = attackableAreasFromUnitRange.split(";");
+			
+			for(int i=0; i < attackableAreasIds.length; i++)
+			{
+				int attackableAreaId = Integer.parseInt( attackableAreasIds[i] );
+				Area attackableArea = gameMap.getAreas().get( attackableAreaId );
+				
+				if(attackableArea.getX() == enemyUnit.getX()
+				&& attackableArea.getZ() == enemyUnit.getZ())
+				{
+					attackConfirmed = true;
+					break;
+				}
+			}
+			
+			if(attackConfirmed)
+			{
+				selectedUnit.setOrder(
+						new Order(playerId, 
+								selectedUnit.getId(), 
+								Order.OrderType.Attack, 
+								new Vertex(selectedUnit.getX(), selectedUnit.getY(), selectedUnit.getZ()), 
+								new Vertex(targetArea.getX(), targetArea.getY(), targetArea.getZ()))
+					);
+					
+				player.getUnits().set(selectedUnitArrayId, selectedUnit);	
+				players.set(playerArrayId, player);
+				
+				PaperSession.setGamePlayersSession(request, players);
+				PaperSession.setGameMapSession(request, gameMap);
+			}
+			else return null;
+		}
+		finally
+		{
+			players = null;
+			gameMap = null;
+		}
+		return selectedUnit;
 	}
 	
 	public static String getBuildableAreasFromBuildingsRange(HttpServletRequest request, int playerId) throws Exception
@@ -835,7 +1022,6 @@ public class AjaxFactory extends Action
 					(area.getZ() >= (centerArea.getZ() - unit.getRange()) 
 					&& area.getZ() <= (centerArea.getZ() + unit.getRange()))
 				&& !area.getAreaType().getType().equals(AreaType.SEA_AREA)
-				&& area.getDoodad() == null
 				)
 				{
 					if("".equals(areaIds))

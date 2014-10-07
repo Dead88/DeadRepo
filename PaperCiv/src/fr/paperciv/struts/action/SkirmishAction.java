@@ -85,13 +85,13 @@ public class SkirmishAction extends Action
 		
 			Unit randomUnit = enemyRace.getUnits().get(Constants.getRandomBetween(0, enemyRace.getUnits().size()-1));
 		
-			if(AjaxFactory.canBuildEntityOnSelectedArea(request, player.getId(), "U", randomUnit, randomArea))
+			if(AjaxFactory.canEntityUseSelectedArea(request, player.getId(), "U", randomUnit, randomArea))
 			{
 				Unit unitToAdd = new Unit(randomUnit.getId(), randomUnit.getName(), randomUnit.getFile(), 
 						randomUnit.getLevel(), randomUnit.getTexture(), randomUnit.getType(), 
 						randomUnit.getUnitTypeId(), randomUnit.getPaperCost(), randomUnit.getFictiveCost(), 
 						randomUnit.getRequiredBuildingIds(), randomUnit.getLife(), randomUnit.getPower(), 
-						randomUnit.getArmor(), randomUnit.getSpeed(), randomUnit.getRange(), randomUnit.getFireFrequency(), 
+						randomUnit.getArmor(), randomUnit.getSpeed(), randomUnit.getRange(), randomUnit.getAmmo(), 
 						randomArea.getX(), randomArea.getY(), randomArea.getZ(), playerId, null);
 				
 				player.getUnits().add( unitToAdd );

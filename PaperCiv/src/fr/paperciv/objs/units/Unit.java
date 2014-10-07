@@ -23,7 +23,8 @@ public class Unit extends Mesh
 	private int Speed;
 	private int SpeedRemaining;
 	private int Range;
-	private int FireFrequency;
+	private int Ammo;
+	private int AmmoRemaining;
 	
 	private int PlayerId;
 	private Order Order;
@@ -79,8 +80,11 @@ public class Unit extends Mesh
 	public int getRange() {return Range;}
 	public void setRange(int range) {Range = range;}
 	
-	public int getFireFrequency() {return FireFrequency;}
-	public void setFireFrequency(int fireFrequency) {FireFrequency = fireFrequency;}
+	public int getAmmo() {return Ammo;}
+	public void setAmmo(int ammo) {Ammo = ammo;}
+	
+	public int getAmmoRemaining() {return AmmoRemaining;}
+	public void setAmmoRemaining(int ammoRemaining) {AmmoRemaining = ammoRemaining;}
 	
 	public int getPlayerId() {return PlayerId;}
 	public void setPlayerId(int playerId) {PlayerId = playerId;}
@@ -96,7 +100,7 @@ public class Unit extends Mesh
 	public Unit(int id, String name, String file, int level, String texture,
 			UnitType type, int unitTypeId, int paperCost, int fictiveCost,
 			int[] requiredBuildingIds, int life, int power, int armor,
-			int speed, int range, int fireFrequency, int x, double y, int z, int playerId,
+			int speed, int range, int ammo, int x, double y, int z, int playerId,
 			Order order) {
 		super("Unit", x, y, z, null);
 		Id = id;
@@ -116,7 +120,8 @@ public class Unit extends Mesh
 		Speed = speed;
 		SpeedRemaining = speed;
 		Range = range;
-		FireFrequency = fireFrequency;
+		Ammo = ammo;
+		AmmoRemaining = ammo;
 		PlayerId = playerId;
 		Order = order;
 	}
