@@ -13,7 +13,7 @@ import fr.paperciv.objs.Player;
 
 public class Constants 
 {
-	public static final String PARAM_DIR 				= "H:\\PARAM_SITE\\PaperCiv\\";
+	public static final String PARAM_DIR 				= "W:\\CFG\\PaperCiv\\";
 	public static final String GAME_PROPERTIES			= PARAM_DIR+"game.properties";
 	public static final String USERS_FILE 				= PARAM_DIR+"users.xml";
 	public static final String MAPPING_FILE 			= PARAM_DIR+"mapping.xml";

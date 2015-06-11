@@ -410,7 +410,7 @@ function selectArea(){
 						}
 						else if(area.Doodad.MeshType == "Unit"){
 							var doodadtext = area.Doodad.Name+"<br />"+area.Doodad.LifeRemaining+"/"+area.Doodad.Life+" PV<br />Puissance : "+area.Doodad.Power+"<br />"
-							+"Armure : "+area.Doodad.Armor+"<br />Fréquence de Tir : "+area.Doodad.Ammo+"<br />Portée : "+area.Doodad.Range+"<br />"+
+							+"Armure : "+area.Doodad.Armor+"<br />Munitions : "+area.Doodad.Ammo+"/"+area.Doodad.AmmoRemaining+"<br />Portée : "+area.Doodad.Range+"<br />"+
 							"Vitesse : "+area.Doodad.SpeedRemaining+" / "+area.Doodad.Speed+"<br />"+
 							"ID Joueur : "+area.Doodad.PlayerId;
 							$("#areatext").html(doodadtext);

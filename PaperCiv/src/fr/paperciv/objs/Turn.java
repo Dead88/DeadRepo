@@ -5,7 +5,7 @@ public class Turn
 	public enum PhaseNames {
 		Phase_Production,
 		Phase_Ordres,
-		Phase_Résolution_des_Ordres,
+		Phase_Resolution_des_Ordres,
 		Phase_Collecte_des_ressources;
 	}
 	
