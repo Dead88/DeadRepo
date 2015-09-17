@@ -25,10 +25,14 @@ public class MainMenuPanel extends JPanel {
 	private Image backgroundImage;
 	
 	public MainMenuPanel( final Window _window ) {
-		
 		this.window = _window;
 		this.setLayout( new BorderLayout() );
+		this.backgroundImage = Constants.getTexture( ".//img//menuBkg.jpg" ).getImage();
 		
+		buildPanel();
+	}
+	
+	public void buildPanel() {
 		JButton newGameButton = new JButton( NEW_GAME_BUTTON_LABEL );
 		newGameButton.addActionListener( new ActionListener() {
 			@Override
@@ -80,7 +84,6 @@ public class MainMenuPanel extends JPanel {
 		buttonsPanel.add( newMultiGameButton );
 		buttonsPanel.add( joinMultiGameButton );
 		
-		this.backgroundImage = Constants.getTexture( ".//img//menuBkg.jpg" ).getImage();
 		this.add( buttonsPanel, BorderLayout.SOUTH);
 	}
 	

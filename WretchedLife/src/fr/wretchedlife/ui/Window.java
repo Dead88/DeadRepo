@@ -40,7 +40,7 @@ public class Window extends JFrame
 		this.setLayout( new BorderLayout() );
 		this.addWindowListener( new WindowEventListener( this ) );
 		
-		SoundFactory.playAmbientSound();
+		//SoundFactory.playAmbientSound();
 	}
 
 	public void displayMainMenu() {
@@ -93,6 +93,10 @@ public class Window extends JFrame
 		
 		this.currentMenuPanel = gameMenuPanel;
 		this.currentPanel = gamePanel;
+	}
+	
+	public void goToNewGameMenu() {
+		
 	}
 	
 	public void startNewMultiplayerGame() throws Exception {
@@ -165,7 +169,7 @@ public class Window extends JFrame
 	}
 	
 	public void render() {
-		this.getContentPane().revalidate();	
+		this.getContentPane().validate();	
 		this.repaint();
 		
 		if( currentPanel != null && currentPanel instanceof GamePanel ) {

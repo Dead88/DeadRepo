@@ -7,13 +7,10 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
 
-import javax.swing.JOptionPane;
-
 import com.google.gson.Gson;
 
 import fr.wretchedlife.Constants;
 import fr.wretchedlife.core.SinglePlayerGame;
-import fr.wretchedlife.map.GameMap;
 
 public class GameServer extends SinglePlayerGame implements Runnable {
 

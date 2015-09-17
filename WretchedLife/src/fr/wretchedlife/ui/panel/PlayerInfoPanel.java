@@ -98,7 +98,7 @@ public class PlayerInfoPanel extends JPanel {
 		mainMenuButton.addActionListener( new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				int dialogResult = JOptionPane.showConfirmDialog (null, "Voulez-vous vraimment quitter la partie ?","Attention", 0);
+				int dialogResult = JOptionPane.showConfirmDialog( window.getCurrentPanel(), "Voulez-vous vraimment quitter la partie ?","Attention", 0);
 				if(dialogResult == JOptionPane.YES_OPTION){
 					window.displayMainMenu();
 				}

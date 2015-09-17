@@ -132,7 +132,7 @@ public class GameMenuPanel extends JPanel {
 				public void actionPerformed(ActionEvent e) {
 					
 					if( !player.hasEnoughSkillToEquipItem( item ) ) {
-						JOptionPane.showMessageDialog( null , "Vous ne pouvez pas porter cet objet !");
+						JOptionPane.showMessageDialog( window.getCurrentPanel() , "Vous ne pouvez pas porter cet objet !");
 						return;
 					}
 					
@@ -141,7 +141,7 @@ public class GameMenuPanel extends JPanel {
 					if( item instanceof WeaponItem ) {
 						
 						if( player.getLeftHandWeaponItem() != null && player.getRightHandWeaponItem() != null) {
-							JOptionPane.showMessageDialog( null , "Vos deux mains tiennent déjà quelque chose !");
+							JOptionPane.showMessageDialog( window.getCurrentPanel() , "Vos deux mains tiennent déjà quelque chose !");
 							return;
 						}
 						if( player.getLeftHandWeaponItem() == null )
@@ -157,14 +157,14 @@ public class GameMenuPanel extends JPanel {
 						ArmorItem armorItem = (ArmorItem) item;
 						if( armorItem.getType() == ArmorItem.Type.HEAD) {
 							if( player.getHeadArmor() != null) {
-								JOptionPane.showMessageDialog( null , "Vous portez déjà quelque chose sur la tête !");
+								JOptionPane.showMessageDialog( window.getCurrentPanel() , "Vous portez déjà quelque chose sur la tête !");
 								return;
 							}
 							player.setHeadArmor( armorItem );
 						}
 						else if( armorItem.getType() == ArmorItem.Type.SHOULDER) {
 							if( player.getLeftShoulderArmor() != null &&  player.getRightShoulderArmor() != null ) {
-								JOptionPane.showMessageDialog( null , "Vous portez déjà quelque chose les deux épaules !");
+								JOptionPane.showMessageDialog( window.getCurrentPanel() , "Vous portez déjà quelque chose les deux épaules !");
 								return;
 							}
 							if(player.getLeftShoulderArmor() == null)
@@ -174,7 +174,7 @@ public class GameMenuPanel extends JPanel {
 						}
 						else if( armorItem.getType() == ArmorItem.Type.ARM) {
 							if( player.getArmArmor() != null ) {
-								JOptionPane.showMessageDialog( null , "Vous portez déjà quelque chose sur les bras !");
+								JOptionPane.showMessageDialog( window.getCurrentPanel() , "Vous portez déjà quelque chose sur les bras !");
 								return;
 							}
 							if(player.getArmArmor() == null)
@@ -182,35 +182,35 @@ public class GameMenuPanel extends JPanel {
 						}
 						else if( armorItem.getType() == ArmorItem.Type.HANDS) {
 							if( player.getHandsArmor() != null) {
-								JOptionPane.showMessageDialog( null , "Vous portez déjà des gants !");
+								JOptionPane.showMessageDialog( window.getCurrentPanel() , "Vous portez déjà des gants !");
 								return;
 							}
 							player.setHandsArmor( armorItem );
 						}
 						else if( armorItem.getType() == ArmorItem.Type.CHEST) {
 							if( player.getChestArmor() != null) {
-								JOptionPane.showMessageDialog( null , "Vous portez déjà quelque chose sur le torse !");
+								JOptionPane.showMessageDialog( window.getCurrentPanel() , "Vous portez déjà quelque chose sur le torse !");
 								return;
 							}
 							player.setChestArmor( armorItem );
 						}
 						else if( armorItem.getType() == ArmorItem.Type.BELT) {
 							if( player.getBeltArmor() != null) {
-								JOptionPane.showMessageDialog( null , "Vous portez déjà quelque chose à la ceinture !");
+								JOptionPane.showMessageDialog( window.getCurrentPanel() , "Vous portez déjà quelque chose à la ceinture !");
 								return;
 							}
 							player.setBeltArmor( armorItem );						
 						}
 						else if( armorItem.getType() == ArmorItem.Type.LEGS) {
 							if( player.getLegsArmor() != null) {
-								JOptionPane.showMessageDialog( null , "Vous portez déjà quelque chose sur les jambes !");
+								JOptionPane.showMessageDialog( window.getCurrentPanel() , "Vous portez déjà quelque chose sur les jambes !");
 								return;
 							}
 							player.setLegsArmor( armorItem );
 						}
 						else if( armorItem.getType() == ArmorItem.Type.FEET) {
 							if( player.getFeetArmor() != null) {
-								JOptionPane.showMessageDialog( null , "Vous portez déjà quelque chose aux pieds !");
+								JOptionPane.showMessageDialog( window.getCurrentPanel() , "Vous portez déjà quelque chose aux pieds !");
 								return;
 							}
 							player.setFeetArmor( armorItem );
@@ -241,7 +241,7 @@ public class GameMenuPanel extends JPanel {
 						_this.clearInfoPanel();
 					}
 					else {
-						JOptionPane.showMessageDialog( null , "Vous ne pouvez pas jeter ça ici !");
+						JOptionPane.showMessageDialog( window.getCurrentPanel() , "Vous ne pouvez pas jeter ça ici !");
 						return;
 					}
 				}

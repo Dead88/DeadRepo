@@ -157,7 +157,7 @@ public class GamePanel extends JPanel {
 								if(destinationArea.getItem() != null) {
 									if(player.getInventory().size() == player.getInventoryMaxSize()
 									|| player.getTransportedWeight() + destinationArea.getItem().getWeight() > player.getTransportableWeight()) {
-										JOptionPane.showMessageDialog( null , "Vous ne pouvez pas ramasser cet objet !");
+										JOptionPane.showMessageDialog( window.getCurrentPanel() , "Vous ne pouvez pas ramasser cet objet !");
 									}
 									else {
 										SoundFactory.playSound( SoundFactory.storeItemSoundFilePath );
@@ -445,7 +445,7 @@ public class GamePanel extends JPanel {
 	}
 	
 	public void gameOver() {
-		JOptionPane.showMessageDialog( null , "GAME OVER !");
+		JOptionPane.showMessageDialog( window.getCurrentPanel() , "GAME OVER !");
 		window.displayMainMenu();
 	}
 }
