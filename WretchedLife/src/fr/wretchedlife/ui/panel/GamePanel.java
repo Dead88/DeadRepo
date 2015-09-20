@@ -2,11 +2,7 @@ package fr.wretchedlife.ui.panel;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
 
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -15,11 +11,13 @@ import fr.wretchedlife.Constants;
 import fr.wretchedlife.core.SinglePlayerGame;
 import fr.wretchedlife.entity.ext.Enemy;
 import fr.wretchedlife.entity.ext.Player;
-import fr.wretchedlife.entity.ext.RegionEntrance;
 import fr.wretchedlife.factory.SoundFactory;
 import fr.wretchedlife.map.Area;
 import fr.wretchedlife.map.GameMap;
 import fr.wretchedlife.ui.Window;
+import fr.wretchedlife.ui.utils.KeyEventListener;
+import fr.wretchedlife.ui.utils.MouseEventListener;
+import fr.wretchedlife.ui.utils.MouseMotionEventListener;
 
 public class GamePanel extends JPanel {
 	
@@ -51,130 +49,9 @@ public class GamePanel extends JPanel {
 
 		refreshVisibleAreas();
 		
-		this.addMouseListener( new MouseListener() {
-			@Override
-			public void mouseReleased(MouseEvent e) {
-			}
-			@Override
-			public void mousePressed(MouseEvent e) {
-				if(e.getButton() == 1)
-					selectArea( e );
-				else if(e.getButton() == 3)
-					deselectArea();
-			}
-			@Override
-			public void mouseExited(MouseEvent e) {
-			}
-			@Override
-			public void mouseEntered(MouseEvent e) {
-			}
-			@Override
-			public void mouseClicked(MouseEvent e) {
-			}
-		});
-		
-		this.addMouseMotionListener( new MouseMotionListener() {
-			@Override
-			public void mouseMoved(MouseEvent e) {
-				overArea(e);
-			}
-			@Override
-			public void mouseDragged(MouseEvent e) {
-			}
-		});
-		
-		this.addKeyListener( new KeyListener() {
-			@Override
-			public void keyTyped(KeyEvent e) {
-			}
-			@Override
-			public void keyReleased(KeyEvent e) {
-			}
-			@Override
-			public void keyPressed(KeyEvent e) {
-				
-				if( !player.isMoving() ){
-					
-					Area playerArea = getSinglePlayerGame().getPlayerArea();
-					Area destinationArea =  null;
-					
-					if( e.getKeyChar() == 'q' ) {
-						destinationArea = getAreaByCoordinate( playerArea.getX() - player.getTexture().getIconWidth(), playerArea.getY() );
-					}
-					else if( e.getKeyChar() == 'z' ) {
-						destinationArea = getAreaByCoordinate( playerArea.getX() , playerArea.getY() - player.getTexture().getIconHeight() );
-					}
-					else if( e.getKeyChar() == 'd' ) {
-						destinationArea = getAreaByCoordinate( playerArea.getX() + player.getTexture().getIconWidth(), playerArea.getY() );
-					}
-					else if( e.getKeyChar() == 's' ) {
-						destinationArea = getAreaByCoordinate( playerArea.getX() , playerArea.getY() + player.getTexture().getIconHeight() );
-					}
-					
-					if(destinationArea == null) return;
-					if(destinationArea.getType() == Area.Type.GROUND_AREA ) {
-						
-						deselectArea();
-						
-						if(destinationArea.getEntity() != null && destinationArea.getEntity() instanceof RegionEntrance ) {
-							
-							clearAreaOver();
-							
-							RegionEntrance regionEntrance = (RegionEntrance) destinationArea.getEntity();
-							
-							for(int i = 0; i < singlePlayerGame.getRegions().size(); i++) {
-								GameMap region = singlePlayerGame.getRegions().get(i);
-								
-								if( regionEntrance.getRegionId().equals( region.getId() ) ) {
-									
-									regionEntrance.use();
-									
-									for(int j = 0; j < region.getAreas().size(); j++) {
-										Area regionArea = region.getAreas().get(j);
-										
-										if(regionArea.getEntity() != null && regionArea.getEntity() instanceof RegionEntrance) {
-											RegionEntrance destinationRegionExit = (RegionEntrance) regionArea.getEntity();
-											
-											if(destinationRegionExit.getRegionId().equals( singlePlayerGame.getCurrentRegion().getId() )) {
-												player.move( getSinglePlayerGame(), playerArea, region.getAreas().get( j + 1 ) );
-												singlePlayerGame.setCurrentRegion( region );
-												break;
-											}
-										}
-									}
-								
-									break;
-								}
-							}
-						}
-						else if(destinationArea.getEntity() == null){
-							
-							manageEnemies();
-							
-							if(destinationArea.getEntity() == null){
-								player.move( getSinglePlayerGame(), playerArea, destinationArea );
-								
-								if(destinationArea.getItem() != null) {
-									if(player.getInventory().size() == player.getInventoryMaxSize()
-									|| player.getTransportedWeight() + destinationArea.getItem().getWeight() > player.getTransportableWeight()) {
-										JOptionPane.showMessageDialog( window.getCurrentPanel() , "Vous ne pouvez pas ramasser cet objet !");
-									}
-									else {
-										SoundFactory.playSound( SoundFactory.storeItemSoundFilePath );
-										
-										player.getInventory().add( destinationArea.getItem() );
-										player.setTransportedWeight( player.getTransportedWeight() + destinationArea.getItem().getWeight() );
-										destinationArea.setItem( null );
-									}
-								}
-							}
-						}
-					}
-					
-					refreshVisibleAreas();
-				}
-			}
-		});
+		this.addMouseListener( new MouseEventListener( this ) );
+		this.addMouseMotionListener( new MouseMotionEventListener( this ) );
+		this.addKeyListener( new KeyEventListener( singlePlayerGame, this ) );
 	}
 	
 	public void paintComponent(Graphics g) {	
@@ -441,6 +318,39 @@ public class GamePanel extends JPanel {
 				return area;
 			}
 		}
+		return null;
+	}
+	
+	public Area getRegionAreaByCoordinate( GameMap region, int x, int y) {
+		for(int i = 0; i < region.getAreas().size(); i++) {
+			Area area = region.getAreas().get( i );
+			if(area.getX() == x 
+			&& area.getY() == y) {
+				return area;
+			}
+		}
+		return null;
+	}
+	
+	public Area getNearestAvailableArea( GameMap region, Area centerArea) {
+		Area topArea = getRegionAreaByCoordinate(region, centerArea.getX(), centerArea.getY() - player.getTexture().getIconHeight() );
+		Area topRightArea = getRegionAreaByCoordinate(region, centerArea.getX() + player.getTexture().getIconWidth(), centerArea.getY() - player.getTexture().getIconHeight() );
+		Area rightArea = getRegionAreaByCoordinate(region, centerArea.getX() + player.getTexture().getIconWidth(), centerArea.getY() );
+		Area bottomRightArea = getRegionAreaByCoordinate(region, centerArea.getX() + player.getTexture().getIconWidth(), centerArea.getY() + player.getTexture().getIconHeight() );
+		Area bottomArea = getRegionAreaByCoordinate(region, centerArea.getX(), centerArea.getY() + player.getTexture().getIconHeight() );
+		Area bottomLeftArea = getRegionAreaByCoordinate(region, centerArea.getX() - player.getTexture().getIconWidth(), centerArea.getY() + player.getTexture().getIconHeight() );
+		Area leftArea = getRegionAreaByCoordinate(region, centerArea.getX() - player.getTexture().getIconWidth(), centerArea.getY() );
+		Area topLeftArea = getRegionAreaByCoordinate(region, centerArea.getX() - player.getTexture().getIconWidth(), centerArea.getY() - player.getTexture().getIconHeight() );
+		
+		if( rightArea != null && rightArea.getType() == Area.Type.GROUND_AREA && rightArea.getEntity() == null ) { return rightArea; }
+		else if( bottomRightArea != null && bottomRightArea.getType() == Area.Type.GROUND_AREA && bottomRightArea.getEntity() == null ) { return bottomRightArea; }
+		else if( bottomArea != null && bottomArea.getType() == Area.Type.GROUND_AREA && bottomArea.getEntity() == null ) { return bottomArea; }
+		else if( bottomLeftArea != null && bottomLeftArea.getType() == Area.Type.GROUND_AREA && bottomLeftArea.getEntity() == null ) { return bottomLeftArea; }
+		else if( leftArea != null && leftArea.getType() == Area.Type.GROUND_AREA && leftArea.getEntity() == null ) { return leftArea; }
+		else if( topLeftArea != null && topLeftArea.getType() == Area.Type.GROUND_AREA && topLeftArea.getEntity() == null ) { return topLeftArea; }
+		else if( topArea != null && topArea.getType() == Area.Type.GROUND_AREA && topArea.getEntity() == null ) { return topArea; }
+		else if( topRightArea != null && topRightArea.getType() == Area.Type.GROUND_AREA && topRightArea.getEntity() == null ) { return topRightArea; }
+		
 		return null;
 	}
 	
