@@ -16,17 +16,10 @@ import fr.wretchedlife.map.GameMap;
 
 public class MapFactory {
 
-	private static int numberOfOutdoorRegions = 8;
-	private static int minRegionEntrancesPerOutdoorRegion = 20;
-	private static int maxRegionEntrancesPerOutdoorRegion = 60;
-	
-	private static int numberOfBuildingRegions = 640;
-	private static int numberOfUndergroundRegions = 640;
-
 	public static ArrayList<GameMap> generateRegions( Player player ) {
 		ArrayList<GameMap> regions = new ArrayList<GameMap>();
 		
-		for(int i = 0; i < numberOfOutdoorRegions; i++ ) {
+		for(int i = 0; i < Constants.numberOfOutdoorRegions; i++ ) {
 			
 			String groundTexturePath = "";
 			String groundOverTexturePath = "";
@@ -59,8 +52,8 @@ public class MapFactory {
 			GameMap region = new GameMap( NameGenerator.getRandomRegionName( GameMap.Type.OUTDOOR )+" "+i, 
 				GameMap.Type.OUTDOOR, 
 				new ArrayList<Enemy>(), 
-				Constants.getRandomBetween( 8000, 12000), 
-				Constants.getRandomBetween( 100, 200), 
+				Constants.getRandomBetween( Constants.minAreasPerOutdoorRegion, Constants.maxAreasPerOutdoorRegion), 
+				Constants.getRandomBetween( Constants.minLinesPerOutdoorRegion, Constants.maxLinesPerOutdoorRegion ), 
 				null, 
 				groundTexturePath,
 				groundOverTexturePath,
@@ -71,21 +64,26 @@ public class MapFactory {
 			
 			MapFactory.generateWater( region );
 			MapFactory.generateDoodad( region );
-			ItemFactory.generateRandomItems( region, player, Constants.getRandomBetween( 10, 50) );
-			ItemFactory.generateRandomConsumableItems( region, player, Constants.getRandomBetween( 10, 50) );
-			ItemFactory.generateRandomHealingConsumableItems( region, player, Constants.getRandomBetween( 10, 20) );
-			EntityFactory.generateRandomEnemies( region, player, Constants.getRandomBetween( 15, 54) );
-			EntityFactory.generateRandomEnemyBoss(region, player, Constants.getRandomBetween( 1, 2) );
+			ItemFactory.generateRandomItems( region, player, Constants.getRandomBetween( 
+					Constants.minItemsPerOutdoorRegion, Constants.maxItemsPerOutdoorRegion ) );
+			ItemFactory.generateRandomConsumableItems( region, player, Constants.getRandomBetween( 
+					Constants.minConsumableItemsPerOutdoorRegion, Constants.maxConsumableItemsPerOutdoorRegion ) );
+			ItemFactory.generateRandomHealingConsumableItems( region, player, Constants.getRandomBetween( 
+					Constants.minHealingConsumableItemsPerOutdoorRegion, Constants.maxHealingConsumableItemsPerOutdoorRegion ) );
+			EntityFactory.generateRandomEnemies( region, player, Constants.getRandomBetween( 
+					Constants.minEnemiesPerOutdoorRegion, Constants.maxEnemiesPerOutdoorRegion ) );
+			EntityFactory.generateRandomEnemyBoss(region, player, Constants.getRandomBetween( 
+					Constants.minBossPerOutdoorRegion, Constants.maxBossPerOutdoorRegion ) );
 			
 			regions.add( region );
 		}
 		
-		for(int i = 0; i < numberOfBuildingRegions; i++ ) {
+		for(int i = 0; i < Constants.numberOfBuildingRegions; i++ ) {
 			GameMap region = new GameMap( NameGenerator.getRandomRegionName( GameMap.Type.BUILDING )+" "+i,
 				GameMap.Type.BUILDING, 
 				new ArrayList<Enemy>(), 
-				Constants.getRandomBetween( 36, 60), 
-				Constants.getRandomBetween( 4, 6), 
+				Constants.getRandomBetween( Constants.minAreasPerBuildingRegion, Constants.maxAreasPerBuildingRegion), 
+				Constants.getRandomBetween( Constants.minLinesPerBuildingRegion, Constants.maxLinesPerBuildingRegion), 
 				null, 
 				Constants.parquetTexturePath,
 				Constants.parquetOverTexturePath,
@@ -93,20 +91,24 @@ public class MapFactory {
 			);
 			buildGameMapAreas( region );
 			
-			ItemFactory.generateRandomItems( region, player, Constants.getRandomBetween( 0, 2) );
-			ItemFactory.generateRandomConsumableItems( region, player, Constants.getRandomBetween( 0, 2) );
-			ItemFactory.generateRandomHealingConsumableItems( region, player, Constants.getRandomBetween( 0, 2) );
-			EntityFactory.generateRandomEnemies( region, player, Constants.getRandomBetween( 0, 1) );
+			ItemFactory.generateRandomItems( region, player, Constants.getRandomBetween(  
+					Constants.minItemsPerBuildingRegion, Constants.maxItemsPerBuildingRegion ) );
+			ItemFactory.generateRandomConsumableItems( region, player, Constants.getRandomBetween( 
+					Constants.minConsumableItemsPerBuildingRegion, Constants.maxConsumableItemsPerBuildingRegion ) );
+			ItemFactory.generateRandomHealingConsumableItems( region, player, Constants.getRandomBetween( 
+					Constants.minHealingConsumableItemsPerBuildingRegion, Constants.maxHealingConsumableItemsPerBuildingRegion ) );
+			EntityFactory.generateRandomEnemies( region, player, Constants.getRandomBetween( 
+					Constants.minEnemiesPerBuildingRegion, Constants.maxEnemiesPerBuildingRegion ) );
 			
 			regions.add( region );
 		}
 		
-		for(int i = 0; i < numberOfUndergroundRegions; i++ ) {
+		for(int i = 0; i < Constants.numberOfUndergroundRegions; i++ ) {
 			GameMap region = new GameMap( NameGenerator.getRandomRegionName( GameMap.Type.UNDERGROUND )+" "+i,
 				GameMap.Type.UNDERGROUND, 
 				new ArrayList<Enemy>(), 
-				Constants.getRandomBetween( 200, 400), 
-				Constants.getRandomBetween( 10, 20), 
+				Constants.getRandomBetween( Constants.minAreasPerUndergroundRegion , Constants.maxAreasPerUndergroundRegion ), 
+				Constants.getRandomBetween( Constants.minLinesPerUndergroundRegion, Constants.maxLinesPerUndergroundRegion ), 
 				null, 
 				Constants.rockTexturePath,
 				Constants.rockOverTexturePath,
@@ -114,11 +116,16 @@ public class MapFactory {
 			);
 			buildGameMapAreas( region );
 			
-			ItemFactory.generateRandomItems( region, player, Constants.getRandomBetween( 0, 6) );
-			ItemFactory.generateRandomConsumableItems( region, player, Constants.getRandomBetween( 0, 6) );
-			ItemFactory.generateRandomHealingConsumableItems( region, player, Constants.getRandomBetween( 0, 6 ) );
-			EntityFactory.generateRandomEnemies( region, player, Constants.getRandomBetween( 0, 6) );
-			EntityFactory.generateRandomEnemyBoss(region, player, Constants.getRandomBetween( 0, 1) );
+			ItemFactory.generateRandomItems( region, player, Constants.getRandomBetween( 
+					Constants.minItemsPerUndergroundRegion, Constants.maxItemsPerUndergroundRegion ) );
+			ItemFactory.generateRandomConsumableItems( region, player, Constants.getRandomBetween( 
+					Constants.minConsumableItemsPerUndergroundRegion, Constants.maxConsumableItemsPerUndergroundRegion ) );
+			ItemFactory.generateRandomHealingConsumableItems( region, player, Constants.getRandomBetween( 
+					Constants.minHealingConsumableItemsPerUndergroundRegion, Constants.maxHealingConsumableItemsPerUndergroundRegion ) );
+			EntityFactory.generateRandomEnemies( region, player, Constants.getRandomBetween( 
+					Constants.minEnemiesPerUndergroundRegion, Constants.maxEnemiesPerUndergroundRegion ) );
+			EntityFactory.generateRandomEnemyBoss(region, player, Constants.getRandomBetween( 
+					Constants.minBossPerUndergroundRegion, Constants.maxBossPerUndergroundRegion ) );
 			
 			regions.add( region );
 		}
@@ -220,7 +227,7 @@ public class MapFactory {
 		int regionEntranceCount = 0;
 		
 		//LINKING OUTDOOR REGIONS
-		for(int i = 0; i < numberOfOutdoorRegions - 1; i++ ) {
+		for(int i = 0; i < Constants.numberOfOutdoorRegions - 1; i++ ) {
 			GameMap region = regions.get(i);
 			Area outdoorDestinationRegionRandomArea = null;
 			
@@ -270,12 +277,12 @@ public class MapFactory {
 		}
 		
 		//LINKING OTHER REGIONS TO OUTDOOR REGIONS
-		for(int i = 0; i < numberOfOutdoorRegions; i++ ) {
+		for(int i = 0; i < Constants.numberOfOutdoorRegions; i++ ) {
 			GameMap region = regions.get(i);
 			int randomArrayId = 0;
 			Area destinationRegionRandomArea = null;
 			
-			maxRegionEntrances = Constants.getRandomBetween(minRegionEntrancesPerOutdoorRegion, maxRegionEntrancesPerOutdoorRegion);
+			maxRegionEntrances = Constants.getRandomBetween( Constants.minRegionEntrancesPerOutdoorRegion, Constants.maxRegionEntrancesPerOutdoorRegion);
 			regionEntranceCount = 0;
 			
 			if(region.getType() == GameMap.Type.OUTDOOR) {
@@ -283,7 +290,7 @@ public class MapFactory {
 				while(regionEntranceCount < maxRegionEntrances){
 					
 					while(true) {
-						randomArrayId = Constants.getRandomBetween(numberOfOutdoorRegions, regions.size() - 1);
+						randomArrayId = Constants.getRandomBetween( Constants.numberOfOutdoorRegions, regions.size() - 1);
 						
 						if( !regions.get( randomArrayId ).getId().equals( region.getId() ) 
 						&& !regions.get( randomArrayId ).isLinkedToAnotherRegion() 

@@ -11,18 +11,102 @@ import javax.swing.ImageIcon;
 
 public class Constants 
 {
-	public static final int multiplayerPort = 5000;
+	// TECHNICAL FIELDS / SETTINGS
 	
-	public static final int itemIdLength = 25;
-	public static final int gameMapIdLength = 20;
-	public static final double waterRate = 0.05;
-	public static final double doodadRate = 0.08;
 	public static final int playerVisibilyRange = 3;
 	public static final int enemyVisibilyRange = 3;
+	public static final int multiplayerPort = 5000;
+	public static final int itemIdLength = 25;
+	public static final int gameMapIdLength = 20;
+	
+	// STYLES 
 	
 	public static final Color goldColor = new Color(201, 180, 87);
 	public static final Color redColor = new Color(134, 1, 20);
 	public static final Color itemButtonBkgColor = Color.LIGHT_GRAY;
+	
+	// OUTDOOR REGION SETTINGS
+		
+	public static int numberOfOutdoorRegions = 8;
+	
+	public static int minAreasPerOutdoorRegion = 8000;
+	public static int maxAreasPerOutdoorRegion = 12000;
+	public static int minLinesPerOutdoorRegion = 100;
+	public static int maxLinesPerOutdoorRegion = 200;
+	public static int minRegionEntrancesPerOutdoorRegion = 20;
+	public static int maxRegionEntrancesPerOutdoorRegion = 60;
+	
+	public static int minItemsPerOutdoorRegion = 10;
+	public static int maxItemsPerOutdoorRegion = 50;
+	public static int minConsumableItemsPerOutdoorRegion = 10;
+	public static int maxConsumableItemsPerOutdoorRegion = 50;
+	public static int minHealingConsumableItemsPerOutdoorRegion = 10;
+	public static int maxHealingConsumableItemsPerOutdoorRegion = 20;
+	public static int minEnemiesPerOutdoorRegion = 15;
+	public static int maxEnemiesPerOutdoorRegion = 55;
+	public static int minBossPerOutdoorRegion = 1;
+	public static int maxBossPerOutdoorRegion = 2;
+	
+	// BUILDING REGION SETTINGS
+	
+	public static int numberOfBuildingRegions = 640;
+	
+	public static int minAreasPerBuildingRegion = 36;
+	public static int maxAreasPerBuildingRegion = 60;
+	public static int minLinesPerBuildingRegion = 4;
+	public static int maxLinesPerBuildingRegion = 6;
+	
+	public static int minItemsPerBuildingRegion = 0;
+	public static int maxItemsPerBuildingRegion = 2;
+	public static int minConsumableItemsPerBuildingRegion = 0;
+	public static int maxConsumableItemsPerBuildingRegion = 2;
+	public static int minHealingConsumableItemsPerBuildingRegion = 0;
+	public static int maxHealingConsumableItemsPerBuildingRegion = 2;
+	public static int minEnemiesPerBuildingRegion = 0;
+	public static int maxEnemiesPerBuildingRegion = 1;
+	
+	// UNDERGROUND REGION SETTINGS
+	
+	public static int numberOfUndergroundRegions = 640;
+	
+	public static int minAreasPerUndergroundRegion = 200;
+	public static int maxAreasPerUndergroundRegion = 400;
+	public static int minLinesPerUndergroundRegion = 10;
+	public static int maxLinesPerUndergroundRegion = 20;
+	
+	public static int minItemsPerUndergroundRegion = 0;
+	public static int maxItemsPerUndergroundRegion = 6;
+	public static int minConsumableItemsPerUndergroundRegion = 0;
+	public static int maxConsumableItemsPerUndergroundRegion = 6;
+	public static int minHealingConsumableItemsPerUndergroundRegion = 0;
+	public static int maxHealingConsumableItemsPerUndergroundRegion = 6;
+	public static int minEnemiesPerUndergroundRegion = 0;
+	public static int maxEnemiesPerUndergroundRegion = 6;
+	public static int minBossPerUndergroundRegion = 0;
+	public static int maxBossPerUndergroundRegion = 1;
+	
+	// GAME RATES
+	
+	public static final double levelUpRate = 1.125;
+	public static final double lifeUpRate = 1.02;
+	public static final double hungerDownPercent = 0.25;
+	public static final double thirstDownPercent = 0.5;
+	public static final double inventorySizeUpRate = 1.05;
+	public static final double transportableWeightUpRate = 1.10;
+	
+	public static final double waterRate = 0.05;
+	public static final double doodadRate = 0.08;
+	
+	// STARTING PLAYER CONFIG
+	
+	public static final int startingExperienceToReach = 10;
+	public static final int startingLife = 100;
+	public static final int startingInventoryMaxSize = 10;
+	public static final int startingTransportableWeight = 30;
+	
+	// TEXTURES PATHS
+	
+	public static final String playerTexturePath = ".\\img\\entities\\player.gif";
 	
 	public static final String seaAreaTexturePath = ".\\img\\map\\water.gif";
 	
@@ -50,32 +134,8 @@ public class Constants
 	public static final String snowSelectedTexturePath = ".\\img\\map\\snow_selected.jpg";
 	public static final String snowOverTexturePath = ".\\img\\map\\snow_over.jpg";
 	
-	public static final double levelUpRate = 1.125;
-	public static final double lifeUpRate = 1.02;
-	public static final double hungerDownPercent = 0.25;
-	public static final double thirstDownPercent = 0.5;
-	public static final double inventorySizeUpRate = 1.05;
-	public static final double transportableWeightUpRate = 1.10;
+	// COMMON METHODS
 	
-	public static final int startingExperienceToReach = 10;
-	public static final int startingLife = 100;
-	public static final int startingInventoryMaxSize = 10;
-	public static final int startingTransportableWeight = 30;
-	
-	public static final String playerTexturePath = ".\\img\\entities\\player.gif";
-	
-	
-//	public static Image getTexture(String imagePath) {
-//		BufferedImage img = null;
-//		
-//		try {
-//			img = ImageIO.read( new File( imagePath ) );
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
-//			
-//		return (Image) img;
-//	}
 	public static ImageIcon getTexture(String url) {
 		ImageIcon icon = new ImageIcon( url );
 		return icon;
@@ -99,7 +159,7 @@ public class Constants
 		return sb.toString();
 	}
 	
-	public static String getStackTrace(Throwable t)
+	public static String getStackTrace(Throwable t) throws Exception
 	{
 		String trace = "";
 		StringWriter sw = null;
@@ -118,8 +178,8 @@ public class Constants
 		}
 		finally
 		{
-			sw = null;
-			pw = null; 
+			if(pw != null) pw.close();
+			if(sw != null) sw.close();
 		}
 		return trace;
 	}
