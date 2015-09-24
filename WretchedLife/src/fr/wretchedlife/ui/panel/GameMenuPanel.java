@@ -30,6 +30,7 @@ public class GameMenuPanel extends JPanel {
 	private Window window;
 	private SinglePlayerGame singlePlayerGame;
 	private Player player;
+	private InfoPanel infoPanel;
 	
 	public GameMenuPanel( Window _window, SinglePlayerGame _singlePlayerGame ) {
 		this.window = _window;
@@ -45,17 +46,16 @@ public class GameMenuPanel extends JPanel {
 		
 		this.add( playerPanel );
 		this.add( new PlayerEquipementPanel( this, player ) );
-		this.add( new InfoPanel() );
+		
+		infoPanel = new InfoPanel();
+		this.add( infoPanel );
 	}
 	
 	public void clearInfoPanel() {
-		JPanel infoPanel = (JPanel) this.getComponent(2);
 		infoPanel.removeAll();
 	}
 	
 	public void displayAreaInfos( final GamePanel gamePanel, final Area area ) {
-		
-		JPanel infoPanel = (JPanel) this.getComponent(2);
 		
 		JLabel areaInfoLabel = new JLabel();
 		areaInfoLabel.setForeground(Constants.goldColor);
@@ -103,7 +103,6 @@ public class GameMenuPanel extends JPanel {
 	
 	public void displayInventoryItemInfos( final Item item ) {
 		final GameMenuPanel _this = this;
-		JPanel infoPanel = (JPanel) this.getComponent(2);
 		
 		JLabel itemIcon = new JLabel( item.getTexture() );
 		infoPanel.add( itemIcon );
@@ -252,7 +251,6 @@ public class GameMenuPanel extends JPanel {
 	
 	public void displayEquipedItemInfos( final Item item ) {
 		final GameMenuPanel _this = this;
-		JPanel infoPanel = (JPanel) this.getComponent(2);
 		
 		JLabel itemIcon = new JLabel( item.getTexture() );
 		infoPanel.add( itemIcon );

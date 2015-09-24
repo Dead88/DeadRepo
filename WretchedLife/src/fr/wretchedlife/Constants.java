@@ -7,7 +7,7 @@ import java.util.Random;
 
 import javax.swing.ImageIcon;
 
-//FIXME : coffre d'objets, loot des enemies, selection perso, nom.
+//FIXME : panneau de texte dans l'infopanel,coffre d'objets, loot des enemies, selection perso, nom.
 
 public class Constants 
 {
