@@ -1,9 +1,9 @@
 package fr.wretchedlife.factory;
 
 import fr.wretchedlife.Constants;
-import fr.wretchedlife.EntityGenerator;
 import fr.wretchedlife.entity.ext.Enemy;
 import fr.wretchedlife.entity.ext.Player;
+import fr.wretchedlife.generator.EntityGenerator;
 import fr.wretchedlife.map.Area;
 import fr.wretchedlife.map.GameMap;
 

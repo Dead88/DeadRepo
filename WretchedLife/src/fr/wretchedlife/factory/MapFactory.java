@@ -5,12 +5,12 @@ import java.util.ArrayList;
 import javax.swing.ImageIcon;
 
 import fr.wretchedlife.Constants;
-import fr.wretchedlife.EntityGenerator;
-import fr.wretchedlife.NameGenerator;
 import fr.wretchedlife.entity.Entity;
 import fr.wretchedlife.entity.ext.Enemy;
 import fr.wretchedlife.entity.ext.Player;
 import fr.wretchedlife.entity.ext.RegionEntrance;
+import fr.wretchedlife.generator.EntityGenerator;
+import fr.wretchedlife.generator.NameGenerator;
 import fr.wretchedlife.map.Area;
 import fr.wretchedlife.map.GameMap;
 

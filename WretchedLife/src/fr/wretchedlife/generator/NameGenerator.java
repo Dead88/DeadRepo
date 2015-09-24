@@ -1,5 +1,6 @@
-package fr.wretchedlife;
+package fr.wretchedlife.generator;
 
+import fr.wretchedlife.Constants;
 import fr.wretchedlife.map.GameMap;
 
 public class NameGenerator {

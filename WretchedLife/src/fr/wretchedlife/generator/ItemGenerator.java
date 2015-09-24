@@ -1,7 +1,8 @@
-package fr.wretchedlife;
+package fr.wretchedlife.generator;
 
 import java.util.ArrayList;
 
+import fr.wretchedlife.Constants;
 import fr.wretchedlife.entity.ext.Player;
 import fr.wretchedlife.factory.SoundFactory;
 import fr.wretchedlife.obj.ItemProperty;

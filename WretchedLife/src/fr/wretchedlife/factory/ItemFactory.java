@@ -1,8 +1,8 @@
 package fr.wretchedlife.factory;
 
 import fr.wretchedlife.Constants;
-import fr.wretchedlife.ItemGenerator;
 import fr.wretchedlife.entity.ext.Player;
+import fr.wretchedlife.generator.ItemGenerator;
 import fr.wretchedlife.map.Area;
 import fr.wretchedlife.map.GameMap;
 import fr.wretchedlife.obj.Item;

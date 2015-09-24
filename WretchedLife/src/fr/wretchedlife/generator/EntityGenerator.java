@@ -1,5 +1,6 @@
-package fr.wretchedlife;
+package fr.wretchedlife.generator;
 
+import fr.wretchedlife.Constants;
 import fr.wretchedlife.entity.Entity;
 import fr.wretchedlife.entity.ext.Enemy;
 import fr.wretchedlife.entity.ext.Player;
