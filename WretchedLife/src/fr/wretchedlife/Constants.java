@@ -7,7 +7,8 @@ import java.util.Random;
 
 import javax.swing.ImageIcon;
 
-//FIXME : panneau de texte dans l'infopanel,coffre d'objets, loot des enemies, selection perso, nom.
+//FIXME : affichage des bonus de skill eg 5 (+2), creation d'un GameEventListener qui centralise les evenements/logs
+//TODO : coffre d'objets, loot des enemies, selection et nommage perso
 
 public class Constants 
 {

@@ -9,6 +9,7 @@ import fr.wretchedlife.factory.SoundFactory;
 import fr.wretchedlife.map.Area;
 import fr.wretchedlife.obj.Item;
 import fr.wretchedlife.ui.panel.GamePanel;
+import fr.wretchedlife.ui.panel.InfoPanel;
 
 public class Enemy extends Entity {
 	
@@ -101,15 +102,20 @@ public class Enemy extends Entity {
 		}
 	}
 	
-	public void attackPlayer( Player player ) {
-		
+	public void attackPlayer( InfoPanel infoPanel, Player player ) {
 		int playerLife = player.getLifeRemain();
 		int damage = Constants.getRandomBetween( getItemMinDamage(), getItemMaxDamage() ) - player.getItemDefense();
 		
 		SoundFactory.playSound( SoundFactory.attackSoundFilePath );
 		
-		if(damage > 0) 
+		if(damage > 0) {
+			infoPanel.log( this.getName() + " dealed " + damage +" dmg to you" );
 			player.setLifeRemain( playerLife - damage );
+			
+			if( player.getLifeRemain() <= 0) {
+				infoPanel.log( "Killed by " + this.getName() );
+			}
+		}
 	}
 	
 	public int getLevel() {

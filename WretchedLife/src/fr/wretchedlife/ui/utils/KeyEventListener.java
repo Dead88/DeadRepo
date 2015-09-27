@@ -106,6 +106,7 @@ public class KeyEventListener implements KeyListener {
 							}
 							else {
 								SoundFactory.playSound( SoundFactory.storeItemSoundFilePath );
+								gamePanel.getGameMenuPanel().getInfoPanel().log( "Picked up " + destinationArea.getItem().getName() );
 								
 								player.getInventory().add( destinationArea.getItem() );
 								player.setTransportedWeight( player.getTransportedWeight() + destinationArea.getItem().getWeight() );

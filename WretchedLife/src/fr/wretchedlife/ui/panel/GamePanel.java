@@ -35,6 +35,9 @@ public class GamePanel extends JPanel {
 	public SinglePlayerGame getSinglePlayerGame() {return singlePlayerGame;}
 	public void setSinglePlayerGame(SinglePlayerGame singlePlayerGame) {this.singlePlayerGame = singlePlayerGame;}
 	
+	public GameMenuPanel getGameMenuPanel() {return gameMenuPanel;}
+	public void setGameMenuPanel(GameMenuPanel gameMenuPanel) {this.gameMenuPanel = gameMenuPanel;}
+	
 	public GamePanel( final Window _window, SinglePlayerGame _singlePlayerGame, GameMenuPanel _gameMenuPanel ) throws Exception {
 		this.window = _window;
 		this.gameMenuPanel = _gameMenuPanel;
@@ -113,18 +116,20 @@ public class GamePanel extends JPanel {
 		if(randDamage > 0)
 			e.setLifeRemain( e.getLifeRemain() - randDamage);
 		
+		gameMenuPanel.getInfoPanel().log( "Dealed " + randDamage + " dmg to " + e.getName() );
 		SoundFactory.playSound( SoundFactory.attackSoundFilePath );
 		
 		if(e.getLifeRemain() <= 0) {
+			gameMenuPanel.getInfoPanel().log( "Killed " + e.getName()+", earned " + e.getExperienceToEarn()+" exp" );
 			player.setExperience( player.getExperience() + e.getExperienceToEarn() );
 			enemyArea.setEntity( null );
 			singlePlayerGame.getCurrentRegion().getEnemies().remove( e );
 		}
 		else {
-			e.attackPlayer( player );
+			e.attackPlayer( gameMenuPanel.getInfoPanel(), player );
 		}
 		
-		gameMenuPanel.clearInfoPanel();
+		gameMenuPanel.clearPreviewInfoPanel();
 		gameMenuPanel.displayAreaInfos( this, enemyArea);
 	}
 	
@@ -188,7 +193,7 @@ public class GamePanel extends JPanel {
 			selectedArea = null;
 		}
 		
-		gameMenuPanel.clearInfoPanel();
+		gameMenuPanel.clearPreviewInfoPanel();
 	}
 	
 	public void clearAreaOver() {
@@ -258,7 +263,7 @@ public class GamePanel extends JPanel {
 			&& eArea.getX() <= playerArea.getX() + player.getTexture().getIconWidth() 
 			&& eArea.getY() >= playerArea.getY() - player.getTexture().getIconHeight()
 			&& eArea.getY() <= playerArea.getY() + player.getTexture().getIconHeight() ) {
-				e.attackPlayer( player );
+				e.attackPlayer( gameMenuPanel.getInfoPanel(), player );
 			}
 			
 			if(playerArea.getX() <= ( eArea.getX() + (e.getTexture().getIconWidth() * Constants.enemyVisibilyRange) )

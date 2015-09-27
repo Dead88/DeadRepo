@@ -32,6 +32,9 @@ public class GameMenuPanel extends JPanel {
 	private Player player;
 	private InfoPanel infoPanel;
 	
+	public InfoPanel getInfoPanel() {return infoPanel;}
+	public void setInfoPanel(InfoPanel infoPanel) {this.infoPanel = infoPanel;}
+
 	public GameMenuPanel( Window _window, SinglePlayerGame _singlePlayerGame ) {
 		this.window = _window;
 		this.singlePlayerGame = _singlePlayerGame;
@@ -51,8 +54,8 @@ public class GameMenuPanel extends JPanel {
 		this.add( infoPanel );
 	}
 	
-	public void clearInfoPanel() {
-		infoPanel.removeAll();
+	public void clearPreviewInfoPanel() {
+		infoPanel.getPreviewPanel().removeAll();
 	}
 	
 	public void displayAreaInfos( final GamePanel gamePanel, final Area area ) {
@@ -97,19 +100,19 @@ public class GameMenuPanel extends JPanel {
 			}
 		}
 		
-		infoPanel.add( areaInfoLabel );
-		if( attackButton != null ) infoPanel.add( attackButton );
+		infoPanel.getPreviewPanel().add( areaInfoLabel );
+		if( attackButton != null ) infoPanel.getPreviewPanel().add( attackButton );
 	}
 	
 	public void displayInventoryItemInfos( final Item item ) {
 		final GameMenuPanel _this = this;
 		
 		JLabel itemIcon = new JLabel( item.getTexture() );
-		infoPanel.add( itemIcon );
+		infoPanel.getPreviewPanel().add( itemIcon );
 		
 		JLabel itemInfoLabel = new JLabel( getItemInfoHtml( item ) );
 		itemInfoLabel.setForeground(Constants.goldColor);
-		infoPanel.add( itemInfoLabel );
+		infoPanel.getPreviewPanel().add( itemInfoLabel );
 		
 		if( item instanceof ConsumableItem ){
 			JButton itemUseButton = new JButton("Utiliser");
@@ -117,12 +120,13 @@ public class GameMenuPanel extends JPanel {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					((ConsumableItem) item).use();
+					infoPanel.log( "Used " + item.getName() );
 					player.setTransportedWeight( player.getTransportedWeight() - item.getWeight() );
 					player.getInventory().remove( item );
-					_this.clearInfoPanel();
+					_this.clearPreviewInfoPanel();
 				}
 			});
-			infoPanel.add( itemUseButton );
+			infoPanel.getPreviewPanel().add( itemUseButton );
 		}
 		else if( item instanceof WeaponItem || item instanceof ArmorItem ){
 			JButton itemUseButton = new JButton("Equiper");
@@ -219,14 +223,13 @@ public class GameMenuPanel extends JPanel {
 					}
 					
 					player.getInventory().remove( item );
-					_this.clearInfoPanel();
+					_this.clearPreviewInfoPanel();
 				}
 			});
-			infoPanel.add( itemUseButton );
+			infoPanel.getPreviewPanel().add( itemUseButton );
 		}
 		
 		if( window.getCurrentPanel() instanceof GamePanel) {
-			GamePanel gamePanel = (GamePanel) window.getCurrentPanel();
 			final Area playerArea = singlePlayerGame.getPlayerArea();
 				
 			JButton itemDropButton = new JButton("Jeter");
@@ -237,7 +240,7 @@ public class GameMenuPanel extends JPanel {
 						playerArea.setItem( item );
 						player.setTransportedWeight( player.getTransportedWeight() - item.getWeight() );
 						player.getInventory().remove( item );
-						_this.clearInfoPanel();
+						_this.clearPreviewInfoPanel();
 					}
 					else {
 						JOptionPane.showMessageDialog( window.getCurrentPanel() , "Vous ne pouvez pas jeter ça ici !");
@@ -245,7 +248,7 @@ public class GameMenuPanel extends JPanel {
 					}
 				}
 			});
-			infoPanel.add( itemDropButton );
+			infoPanel.getPreviewPanel().add( itemDropButton );
 		}
 	}
 	
@@ -253,11 +256,11 @@ public class GameMenuPanel extends JPanel {
 		final GameMenuPanel _this = this;
 		
 		JLabel itemIcon = new JLabel( item.getTexture() );
-		infoPanel.add( itemIcon );
+		infoPanel.getPreviewPanel().add( itemIcon );
 		
 		JLabel itemInfoLabel = new JLabel( getItemInfoHtml( item ) );
 		itemInfoLabel.setForeground(Constants.goldColor);
-		infoPanel.add( itemInfoLabel );
+		infoPanel.getPreviewPanel().add( itemInfoLabel );
 		
 		JButton itemUseButton = new JButton("Enlever");
 		itemUseButton.addActionListener( new ActionListener() {
@@ -306,10 +309,10 @@ public class GameMenuPanel extends JPanel {
 				SoundFactory.playSound( SoundFactory.storeItemSoundFilePath );
 				
 				player.getInventory().add( item );
-				_this.clearInfoPanel();
+				_this.clearPreviewInfoPanel();
 			}
 		});
-		infoPanel.add( itemUseButton );
+		infoPanel.getPreviewPanel().add( itemUseButton );
 	}
 	
 	public static String getItemInfoHtml( Item item ) {

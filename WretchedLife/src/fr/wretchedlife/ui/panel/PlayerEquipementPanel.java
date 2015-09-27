@@ -156,7 +156,7 @@ public class PlayerEquipementPanel extends JPanel {
 						equipmentButton.addActionListener( new ActionListener() {
 							@Override
 							public void actionPerformed(ActionEvent arg0) {
-								gameMenuPanel.clearInfoPanel();
+								gameMenuPanel.clearPreviewInfoPanel();
 								gameMenuPanel.displayEquipedItemInfos( player.getLeftShoulderArmor() );
 							}
 						});
@@ -168,7 +168,7 @@ public class PlayerEquipementPanel extends JPanel {
 						equipmentButton.addActionListener( new ActionListener() {
 							@Override
 							public void actionPerformed(ActionEvent arg0) {
-								gameMenuPanel.clearInfoPanel();
+								gameMenuPanel.clearPreviewInfoPanel();
 								gameMenuPanel.displayEquipedItemInfos( player.getHeadArmor() );
 							}
 						});
@@ -180,7 +180,7 @@ public class PlayerEquipementPanel extends JPanel {
 						equipmentButton.addActionListener( new ActionListener() {
 							@Override
 							public void actionPerformed(ActionEvent arg0) {
-								gameMenuPanel.clearInfoPanel();
+								gameMenuPanel.clearPreviewInfoPanel();
 								gameMenuPanel.displayEquipedItemInfos( player.getRightShoulderArmor() );
 							}
 						});
@@ -192,7 +192,7 @@ public class PlayerEquipementPanel extends JPanel {
 						equipmentButton.addActionListener( new ActionListener() {
 							@Override
 							public void actionPerformed(ActionEvent arg0) {
-								gameMenuPanel.clearInfoPanel();
+								gameMenuPanel.clearPreviewInfoPanel();
 								gameMenuPanel.displayEquipedItemInfos( player.getArmArmor() );
 							}
 						});
@@ -204,7 +204,7 @@ public class PlayerEquipementPanel extends JPanel {
 						equipmentButton.addActionListener( new ActionListener() {
 							@Override
 							public void actionPerformed(ActionEvent arg0) {
-								gameMenuPanel.clearInfoPanel();
+								gameMenuPanel.clearPreviewInfoPanel();
 								gameMenuPanel.displayEquipedItemInfos( player.getChestArmor() );
 							}
 						});
@@ -216,7 +216,7 @@ public class PlayerEquipementPanel extends JPanel {
 						equipmentButton.addActionListener( new ActionListener() {
 							@Override
 							public void actionPerformed(ActionEvent arg0) {
-								gameMenuPanel.clearInfoPanel();
+								gameMenuPanel.clearPreviewInfoPanel();
 								gameMenuPanel.displayEquipedItemInfos( player.getHandsArmor() );
 							}
 						});
@@ -228,7 +228,7 @@ public class PlayerEquipementPanel extends JPanel {
 						equipmentButton.addActionListener( new ActionListener() {
 							@Override
 							public void actionPerformed(ActionEvent arg0) {
-								gameMenuPanel.clearInfoPanel();
+								gameMenuPanel.clearPreviewInfoPanel();
 								gameMenuPanel.displayEquipedItemInfos( player.getBeltArmor() );
 							}
 						});
@@ -240,7 +240,7 @@ public class PlayerEquipementPanel extends JPanel {
 						equipmentButton.addActionListener( new ActionListener() {
 							@Override
 							public void actionPerformed(ActionEvent arg0) {
-								gameMenuPanel.clearInfoPanel();
+								gameMenuPanel.clearPreviewInfoPanel();
 								gameMenuPanel.displayEquipedItemInfos( player.getLeftHandWeaponItem() );
 							}
 						});
@@ -252,7 +252,7 @@ public class PlayerEquipementPanel extends JPanel {
 						equipmentButton.addActionListener( new ActionListener() {
 							@Override
 							public void actionPerformed(ActionEvent arg0) {
-								gameMenuPanel.clearInfoPanel();
+								gameMenuPanel.clearPreviewInfoPanel();
 								gameMenuPanel.displayEquipedItemInfos( player.getRightHandWeaponItem() );
 							}
 						});
@@ -264,7 +264,7 @@ public class PlayerEquipementPanel extends JPanel {
 						equipmentButton.addActionListener( new ActionListener() {
 							@Override
 							public void actionPerformed(ActionEvent arg0) {
-								gameMenuPanel.clearInfoPanel();
+								gameMenuPanel.clearPreviewInfoPanel();
 								gameMenuPanel.displayEquipedItemInfos( player.getLegsArmor() );
 							}
 						});
@@ -276,7 +276,7 @@ public class PlayerEquipementPanel extends JPanel {
 						equipmentButton.addActionListener( new ActionListener() {
 							@Override
 							public void actionPerformed(ActionEvent arg0) {
-								gameMenuPanel.clearInfoPanel();
+								gameMenuPanel.clearPreviewInfoPanel();
 								gameMenuPanel.displayEquipedItemInfos( player.getFeetArmor() );
 							}
 						});

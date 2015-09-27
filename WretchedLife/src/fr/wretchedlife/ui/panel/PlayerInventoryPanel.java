@@ -43,7 +43,7 @@ public class PlayerInventoryPanel extends JPanel {
 							Item playerItem = player.getInventory().get(i);
 							
 							if( playerItem.getId().equals( buttonItem.getName() ) ){
-								gameMenuPanel.clearInfoPanel();
+								gameMenuPanel.clearPreviewInfoPanel();
 								gameMenuPanel.displayInventoryItemInfos( playerItem );
 							}
 						}
@@ -71,7 +71,7 @@ public class PlayerInventoryPanel extends JPanel {
 							Item playerItem = player.getInventory().get(i);
 							
 							if( playerItem.getId().equals( buttonItem.getName() ) ){
-								gameMenuPanel.clearInfoPanel();
+								gameMenuPanel.clearPreviewInfoPanel();
 								gameMenuPanel.displayInventoryItemInfos( playerItem );
 							}
 						}
