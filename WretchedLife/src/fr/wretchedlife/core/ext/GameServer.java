@@ -7,8 +7,6 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
 
-import com.google.gson.Gson;
-
 import fr.wretchedlife.Constants;
 import fr.wretchedlife.core.SinglePlayerGame;
 
@@ -82,7 +80,6 @@ public class GameServer extends SinglePlayerGame implements Runnable {
 			try {
 				DataInputStream in = new DataInputStream( clientSocket.getInputStream() );
 				PrintStream out = new PrintStream( clientSocket.getOutputStream() );
-				Gson g = new Gson();
 				
 				while( true ) {
 					try {
