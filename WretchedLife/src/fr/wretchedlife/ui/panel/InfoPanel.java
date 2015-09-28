@@ -4,12 +4,8 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.Image;
-import java.awt.Rectangle;
-import java.awt.Scrollbar;
 import java.awt.event.AdjustmentEvent;
 import java.awt.event.AdjustmentListener;
-
-import javafx.scene.control.ScrollPane.ScrollBarPolicy;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
