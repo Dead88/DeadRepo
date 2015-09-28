@@ -18,7 +18,7 @@ public class GameServer extends SinglePlayerGame implements Runnable {
 
 	public GameServer() {
 
-		super( false );
+		super( true );
 
 		System.out.println("Game ready, initalizing server...");
 
@@ -79,22 +79,25 @@ public class GameServer extends SinglePlayerGame implements Runnable {
 
 		@Override
 		public void run() {
-			
 			try {
 				DataInputStream in = new DataInputStream( clientSocket.getInputStream() );
 				PrintStream out = new PrintStream( clientSocket.getOutputStream() );
-				Gson gson = new Gson();
+				Gson g = new Gson();
 				
 				while( true ) {
-//					try {
-//						out.println( gson.toJson( getRegions() ) );
-//					} catch (Exception e) {
-//						break;
-//					}
+					try {
+						out.println( "im at "+getPlayerArea().getX()+"/"+getPlayerArea().getY() );
+					}
+					catch(Exception e) {
+						e.printStackTrace();
+					}
 				}
 			} 
 			catch (IOException e) {
 				e.printStackTrace();
+			}
+			finally {
+				try { clientSocket.close(); } catch (IOException e) {}
 			}
 		}
 		

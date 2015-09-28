@@ -15,7 +15,7 @@ public class SinglePlayerGame {
 	private ArrayList<GameMap> regions;
 	private GameMap currentRegion;
 	
-	public SinglePlayerGame( boolean generateRegions) {
+	public SinglePlayerGame( boolean generateRegions ) {
 		this.player = new Player();
 		
 		if(generateRegions) {

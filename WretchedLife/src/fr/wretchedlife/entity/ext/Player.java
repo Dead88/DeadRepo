@@ -49,7 +49,7 @@ public class Player extends Entity {
 	private ArmorItem feetArmor;
 	
 	private boolean isMoving;
-	
+
 	public Player() {
 		super("Player", Constants.getTexture( Constants.playerTexturePath ) );
 		this.level = 1;

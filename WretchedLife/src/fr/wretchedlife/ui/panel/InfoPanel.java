@@ -4,6 +4,12 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.Image;
+import java.awt.Rectangle;
+import java.awt.Scrollbar;
+import java.awt.event.AdjustmentEvent;
+import java.awt.event.AdjustmentListener;
+
+import javafx.scene.control.ScrollPane.ScrollBarPolicy;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -48,6 +54,7 @@ public class InfoPanel extends JPanel {
 		private static final long serialVersionUID = 6186981376029056855L;
 		private JLabel messageLabel;
 		private String messageText;
+		private JScrollPane scroller;
 		
 		public MessagePanel() {
 			super();
@@ -55,13 +62,17 @@ public class InfoPanel extends JPanel {
 			messageLabel.setForeground(Constants.goldColor);
 			messageText = "";
 			
-			JScrollPane scroller = new JScrollPane( messageLabel, 
+			scroller = new JScrollPane( messageLabel, 
 				      JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, 
 				      JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-			scroller.setAutoscrolls( true );
-			scroller.setWheelScrollingEnabled( true );
 			scroller.setPreferredSize( new Dimension( 300,200 ) );
 			scroller.getViewport().add( messageLabel );
+			scroller.getVerticalScrollBar().addAdjustmentListener( new AdjustmentListener() {
+				@Override
+				public void adjustmentValueChanged(AdjustmentEvent e) {
+					e.getAdjustable().setValue( e.getAdjustable().getMaximum() );
+				}
+			});
 			
 			this.add( scroller );
 		}

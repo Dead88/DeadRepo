@@ -58,7 +58,7 @@ public class MainMenuPanel extends JPanel {
 				}
 			}
 		});
-		newMultiGameButton.setVisible(false);
+		newMultiGameButton.setVisible(true);
 		
 		JButton joinMultiGameButton = new JButton( JOIN_MULTIPLAYER_GAME_BUTTON_LABEL );
 		joinMultiGameButton.addActionListener( new ActionListener() {
@@ -75,7 +75,7 @@ public class MainMenuPanel extends JPanel {
 				}
 			}
 		});
-		joinMultiGameButton.setVisible(false);
+		joinMultiGameButton.setVisible(true);
 		
 		JPanel buttonsPanel = new JPanel();
 		buttonsPanel.setOpaque( false );

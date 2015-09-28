@@ -16,6 +16,7 @@ public class Area {
 	private Entity entity;
 	private Item item;
 	
+	public Area() {}
 	public Area(int x, int y, ImageIcon texture, Type type) {
 		super();
 		X = x;

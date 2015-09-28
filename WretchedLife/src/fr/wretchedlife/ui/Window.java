@@ -163,6 +163,7 @@ public class Window extends JFrame
 			this.currentPanel = gamePanel;
 		}
 		catch(Exception e) {
+			e.printStackTrace();
 			displayMainMenu();
 			JOptionPane.showMessageDialog( null , "Connexion impossible : "+e.getMessage());
 		}

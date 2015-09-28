@@ -4,13 +4,10 @@ import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.net.Socket;
-import java.util.ArrayList;
-
-import com.google.gson.Gson;
+import java.net.SocketException;
 
 import fr.wretchedlife.Constants;
 import fr.wretchedlife.core.SinglePlayerGame;
-import fr.wretchedlife.map.GameMap;
 
 public class GameClient extends SinglePlayerGame implements Runnable {
 	
@@ -28,14 +25,16 @@ public class GameClient extends SinglePlayerGame implements Runnable {
 			PrintStream out = new PrintStream( getClient().getOutputStream() );
 			DataInputStream in = new DataInputStream( getClient().getInputStream() );
 			
-			Gson gson = new Gson();
-			
 			while(true) {
 				try {
-					
+					System.out.println( in.readUTF() );
+				}
+				catch(SocketException se) {
+					System.out.println("Connection lost...");
+					break;
 				}
 				catch(Exception e ) {
-					break;
+					e.printStackTrace();
 				}
 			}
 		} 
