@@ -1,14 +1,17 @@
 package fr.wretchedlife.core.ext;
 
-import java.io.DataInputStream;
+import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.PrintStream;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
 
 import fr.wretchedlife.Constants;
 import fr.wretchedlife.core.SinglePlayerGame;
+import fr.wretchedlife.core.utils.XmlTools;
+import fr.wretchedlife.map.GameMap;
 
 public class GameServer extends SinglePlayerGame implements Runnable {
 
@@ -42,16 +45,16 @@ public class GameServer extends SinglePlayerGame implements Runnable {
 		
 		while( true ) {
 			try {
-				Socket clientSocket = null;
+				Socket serverSocket = null;
 				
 				try {
-					clientSocket = getHost().accept();
+					serverSocket = getHost().accept();
 				}
 				catch(SocketException es) {
 					continue;
 				}
 				
-				ClientWorker clientWorker = new ClientWorker( clientSocket );
+				ClientWorker clientWorker = new ClientWorker( serverSocket );
 				Thread clientWorkerThread = new Thread( clientWorker );
 				clientWorkerThread.start();
 			}
@@ -69,32 +72,57 @@ public class GameServer extends SinglePlayerGame implements Runnable {
 	
 	class ClientWorker implements Runnable {
 		
-		private Socket clientSocket;
+		private Socket serverSocket;
+		private boolean hasSendedMap = false;
 		
-		public ClientWorker( Socket clientSocket ) {
-			this.clientSocket = clientSocket;
+		public ClientWorker( Socket serverSocket ) {
+			this.serverSocket = serverSocket;
 		}
 
 		@Override
 		public void run() {
 			try {
-				DataInputStream in = new DataInputStream( clientSocket.getInputStream() );
-				PrintStream out = new PrintStream( clientSocket.getOutputStream() );
-				
 				while( true ) {
 					try {
-						out.println( "im at "+getPlayerArea().getX()+"/"+getPlayerArea().getY() );
+						if( !hasSendedMap ) {
+							String inputResult = handleInput();
+							if( inputResult == null) continue;
+							
+							if( inputResult.contains("GAMEMAP") ) {
+								handleOutput( true, false);
+								hasSendedMap = true;
+							}
+						}
 					}
 					catch(Exception e) {
 						e.printStackTrace();
 					}
 				}
 			} 
-			catch (IOException e) {
+			catch (Exception e) {
 				e.printStackTrace();
 			}
 			finally {
-				try { clientSocket.close(); } catch (IOException e) {}
+				try { getServerSocket().close(); } catch (IOException e) {}
+			}
+		}
+		
+		public Socket getServerSocket() {return serverSocket;}
+		public void setServerSocket(Socket serverSocket) {this.serverSocket = serverSocket;}
+
+		private synchronized String handleInput() throws Exception {
+			BufferedReader in = new BufferedReader( new InputStreamReader( getServerSocket().getInputStream() ) );
+			
+			String msg =  in.readLine();
+			return msg;
+		}
+		
+		private synchronized void handleOutput( boolean sendMap, boolean sendAreas ) throws Exception {
+			PrintWriter out = new PrintWriter( getServerSocket().getOutputStream() );
+		
+			if( sendMap ) {
+				out.print( getCurrentRegionData() );
+				out.flush();
 			}
 		}
 		
@@ -103,5 +131,21 @@ public class GameServer extends SinglePlayerGame implements Runnable {
 			super.finalize();
 			getHost().close();
 		}
+	}
+	
+	public String getCurrentRegionData() {
+		GameMap currentRegionClone = new GameMap( getCurrentRegion().getName(),
+			getCurrentRegion().getType(),	
+			null, 
+			getCurrentRegion().getNumberOfAreas(), 
+			getCurrentRegion().getNumberOfLines(),
+			null, 
+			getCurrentRegion().getGroundTexturePath(), 
+			getCurrentRegion().getGroundOverTexturePath(), 
+			getCurrentRegion().getGroundSelectedTexturePath()
+		);
+		
+		String message = XmlTools.getXMLStringFromObject( currentRegionClone );
+		return message;
 	}
 }

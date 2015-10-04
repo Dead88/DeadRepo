@@ -49,7 +49,7 @@ public class Window extends JFrame
 				GamePanel gp = (GamePanel) currentPanel;
 				try {
 					if(gp.getSinglePlayerGame() instanceof GameServer) ((GameServer) gp.getSinglePlayerGame()).getHost().close();
-					else if(gp.getSinglePlayerGame() instanceof GameClient) ((GameClient) gp.getSinglePlayerGame()).getClient().close();
+					else if(gp.getSinglePlayerGame() instanceof GameClient) ((GameClient) gp.getSinglePlayerGame()).getClientSocket().close();
 					gp.setSinglePlayerGame(null);
 				}
 				catch(Exception e) {}
@@ -72,7 +72,7 @@ public class Window extends JFrame
 			if(currentPanel instanceof GamePanel ) {
 				GamePanel gp = (GamePanel) currentPanel;
 				if(gp.getSinglePlayerGame() instanceof GameServer) ((GameServer) gp.getSinglePlayerGame()).getHost().close();
-				else if(gp.getSinglePlayerGame() instanceof GameClient) ((GameClient) gp.getSinglePlayerGame()).getClient().close();
+				else if(gp.getSinglePlayerGame() instanceof GameClient) ((GameClient) gp.getSinglePlayerGame()).getClientSocket().close();
 				gp.setSinglePlayerGame(null);
 			}
 			this.remove( currentPanel );
@@ -104,7 +104,7 @@ public class Window extends JFrame
 			if(currentPanel instanceof GamePanel ) {
 				GamePanel gp = (GamePanel) currentPanel;
 				if(gp.getSinglePlayerGame() instanceof GameServer) ((GameServer) gp.getSinglePlayerGame()).getHost().close();
-				else if(gp.getSinglePlayerGame() instanceof GameClient) ((GameClient) gp.getSinglePlayerGame()).getClient().close();
+				else if(gp.getSinglePlayerGame() instanceof GameClient) ((GameClient) gp.getSinglePlayerGame()).getClientSocket().close();
 				gp.setSinglePlayerGame(null);
 			}
 			this.remove( currentPanel );
@@ -134,7 +134,7 @@ public class Window extends JFrame
 			if(currentPanel instanceof GamePanel ) {
 				GamePanel gp = (GamePanel) currentPanel;
 				if(gp.getSinglePlayerGame() instanceof GameServer) ((GameServer) gp.getSinglePlayerGame()).getHost().close();
-				else if(gp.getSinglePlayerGame() instanceof GameClient) ((GameClient) gp.getSinglePlayerGame()).getClient().close();
+				else if(gp.getSinglePlayerGame() instanceof GameClient) ((GameClient) gp.getSinglePlayerGame()).getClientSocket().close();
 				gp.setSinglePlayerGame(null);
 			}
 			this.remove( currentPanel );
@@ -152,9 +152,13 @@ public class Window extends JFrame
 			
 			Thread clientThread = new Thread( gameClient );
 			clientThread.start();
-		    
+			
+			while( gameClient.getClientSocket().isConnected() ) {
+			
+			}
+			
 			GameMenuPanel gameMenuPanel = new GameMenuPanel( this, gameClient );
-			GamePanel gamePanel = new GamePanel( this, gameClient, gameMenuPanel );
+			GamePanel gamePanel = new GamePanel( this, gameClient, gameMenuPanel );	
 			
 			this.add( gameMenuPanel , BorderLayout.SOUTH );
 			this.add( gamePanel, BorderLayout.CENTER );
