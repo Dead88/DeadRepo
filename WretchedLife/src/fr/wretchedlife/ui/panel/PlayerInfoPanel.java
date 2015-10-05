@@ -126,9 +126,9 @@ public class PlayerInfoPanel extends JPanel {
 				+ "Faim "+ player.getHungerPercent()+" %<br />"
 				+ "Soif "+ player.getThirstPercent()+" %</html>");
 		((JLabel) this.getComponent(2)).setText("<html>"
-				+ "Force " + player.getStrengh() + "<br />"
-				+ "Agilité " + player.getAgility() + "<br />"
-				+ "Savoir "+ player.getKnowledge()+"</html>" );
+				+ "Force " + player.getStrengh() + " (+" + player.getStrenghBonus()+")<br />"
+				+ "Agilité " + player.getAgility() + " (+" + player.getAgilityBonus()+")<br />"
+				+ "Savoir "+ player.getKnowledge()+ " (+" + player.getKnowledgeBonus()+")</html>" );
 		
 		JPanel skillPointsButtonPanel = (JPanel) this.getComponent(3);
 		if( player.getSkillPointsLeft() > 0 ) 

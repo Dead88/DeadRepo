@@ -8,8 +8,8 @@ import java.util.Random;
 import javax.swing.ImageIcon;
 
 //FIXME : multiplayer : dev xmltools pour serializer les regions
-//FIXME : affichage des bonus de skill eg 5 (+2), creation d'un GameEventListener qui centralise les evenements/logs
-//TODO : coffre d'objets, loot des enemies, selection et nommage perso
+//FIXME : remplacement des popup par des sons (peut pas porter etc) 
+//TODO : coffre d'objets, loot des enemies, selection et nommage perso, plus de contenu
 
 public class Constants 
 {

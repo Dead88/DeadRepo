@@ -165,13 +165,13 @@ public class ItemGenerator {
 					int hatchetPropPower = Integer.parseInt( hatchetProp.getValue().replace("+ ", "") );
 					
 					if(hatchetProp.getCode() == ItemProperty.Code.Force) {
-						player.setStrengh( player.getStrengh() + hatchetPropPower );
+						player.setStrenghBonus( player.getStrenghBonus() + hatchetPropPower );
 					}
 					else if(hatchetProp.getCode() == ItemProperty.Code.Agilité) {
-						player.setAgility( player.getAgility() + hatchetPropPower );				
+						player.setAgilityBonus( player.getAgilityBonus() + hatchetPropPower );				
 					}
 					else if(hatchetProp.getCode() == ItemProperty.Code.Savoir) {
-						player.setKnowledge( player.getKnowledge() + hatchetPropPower );
+						player.setKnowledgeBonus( player.getKnowledgeBonus() + hatchetPropPower );
 					}
 				}
 			}
@@ -185,13 +185,13 @@ public class ItemGenerator {
 					int hatchetPropPower = Integer.parseInt( hatchetProp.getValue().replace("+ ", "") );
 					
 					if(hatchetProp.getCode() == ItemProperty.Code.Force) {
-						player.setStrengh( player.getStrengh() - hatchetPropPower );
+						player.setStrenghBonus( player.getStrenghBonus() - hatchetPropPower );
 					}
 					else if(hatchetProp.getCode() == ItemProperty.Code.Agilité) {
-						player.setAgility( player.getAgility() - hatchetPropPower );				
+						player.setAgilityBonus( player.getAgilityBonus() - hatchetPropPower );				
 					}
 					else if(hatchetProp.getCode() == ItemProperty.Code.Savoir) {
-						player.setKnowledge( player.getKnowledge() - hatchetPropPower );
+						player.setKnowledgeBonus( player.getKnowledgeBonus() - hatchetPropPower );
 					}
 				}
 			}

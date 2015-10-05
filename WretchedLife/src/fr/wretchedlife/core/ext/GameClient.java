@@ -1,8 +1,10 @@
 package fr.wretchedlife.core.ext;
 
 import java.io.BufferedReader;
+import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.net.Socket;
 
@@ -14,6 +16,9 @@ import fr.wretchedlife.map.GameMap;
 public class GameClient extends SinglePlayerGame implements Runnable {
 	
 	private Socket clientSocket;
+	private PrintStream out;
+	private DataInputStream in;
+	
 	boolean isMapReady = false;
 	
 	public GameClient( String serverAddr ) throws Exception {
@@ -22,23 +27,24 @@ public class GameClient extends SinglePlayerGame implements Runnable {
 		System.out.println("Initalizing client...");
 		
 		this.clientSocket = new Socket(serverAddr , Constants.multiplayerPort );
-
+		this.out = new PrintStream( getClientSocket().getOutputStream(), true );
+		this.in = new DataInputStream( getClientSocket().getInputStream() );
+		
 		System.out.println("Client started...");
 	}
 	
 	@Override
-	public void run() {
+	public synchronized void run() {
 		try {
 			while(true) {
 				try {
 					if( !isMapReady ) {
 						handleOutput( true, false );
-						
-						String inputResult = handleInput();
-						if( inputResult == null) continue;
-						
-						System.out.println( handleInput() );
-						isMapReady = true;
+
+						handleInput();
+					}
+					else {
+						out.print("MAPOK");
 					}
 				}
 				catch(Exception e ) {
@@ -57,17 +63,22 @@ public class GameClient extends SinglePlayerGame implements Runnable {
 	public Socket getClientSocket() {return clientSocket;}
 	public void setClientSocket(Socket clientSocket) {this.clientSocket = clientSocket;}
 	
-	private synchronized String handleInput() throws Exception {
-		BufferedReader in = new BufferedReader( new InputStreamReader( getClientSocket().getInputStream() ) );
+	private String handleInput() throws Exception {
 		String msg = "";
 		String line = "";
 		
-		while( ( line = in.readLine() ) != null ) {
+		if( in.available() < 1 ) return null;
+		
+		while( ( line = in.readUTF() ) != null ) {
 			msg += line;
+			if( msg != null && !"".equals(msg))
+				break;
 		}
 		
 		try {
 			GameMap gameMap = XmlTools.getObjectFromXMLString( msg );
+			isMapReady = true;
+			System.out.println("map retrieved !");
 		}
 		catch(Exception e) {
 			System.out.println("map retrieve failed");
@@ -75,12 +86,9 @@ public class GameClient extends SinglePlayerGame implements Runnable {
 		return msg;
 	}
 	
-	private synchronized void handleOutput( boolean sendMapRequest, boolean sendAreasRequest ) throws Exception {
-		PrintWriter out = new PrintWriter( getClientSocket().getOutputStream() );
-		
+	private void handleOutput( boolean sendMapRequest, boolean sendAreasRequest ) throws Exception {
 		if( sendMapRequest ) {
 			out.print("GAMEMAP");
-			out.flush();
 		}
 	}
 	

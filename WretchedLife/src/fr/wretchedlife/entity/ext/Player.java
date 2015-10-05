@@ -28,6 +28,9 @@ public class Player extends Entity {
 	private int agility;
 	private int knowledge;
 	private int skillPointsLeft;
+	private int strenghBonus;
+	private int agilityBonus;
+	private int knowledgeBonus;
 	
 	private ArrayList<Item> inventory;
 	private int inventoryMaxSize;
@@ -68,6 +71,9 @@ public class Player extends Entity {
 		this.agility = 0;
 		this.knowledge = 0;
 		this.skillPointsLeft = 1;
+		this.strenghBonus = 0;
+		this.agilityBonus = 0;
+		this.knowledgeBonus = 0;
 		
 		this.inventory = new ArrayList<Item>();
 		this.inventoryMaxSize = Constants.startingInventoryMaxSize;
@@ -104,18 +110,18 @@ public class Player extends Entity {
 		if( item instanceof WeaponItem ) {
 			WeaponItem w = (WeaponItem) item;
 			if( getLevel() >= w.getRequiredLevel() 
-			&& getStrengh() >= w.getRequiredStrengh()
-			&& getAgility() >= w.getRequiredAgility()
-			&& getKnowledge() >= w.getRequiredKnowledge() ) {
+			&& ( getStrengh() + getStrenghBonus() ) >= w.getRequiredStrengh()
+			&& ( getAgility() + getAgilityBonus() ) >= w.getRequiredAgility()
+			&& ( getKnowledge() + getKnowledgeBonus() ) >= w.getRequiredKnowledge() ) {
 				return true;
 			}
 		}
 		else {
 			ArmorItem a = (ArmorItem) item;
 			if( getLevel() >= a.getRequiredLevel() 
-			&& getStrengh() >= a.getRequiredStrengh()
-			&& getAgility() >= a.getRequiredAgility()
-			&& getKnowledge() >= a.getRequiredKnowledge() ) {
+			&& ( getStrengh() + getStrenghBonus() ) >= a.getRequiredStrengh()
+			&& ( getAgility() + getAgilityBonus() ) >= a.getRequiredAgility()
+			&& ( getKnowledge() + getKnowledgeBonus() ) >= a.getRequiredKnowledge() ) {
 				return true;
 			}
 		}
@@ -251,6 +257,30 @@ public class Player extends Entity {
 
 	public void setSkillPointsLeft(int skillPointsLeft) {
 		this.skillPointsLeft = skillPointsLeft;
+	}
+
+	public int getStrenghBonus() {
+		return strenghBonus;
+	}
+
+	public void setStrenghBonus(int strenghBonus) {
+		this.strenghBonus = strenghBonus;
+	}
+
+	public int getAgilityBonus() {
+		return agilityBonus;
+	}
+
+	public void setAgilityBonus(int agilityBonus) {
+		this.agilityBonus = agilityBonus;
+	}
+
+	public int getKnowledgeBonus() {
+		return knowledgeBonus;
+	}
+
+	public void setKnowledgeBonus(int knowledgeBonus) {
+		this.knowledgeBonus = knowledgeBonus;
 	}
 
 	public void setInventory(ArrayList<Item> inventory) {

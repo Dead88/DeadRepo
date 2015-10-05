@@ -176,27 +176,5 @@ public class Window extends JFrame
 	public void render() {
 		this.getContentPane().validate();	
 		this.repaint();
-		
-		if( currentPanel != null && currentPanel instanceof GamePanel ) {
-			GamePanel gamePanel = (GamePanel) currentPanel;
-			
-			if( !gamePanel.hasFocus() ) gamePanel.grabFocus();
-			
-			if(currentMenuPanel != null) {
-				GameMenuPanel gameMenuPanel = (GameMenuPanel) currentMenuPanel;
-				JPanel leftHudPanel = (JPanel) gameMenuPanel.getComponent(0);
-				PlayerInventoryPanel playerInventoryPanel = (PlayerInventoryPanel) leftHudPanel.getComponent(1);
-				
-				if( gamePanel.getSinglePlayerGame() != null && gamePanel.getSinglePlayerGame().getPlayer() != null ) {
-					if( gamePanel.getSinglePlayerGame().getPlayer().getLifeRemain() <= 0 ) {
-						gamePanel.gameOver();
-					}
-					else if( gamePanel.getSinglePlayerGame().getPlayer().getExperience() >= gamePanel.getSinglePlayerGame().getPlayer().getExperienceToReach() ) {
-						gamePanel.getSinglePlayerGame().getPlayer().levelUp();
-						playerInventoryPanel.refresh();
-					}
-				}
-			}
-		}
 	}
 }

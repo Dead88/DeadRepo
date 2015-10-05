@@ -1,8 +1,9 @@
 package fr.wretchedlife.core.ext;
 
 import java.io.BufferedReader;
+import java.io.DataInputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -73,14 +74,19 @@ public class GameServer extends SinglePlayerGame implements Runnable {
 	class ClientWorker implements Runnable {
 		
 		private Socket serverSocket;
+		private PrintStream out;
+		private DataInputStream in;
+		
 		private boolean hasSendedMap = false;
 		
-		public ClientWorker( Socket serverSocket ) {
+		public ClientWorker( Socket serverSocket ) throws Exception {
 			this.serverSocket = serverSocket;
+			this.out = new PrintStream( getServerSocket().getOutputStream(), true );
+			this.in = new DataInputStream( getServerSocket().getInputStream() );
 		}
 
 		@Override
-		public void run() {
+		public synchronized void run() {
 			try {
 				while( true ) {
 					try {
@@ -90,6 +96,9 @@ public class GameServer extends SinglePlayerGame implements Runnable {
 							
 							if( inputResult.contains("GAMEMAP") ) {
 								handleOutput( true, false);
+							}
+							else if( inputResult.contains("MAPOK") ) {
+								System.out.println("client gamemap is ready");
 								hasSendedMap = true;
 							}
 						}
@@ -110,19 +119,25 @@ public class GameServer extends SinglePlayerGame implements Runnable {
 		public Socket getServerSocket() {return serverSocket;}
 		public void setServerSocket(Socket serverSocket) {this.serverSocket = serverSocket;}
 
-		private synchronized String handleInput() throws Exception {
-			BufferedReader in = new BufferedReader( new InputStreamReader( getServerSocket().getInputStream() ) );
+		private String handleInput() throws Exception {
+			String msg = "";
+			String line = "";
 			
-			String msg =  in.readLine();
+			if( in.available() < 1 ) return null;
+			
+			while( ( line = in.readUTF() ) != null ) {
+				msg += line;
+				if( msg != null && !"".equals(msg))
+					break;
+			}
+			
 			return msg;
 		}
 		
-		private synchronized void handleOutput( boolean sendMap, boolean sendAreas ) throws Exception {
-			PrintWriter out = new PrintWriter( getServerSocket().getOutputStream() );
-		
+		private void handleOutput( boolean sendMap, boolean sendAreas ) throws Exception {
 			if( sendMap ) {
 				out.print( getCurrentRegionData() );
-				out.flush();
+				System.out.println("gamemap sended");
 			}
 		}
 		
