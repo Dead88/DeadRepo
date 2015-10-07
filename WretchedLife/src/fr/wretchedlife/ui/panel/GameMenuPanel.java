@@ -145,6 +145,7 @@ public class GameMenuPanel extends JPanel {
 						player.getInventory().add( containerItem );
 					}
 
+					container.setInventory( null );
 					player.setTransportedWeight( player.getTransportedWeight() - container.getWeight() );
 					player.getInventory().remove( container );
 					_this.clearPreviewInfoPanel();
