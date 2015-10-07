@@ -8,8 +8,7 @@ import java.util.Random;
 import javax.swing.ImageIcon;
 
 //FIXME : multiplayer : dev xmltools pour serializer les regions
-//FIXME : remplacement des popup par des sons (peut pas porter etc) 
-//TODO : coffre d'objets, loot des enemies, selection et nommage perso, plus de contenu
+//TODO : selection et nommage perso, plus de contenu
 
 public class Constants 
 {
@@ -17,10 +16,15 @@ public class Constants
 	
 	public static final int playerVisibilyRange = 3;
 	public static final int enemyVisibilyRange = 3;
+	
 	public static final int multiplayerPort = 5000;
-	public static final int itemIdLength = 25;
+	public static final int itemIdLength = 36;
 	public static final int gameMapIdLength = 20;
 	
+	public static final int minItemsPerRandomChest = 2;
+	public static final int maxItemsPerRandomChest = 4;
+	public static final int minItemsPerEnemyChest = 0;
+	public static final int maxItemsPerEnemyChest = 3;
 	// STYLES 
 	
 	public static final Color goldColor = new Color(201, 180, 87);
@@ -44,6 +48,8 @@ public class Constants
 	public static int maxConsumableItemsPerOutdoorRegion = 50;
 	public static int minHealingConsumableItemsPerOutdoorRegion = 10;
 	public static int maxHealingConsumableItemsPerOutdoorRegion = 20;
+	public static int minContainerItemsPerOutdoorRegion = 4;
+	public static int maxContainerItemsPerOutdoorRegion = 16;
 	public static int minEnemiesPerOutdoorRegion = 15;
 	public static int maxEnemiesPerOutdoorRegion = 55;
 	public static int minBossPerOutdoorRegion = 1;
@@ -64,6 +70,8 @@ public class Constants
 	public static int maxConsumableItemsPerBuildingRegion = 2;
 	public static int minHealingConsumableItemsPerBuildingRegion = 0;
 	public static int maxHealingConsumableItemsPerBuildingRegion = 2;
+	public static int minContainerItemsPerBuildingRegion = 0;
+	public static int maxContainerItemsPerBuildingRegion = 1;
 	public static int minEnemiesPerBuildingRegion = 0;
 	public static int maxEnemiesPerBuildingRegion = 1;
 	
@@ -82,6 +90,8 @@ public class Constants
 	public static int maxConsumableItemsPerUndergroundRegion = 6;
 	public static int minHealingConsumableItemsPerUndergroundRegion = 0;
 	public static int maxHealingConsumableItemsPerUndergroundRegion = 6;
+	public static int minContainerItemsPerUndergroundRegion = 0;
+	public static int maxContainerItemsPerUndergroundRegion = 2;
 	public static int minEnemiesPerUndergroundRegion = 0;
 	public static int maxEnemiesPerUndergroundRegion = 6;
 	public static int minBossPerUndergroundRegion = 0;
@@ -89,7 +99,7 @@ public class Constants
 	
 	// GAME RATES
 	
-	public static final double levelUpRate = 1.125;
+	public static final double levelUpRate = 1.10;
 	public static final double lifeUpRate = 1.02;
 	public static final double hungerDownPercent = 0.25;
 	public static final double thirstDownPercent = 0.5;

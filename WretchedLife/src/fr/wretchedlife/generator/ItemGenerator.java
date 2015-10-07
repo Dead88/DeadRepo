@@ -4,10 +4,13 @@ import java.util.ArrayList;
 
 import fr.wretchedlife.Constants;
 import fr.wretchedlife.entity.ext.Player;
+import fr.wretchedlife.factory.ItemFactory;
 import fr.wretchedlife.factory.SoundFactory;
+import fr.wretchedlife.obj.Item;
 import fr.wretchedlife.obj.ItemProperty;
 import fr.wretchedlife.obj.item.ArmorItem;
 import fr.wretchedlife.obj.item.ConsumableItem;
+import fr.wretchedlife.obj.item.ContainerItem;
 import fr.wretchedlife.obj.item.WeaponItem;
 
 public class ItemGenerator {
@@ -526,5 +529,36 @@ public class ItemGenerator {
 		};
 		
 		return waterbottle;
+	}
+	
+	public static ContainerItem createEmptyChest( final Player player) {
+		ContainerItem chest = new ContainerItem( 
+			"Coffre", 
+			Constants.getTexture( ".\\img\\items\\chest.png" ),
+			2, 
+			null, 
+			new ArrayList<Item>(), 
+			false
+		);
+		return chest;
+	}
+	
+	public static ContainerItem createChest( final Player player, int numberOfItems ) {
+		ArrayList<Item> chestInventory = new ArrayList<Item>();
+		
+		for (int i = 0; i < numberOfItems; i++) {
+			Item randomItem = ItemFactory.getRandomItem(player);
+			chestInventory.add( randomItem );
+		}
+		
+		ContainerItem chest = new ContainerItem( 
+			"Coffre", 
+			Constants.getTexture( ".\\img\\items\\chest.png" ),
+			2, 
+			null, 
+			chestInventory, 
+			false
+		);
+		return chest;
 	}
 }

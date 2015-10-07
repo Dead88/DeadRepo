@@ -1,13 +1,13 @@
 package fr.wretchedlife.entity.ext;
 
-import java.util.ArrayList;
-
 import fr.wretchedlife.Constants;
 import fr.wretchedlife.entity.Entity;
 import fr.wretchedlife.factory.ItemFactory;
 import fr.wretchedlife.factory.SoundFactory;
+import fr.wretchedlife.generator.ItemGenerator;
 import fr.wretchedlife.map.Area;
 import fr.wretchedlife.obj.Item;
+import fr.wretchedlife.obj.item.ContainerItem;
 import fr.wretchedlife.ui.panel.GamePanel;
 import fr.wretchedlife.ui.panel.InfoPanel;
 
@@ -22,20 +22,28 @@ public class Enemy extends Entity {
 	private int itemDefense;
 	private int experienceToEarn;
 	
-	private ArrayList<Item> inventory;
+	private ContainerItem lootContainer;
 	
 	public Enemy() {
 		super();
 	}
 	
-	public void generateRandomInventory( Player player ) {
-		inventory = new ArrayList<Item>();
-		int inventorySize = Constants.getRandomBetween(0, 3);
+	public void generateLootContainer( Player player ) {
+		int inventorySize = Constants.getRandomBetween( Constants.minItemsPerEnemyChest, Constants.maxItemsPerEnemyChest );
+		
+		if( inventorySize == 0 ) {
+			setLootContainer( null );
+			return;
+		}
+		
+		ContainerItem lootChest = ItemGenerator.createEmptyChest( player );
 		
 		for(int i = 0; i < inventorySize; i++) {
 			Item item = ItemFactory.getRandomItem( player );
-			getInventory().add( item );
+			lootChest.getInventory().add( item );
 		}
+		
+		setLootContainer( lootChest );
 	}
 	
 	public void move( Area currentArea, Area destinationArea ) {
@@ -174,11 +182,11 @@ public class Enemy extends Entity {
 		this.experienceToEarn = experienceToEarn;
 	}
 
-	public ArrayList<Item> getInventory() {
-		return inventory;
+	public ContainerItem getLootContainer() {
+		return lootContainer;
 	}
 
-	public void setInventory(ArrayList<Item> inventory) {
-		this.inventory = inventory;
+	public void setLootContainer(ContainerItem lootContainer) {
+		this.lootContainer = lootContainer;
 	}
 }

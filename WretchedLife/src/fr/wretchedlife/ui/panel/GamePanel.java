@@ -120,8 +120,17 @@ public class GamePanel extends JPanel {
 		SoundFactory.playSound( SoundFactory.attackSoundFilePath );
 		
 		if(e.getLifeRemain() <= 0) {
-			gameMenuPanel.getInfoPanel().log( "Killed " + e.getName()+", earned " + e.getExperienceToEarn()+" exp" );
+			gameMenuPanel.getInfoPanel().log( "Killed " + e.getName() + ", earned " + e.getExperienceToEarn()+" exp" );
+			if( e.getLootContainer() != null ) {
+				gameMenuPanel.getInfoPanel().log( e.getName() + " dropped a chest with " + e.getLootContainer().getInventory().size() + " item(s)" );
+			}
 			player.setExperience( player.getExperience() + e.getExperienceToEarn() );
+			
+			if( e.getLootContainer() != null) {
+				Area nearestAreaFromEnemy = getNearestAvailableArea( singlePlayerGame.getCurrentRegion(), enemyArea, true );
+				nearestAreaFromEnemy.setItem( e.getLootContainer() );
+			}
+
 			enemyArea.setEntity( null );
 			singlePlayerGame.getCurrentRegion().getEnemies().remove( e );
 		}
@@ -337,7 +346,7 @@ public class GamePanel extends JPanel {
 		return null;
 	}
 	
-	public Area getNearestAvailableArea( GameMap region, Area centerArea) {
+	public Area getNearestAvailableArea( GameMap region, Area centerArea, boolean noItems) {
 		Area topArea = getRegionAreaByCoordinate(region, centerArea.getX(), centerArea.getY() - player.getTexture().getIconHeight() );
 		Area topRightArea = getRegionAreaByCoordinate(region, centerArea.getX() + player.getTexture().getIconWidth(), centerArea.getY() - player.getTexture().getIconHeight() );
 		Area rightArea = getRegionAreaByCoordinate(region, centerArea.getX() + player.getTexture().getIconWidth(), centerArea.getY() );
@@ -347,14 +356,46 @@ public class GamePanel extends JPanel {
 		Area leftArea = getRegionAreaByCoordinate(region, centerArea.getX() - player.getTexture().getIconWidth(), centerArea.getY() );
 		Area topLeftArea = getRegionAreaByCoordinate(region, centerArea.getX() - player.getTexture().getIconWidth(), centerArea.getY() - player.getTexture().getIconHeight() );
 		
-		if( rightArea != null && rightArea.getType() == Area.Type.GROUND_AREA && rightArea.getEntity() == null ) { return rightArea; }
-		else if( bottomRightArea != null && bottomRightArea.getType() == Area.Type.GROUND_AREA && bottomRightArea.getEntity() == null ) { return bottomRightArea; }
-		else if( bottomArea != null && bottomArea.getType() == Area.Type.GROUND_AREA && bottomArea.getEntity() == null ) { return bottomArea; }
-		else if( bottomLeftArea != null && bottomLeftArea.getType() == Area.Type.GROUND_AREA && bottomLeftArea.getEntity() == null ) { return bottomLeftArea; }
-		else if( leftArea != null && leftArea.getType() == Area.Type.GROUND_AREA && leftArea.getEntity() == null ) { return leftArea; }
-		else if( topLeftArea != null && topLeftArea.getType() == Area.Type.GROUND_AREA && topLeftArea.getEntity() == null ) { return topLeftArea; }
-		else if( topArea != null && topArea.getType() == Area.Type.GROUND_AREA && topArea.getEntity() == null ) { return topArea; }
-		else if( topRightArea != null && topRightArea.getType() == Area.Type.GROUND_AREA && topRightArea.getEntity() == null ) { return topRightArea; }
+		if( rightArea != null && rightArea.getType() == Area.Type.GROUND_AREA 
+		&& rightArea.getEntity() == null 
+		&& ( !noItems || ( noItems && rightArea.getItem() == null) ) ) {
+			return rightArea; 
+		}
+		else if( bottomRightArea != null && bottomRightArea.getType() == Area.Type.GROUND_AREA 
+		&& bottomRightArea.getEntity() == null 
+		&& ( !noItems || ( noItems && bottomRightArea.getItem() == null) ) ) {
+			return bottomRightArea; 
+		}
+		else if( bottomArea != null && bottomArea.getType() == Area.Type.GROUND_AREA 
+		&& bottomArea.getEntity() == null 
+		&& ( !noItems || ( noItems && bottomArea.getItem() == null) ) ) {
+			return bottomArea; 
+		}
+		else if( bottomLeftArea != null && bottomLeftArea.getType() == Area.Type.GROUND_AREA 
+		&& bottomLeftArea.getEntity() == null 
+		&& ( !noItems || ( noItems && bottomLeftArea.getItem() == null) ) ) {
+			return bottomLeftArea; 
+		}
+		else if( leftArea != null && leftArea.getType() == Area.Type.GROUND_AREA 
+		&& leftArea.getEntity() == null 
+		&& ( !noItems || ( noItems && leftArea.getItem() == null) ) ) {
+			return leftArea; 
+		}
+		else if( topLeftArea != null && topLeftArea.getType() == Area.Type.GROUND_AREA 
+		&& topLeftArea.getEntity() == null 
+		&& ( !noItems || ( noItems && topLeftArea.getItem() == null) ) ) {
+			return topLeftArea; 
+		}
+		else if( topArea != null && topArea.getType() == Area.Type.GROUND_AREA 
+		&& topArea.getEntity() == null 
+		&& ( !noItems || ( noItems && topArea.getItem() == null) ) ) {
+			return topArea; 
+		}
+		else if( topRightArea != null && topRightArea.getType() == Area.Type.GROUND_AREA 
+		&& topRightArea.getEntity() == null 
+		&& ( !noItems || ( noItems && topRightArea.getItem() == null) ) ) {
+			return topRightArea; 
+		}
 		
 		return null;
 	}

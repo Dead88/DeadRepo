@@ -15,6 +15,7 @@ public class SoundFactory {
 	public static final String equipSoundFilePath = ".//sounds//equip.wav";
 	public static final String storeItemSoundFilePath = ".//sounds//storeitem.wav";
 	public static final String doorFilePath = ".//sounds//door.wav";
+	public static final String impossibleFilePath = ".//sounds//impossible.wav";
 
 	public SoundFactory() {}
 	

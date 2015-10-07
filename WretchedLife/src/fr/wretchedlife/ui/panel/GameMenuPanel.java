@@ -7,7 +7,6 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import fr.wretchedlife.Constants;
@@ -21,6 +20,7 @@ import fr.wretchedlife.obj.Item;
 import fr.wretchedlife.obj.ItemProperty;
 import fr.wretchedlife.obj.item.ArmorItem;
 import fr.wretchedlife.obj.item.ConsumableItem;
+import fr.wretchedlife.obj.item.ContainerItem;
 import fr.wretchedlife.obj.item.WeaponItem;
 import fr.wretchedlife.ui.Window;
 
@@ -128,6 +128,30 @@ public class GameMenuPanel extends JPanel {
 			});
 			infoPanel.getPreviewPanel().add( itemUseButton );
 		}
+		else if( item instanceof ContainerItem ) {
+			JButton itemUseButton = new JButton("Ouvrir");
+			itemUseButton.addActionListener( new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					ContainerItem container = (ContainerItem) item;
+					
+					if( ( player.getInventory().size() + container.getInventory().size() ) - 1 > player.getInventoryMaxSize() ) {
+						SoundFactory.playSound( SoundFactory.impossibleFilePath );
+						return;
+					}
+					
+					for (int i = 0; i < container.getInventory().size(); i++) {
+						Item containerItem = container.getInventory().get(i);
+						player.getInventory().add( containerItem );
+					}
+
+					player.setTransportedWeight( player.getTransportedWeight() - container.getWeight() );
+					player.getInventory().remove( container );
+					_this.clearPreviewInfoPanel();
+				}
+			});
+			infoPanel.getPreviewPanel().add( itemUseButton );
+		}
 		else if( item instanceof WeaponItem || item instanceof ArmorItem ){
 			JButton itemUseButton = new JButton("Equiper");
 			itemUseButton.addActionListener( new ActionListener() {
@@ -135,7 +159,7 @@ public class GameMenuPanel extends JPanel {
 				public void actionPerformed(ActionEvent e) {
 					
 					if( !player.hasEnoughSkillToEquipItem( item ) ) {
-						JOptionPane.showMessageDialog( window.getCurrentPanel() , "Vous ne pouvez pas porter cet objet !");
+						SoundFactory.playSound( SoundFactory.impossibleFilePath );
 						return;
 					}
 					
@@ -144,7 +168,7 @@ public class GameMenuPanel extends JPanel {
 					if( item instanceof WeaponItem ) {
 						
 						if( player.getLeftHandWeaponItem() != null && player.getRightHandWeaponItem() != null) {
-							JOptionPane.showMessageDialog( window.getCurrentPanel() , "Vos deux mains tiennent déjà quelque chose !");
+							SoundFactory.playSound( SoundFactory.impossibleFilePath );
 							return;
 						}
 						if( player.getLeftHandWeaponItem() == null )
@@ -160,14 +184,14 @@ public class GameMenuPanel extends JPanel {
 						ArmorItem armorItem = (ArmorItem) item;
 						if( armorItem.getType() == ArmorItem.Type.HEAD) {
 							if( player.getHeadArmor() != null) {
-								JOptionPane.showMessageDialog( window.getCurrentPanel() , "Vous portez déjà quelque chose sur la tête !");
+								SoundFactory.playSound( SoundFactory.impossibleFilePath );
 								return;
 							}
 							player.setHeadArmor( armorItem );
 						}
 						else if( armorItem.getType() == ArmorItem.Type.SHOULDER) {
 							if( player.getLeftShoulderArmor() != null &&  player.getRightShoulderArmor() != null ) {
-								JOptionPane.showMessageDialog( window.getCurrentPanel() , "Vous portez déjà quelque chose les deux épaules !");
+								SoundFactory.playSound( SoundFactory.impossibleFilePath );
 								return;
 							}
 							if(player.getLeftShoulderArmor() == null)
@@ -177,7 +201,7 @@ public class GameMenuPanel extends JPanel {
 						}
 						else if( armorItem.getType() == ArmorItem.Type.ARM) {
 							if( player.getArmArmor() != null ) {
-								JOptionPane.showMessageDialog( window.getCurrentPanel() , "Vous portez déjà quelque chose sur les bras !");
+								SoundFactory.playSound( SoundFactory.impossibleFilePath );
 								return;
 							}
 							if(player.getArmArmor() == null)
@@ -185,35 +209,35 @@ public class GameMenuPanel extends JPanel {
 						}
 						else if( armorItem.getType() == ArmorItem.Type.HANDS) {
 							if( player.getHandsArmor() != null) {
-								JOptionPane.showMessageDialog( window.getCurrentPanel() , "Vous portez déjà des gants !");
+								SoundFactory.playSound( SoundFactory.impossibleFilePath );
 								return;
 							}
 							player.setHandsArmor( armorItem );
 						}
 						else if( armorItem.getType() == ArmorItem.Type.CHEST) {
 							if( player.getChestArmor() != null) {
-								JOptionPane.showMessageDialog( window.getCurrentPanel() , "Vous portez déjà quelque chose sur le torse !");
+								SoundFactory.playSound( SoundFactory.impossibleFilePath );
 								return;
 							}
 							player.setChestArmor( armorItem );
 						}
 						else if( armorItem.getType() == ArmorItem.Type.BELT) {
 							if( player.getBeltArmor() != null) {
-								JOptionPane.showMessageDialog( window.getCurrentPanel() , "Vous portez déjà quelque chose à la ceinture !");
+								SoundFactory.playSound( SoundFactory.impossibleFilePath );
 								return;
 							}
 							player.setBeltArmor( armorItem );						
 						}
 						else if( armorItem.getType() == ArmorItem.Type.LEGS) {
 							if( player.getLegsArmor() != null) {
-								JOptionPane.showMessageDialog( window.getCurrentPanel() , "Vous portez déjà quelque chose sur les jambes !");
+								SoundFactory.playSound( SoundFactory.impossibleFilePath );
 								return;
 							}
 							player.setLegsArmor( armorItem );
 						}
 						else if( armorItem.getType() == ArmorItem.Type.FEET) {
 							if( player.getFeetArmor() != null) {
-								JOptionPane.showMessageDialog( window.getCurrentPanel() , "Vous portez déjà quelque chose aux pieds !");
+								SoundFactory.playSound( SoundFactory.impossibleFilePath );
 								return;
 							}
 							player.setFeetArmor( armorItem );
@@ -243,7 +267,7 @@ public class GameMenuPanel extends JPanel {
 						_this.clearPreviewInfoPanel();
 					}
 					else {
-						JOptionPane.showMessageDialog( window.getCurrentPanel() , "Vous ne pouvez pas jeter ça ici !");
+						SoundFactory.playSound( SoundFactory.impossibleFilePath );
 						return;
 					}
 				}
@@ -335,6 +359,12 @@ public class GameMenuPanel extends JPanel {
 			itemInfo += "Force requise : " + ((ArmorItem) item).getRequiredStrengh()+"<br />";
 			itemInfo += "Agilité requise : " + ((ArmorItem) item).getRequiredAgility()+"<br />";
 			itemInfo += "Savoir requis : " + ((ArmorItem) item).getRequiredKnowledge()+"<br />";
+		}
+		else if( item instanceof ContainerItem ) {
+			itemInfo += "Nombre d'objets : " + ((ContainerItem) item).getInventory().size()+"<br />";
+			for (int i = 0; i < ((ContainerItem) item).getInventory().size(); i++) {
+				itemInfo += "- "+ ((ContainerItem) item).getInventory().get(i).getName() + "<br />";
+			}
 		}
 		
 		if(item.getProperties() != null) {

@@ -70,6 +70,9 @@ public class MapFactory {
 					Constants.minConsumableItemsPerOutdoorRegion, Constants.maxConsumableItemsPerOutdoorRegion ) );
 			ItemFactory.generateRandomHealingConsumableItems( region, player, Constants.getRandomBetween( 
 					Constants.minHealingConsumableItemsPerOutdoorRegion, Constants.maxHealingConsumableItemsPerOutdoorRegion ) );
+			ItemFactory.generateRandomContainerItems( region, player, Constants.getRandomBetween(
+					Constants.minContainerItemsPerOutdoorRegion, Constants.maxContainerItemsPerOutdoorRegion));
+			
 			EntityFactory.generateRandomEnemies( region, player, Constants.getRandomBetween( 
 					Constants.minEnemiesPerOutdoorRegion, Constants.maxEnemiesPerOutdoorRegion ) );
 			EntityFactory.generateRandomEnemyBoss(region, player, Constants.getRandomBetween( 
@@ -97,6 +100,8 @@ public class MapFactory {
 					Constants.minConsumableItemsPerBuildingRegion, Constants.maxConsumableItemsPerBuildingRegion ) );
 			ItemFactory.generateRandomHealingConsumableItems( region, player, Constants.getRandomBetween( 
 					Constants.minHealingConsumableItemsPerBuildingRegion, Constants.maxHealingConsumableItemsPerBuildingRegion ) );
+			ItemFactory.generateRandomContainerItems( region, player, Constants.getRandomBetween(
+					Constants.minContainerItemsPerBuildingRegion, Constants.maxContainerItemsPerBuildingRegion));
 			EntityFactory.generateRandomEnemies( region, player, Constants.getRandomBetween( 
 					Constants.minEnemiesPerBuildingRegion, Constants.maxEnemiesPerBuildingRegion ) );
 			
@@ -122,6 +127,8 @@ public class MapFactory {
 					Constants.minConsumableItemsPerUndergroundRegion, Constants.maxConsumableItemsPerUndergroundRegion ) );
 			ItemFactory.generateRandomHealingConsumableItems( region, player, Constants.getRandomBetween( 
 					Constants.minHealingConsumableItemsPerUndergroundRegion, Constants.maxHealingConsumableItemsPerUndergroundRegion ) );
+			ItemFactory.generateRandomContainerItems( region, player, Constants.getRandomBetween(
+					Constants.minContainerItemsPerUndergroundRegion, Constants.maxContainerItemsPerUndergroundRegion));
 			EntityFactory.generateRandomEnemies( region, player, Constants.getRandomBetween( 
 					Constants.minEnemiesPerUndergroundRegion, Constants.maxEnemiesPerUndergroundRegion ) );
 			EntityFactory.generateRandomEnemyBoss(region, player, Constants.getRandomBetween( 

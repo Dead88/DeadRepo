@@ -3,8 +3,6 @@ package fr.wretchedlife.ui.utils;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-import javax.swing.JOptionPane;
-
 import fr.wretchedlife.core.SinglePlayerGame;
 import fr.wretchedlife.entity.ext.Player;
 import fr.wretchedlife.entity.ext.RegionEntrance;
@@ -77,7 +75,7 @@ public class KeyEventListener implements KeyListener {
 									RegionEntrance destinationRegionExit = (RegionEntrance) regionArea.getEntity();
 									
 									if(destinationRegionExit.getRegionId().equals( singlePlayerGame.getCurrentRegion().getId() )) {
-										Area playerDestinationArea = gamePanel.getNearestAvailableArea( region, regionArea );
+										Area playerDestinationArea = gamePanel.getNearestAvailableArea( region, regionArea, false );
 										
 										if( playerDestinationArea != null ) {
 											player.move( singlePlayerGame, playerArea, playerDestinationArea );
@@ -102,7 +100,7 @@ public class KeyEventListener implements KeyListener {
 						if(destinationArea.getItem() != null) {
 							if(player.getInventory().size() == player.getInventoryMaxSize()
 							|| player.getTransportedWeight() + destinationArea.getItem().getWeight() > player.getTransportableWeight()) {
-								JOptionPane.showMessageDialog( gamePanel , "Vous ne pouvez pas ramasser cet objet !");
+								SoundFactory.playSound( SoundFactory.impossibleFilePath );
 							}
 							else {
 								SoundFactory.playSound( SoundFactory.storeItemSoundFilePath );

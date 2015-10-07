@@ -1,5 +1,6 @@
 package fr.wretchedlife.ui.panel;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.GridLayout;
@@ -55,13 +56,15 @@ public class InfoPanel extends JPanel {
 		public MessagePanel() {
 			super();
 			messageLabel = new JLabel();
-			messageLabel.setForeground(Constants.goldColor);
+			messageLabel.setOpaque( true );
+			messageLabel.setForeground( Constants.goldColor );
+			messageLabel.setBackground( Color.BLACK );
 			messageText = "";
 			
 			scroller = new JScrollPane( messageLabel, 
 				      JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, 
 				      JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-			scroller.setPreferredSize( new Dimension( 300,200 ) );
+			scroller.setPreferredSize( new Dimension( 300,240 ) );
 			scroller.getViewport().add( messageLabel );
 			scroller.getVerticalScrollBar().addAdjustmentListener( new AdjustmentListener() {
 				@Override

@@ -86,7 +86,7 @@ public class Player extends Entity {
 	
 	public void levelUp() {
 		setLevel( getLevel() + 1 );
-		setExperienceToReach( getExperienceToReach() + Math.round( getExperienceToReach() * Constants.levelUpRate ) );
+		setExperienceToReach( Math.round( getExperienceToReach() * Constants.levelUpRate ) );
 		setLife( (int) Math.round( getLife() * Constants.lifeUpRate ) );
 		setLifeRemain( (int) Math.round( getLifeRemain() * Constants.lifeUpRate ) );
 		setSkillPointsLeft( getSkillPointsLeft() + 1 );

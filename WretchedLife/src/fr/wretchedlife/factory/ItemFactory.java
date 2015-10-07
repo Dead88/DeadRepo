@@ -8,6 +8,7 @@ import fr.wretchedlife.map.GameMap;
 import fr.wretchedlife.obj.Item;
 import fr.wretchedlife.obj.item.ArmorItem;
 import fr.wretchedlife.obj.item.ConsumableItem;
+import fr.wretchedlife.obj.item.ContainerItem;
 import fr.wretchedlife.obj.item.WeaponItem;
 
 public class ItemFactory {
@@ -123,8 +124,28 @@ public class ItemFactory {
 		}
 	}
 	
-	public static Item getRandomItem( Player player ) {
+	public static void generateRandomContainerItems( GameMap region, Player player, int number ) {
 		
+		ContainerItem chest = null;
+		
+		Area randomArea = new Area(0, 0, null, null );
+		
+		for( int i = 0; i < number; i++) {
+			chest = ItemGenerator.createChest( player, 
+				Constants.getRandomBetween( Constants.minItemsPerRandomChest, Constants.maxItemsPerRandomChest) );
+			
+			while(true){
+				randomArea = region.getAreas().get( Constants.getRandomBetween(0, region.getAreas().size() - 1) );
+				if (randomArea.getType() == Area.Type.GROUND_AREA && randomArea.getItem() == null && randomArea.getEntity() == null ){
+					randomArea.setItem( chest ); 
+					break;
+				}
+			}
+		}
+	}
+	
+	public static Item getRandomItem( Player player ) {
+		//no chest
 		int itemNumber = Constants.getRandomBetween(1, 18);
 		WeaponItem club = ItemGenerator.createGourdin( player );
 		WeaponItem knife = ItemGenerator.createKnife( player );

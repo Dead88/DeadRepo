@@ -30,7 +30,7 @@ public class EntityGenerator {
 		zombie.setItemDefense( 1 );
 		zombie.setExperienceToEarn( 5 );
 		
-		zombie.generateRandomInventory( player );
+		zombie.generateLootContainer( player );
 		
 		return zombie;
 	}
@@ -48,7 +48,7 @@ public class EntityGenerator {
 		strongerZombie.setItemDefense( 2 );
 		strongerZombie.setExperienceToEarn( 10 );
 		
-		strongerZombie.generateRandomInventory( player );
+		strongerZombie.generateLootContainer( player );
 		
 		return strongerZombie;
 	}
@@ -66,7 +66,7 @@ public class EntityGenerator {
 		skeleton.setItemDefense( 3 );
 		skeleton.setExperienceToEarn( 15 );
 		
-		skeleton.generateRandomInventory( player );
+		skeleton.generateLootContainer( player );
 		
 		return skeleton;
 	}
@@ -84,7 +84,7 @@ public class EntityGenerator {
 		mummy.setItemDefense( 3 );
 		mummy.setExperienceToEarn( 20 );
 		
-		mummy.generateRandomInventory( player );
+		mummy.generateLootContainer( player );
 		
 		return mummy;
 	}
@@ -102,7 +102,7 @@ public class EntityGenerator {
 		horror.setItemDefense( 4 );
 		horror.setExperienceToEarn( 25 );
 		
-		horror.generateRandomInventory( player );
+		horror.generateLootContainer( player );
 		
 		return horror;
 	}
@@ -120,7 +120,7 @@ public class EntityGenerator {
 		scorpio.setItemDefense( 5 );
 		scorpio.setExperienceToEarn( 35 );
 		
-		scorpio.generateRandomInventory( player );
+		scorpio.generateLootContainer( player );
 		
 		return scorpio;
 	}
@@ -138,7 +138,7 @@ public class EntityGenerator {
 		cerber.setItemDefense( 4 );
 		cerber.setExperienceToEarn( 50 );
 		
-		cerber.generateRandomInventory( player );
+		cerber.generateLootContainer( player );
 		
 		return cerber;
 	}
@@ -156,7 +156,7 @@ public class EntityGenerator {
 		sorcerer.setItemDefense( 6 );
 		sorcerer.setExperienceToEarn( 100 );
 		
-		sorcerer.generateRandomInventory( player );
+		sorcerer.generateLootContainer( player );
 		
 		return sorcerer;
 	}
@@ -174,7 +174,7 @@ public class EntityGenerator {
 		dragon.setItemDefense( 8 );
 		dragon.setExperienceToEarn( 250 );
 		
-		dragon.generateRandomInventory( player );
+		dragon.generateLootContainer( player );
 		
 		return dragon;
 	}

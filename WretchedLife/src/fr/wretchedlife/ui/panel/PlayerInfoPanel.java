@@ -91,7 +91,7 @@ public class PlayerInfoPanel extends JPanel {
 		lvlUpButton.addActionListener( new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				player.setExperience( player.getExperience() + 10 );
+				player.setExperience( player.getExperience() + 50 );
 			}
 		});
 		JButton mainMenuButton = new JButton("Quitter");
