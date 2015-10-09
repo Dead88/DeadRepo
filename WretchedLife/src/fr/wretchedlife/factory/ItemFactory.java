@@ -18,32 +18,40 @@ public class ItemFactory {
 		WeaponItem club = null;
 		WeaponItem knife = null;
 		WeaponItem hammer = null;
+		WeaponItem mace = null;
 		WeaponItem hatchet = null;
 		WeaponItem magicalHatchet = null;
+		WeaponItem spear = null;
 		WeaponItem cleaver = null;
+		WeaponItem glavius = null;
 		ArmorItem veste = null;
 		ArmorItem pantalon = null;
 		ArmorItem chausses = null;
 		ArmorItem mitaine = null;
 		ArmorItem helmet = null;
+		ArmorItem hood = null;
 		ArmorItem belt = null;
 		ArmorItem bracer = null;
 		
 		Area randomArea = new Area(0, 0, null, null );
 		
 		for( int i = 0; i < number; i++){
-			int itemNumber = Constants.getRandomBetween(1, 13);
+			int itemNumber = Constants.getRandomBetween(1, 17);
 			club = ItemGenerator.createGourdin( player );
 			knife = ItemGenerator.createKnife( player );
 			hammer = ItemGenerator.createHammer( player );
+			mace = ItemGenerator.createMace( player );
 			hatchet = ItemGenerator.createHatchet( player );
 			magicalHatchet = ItemGenerator.createMagicAttributeHatchet( player );
+			spear = ItemGenerator.createSpear( player );
 			cleaver = ItemGenerator.createCleaver( player );
+			glavius = ItemGenerator.createGlavius( player );
 			veste = ItemGenerator.createBasicVest( player );
 			pantalon = ItemGenerator.createBasicTrousers( player );
 			chausses = ItemGenerator.createBasicBoots( player );
 			mitaine = ItemGenerator.createBasicGloves( player );
 			helmet = ItemGenerator.createBasicHelmet (player );
+			hood = ItemGenerator.createBasicHood( player );
 			belt = ItemGenerator.createBasicBelt( player );
 			bracer = ItemGenerator.createBasicBracer( player );
 			
@@ -54,16 +62,20 @@ public class ItemFactory {
 						case 1 : randomArea.setItem( club ); break;
 						case 2 : randomArea.setItem( knife ); break;
 						case 3 : randomArea.setItem( hammer ); break;
-						case 4 : randomArea.setItem( hatchet ); break;
-						case 5 : randomArea.setItem( magicalHatchet ); break;
-						case 6 : randomArea.setItem( cleaver ); break;
-						case 7 : randomArea.setItem( veste ); break;
-						case 8 : randomArea.setItem( pantalon );break;
-						case 9 : randomArea.setItem( chausses );break;
-						case 10 : randomArea.setItem( mitaine );break;
-						case 11 : randomArea.setItem( helmet );break;
-						case 12 : randomArea.setItem( belt );break;
-						case 13 : randomArea.setItem( bracer );break;
+						case 4 : randomArea.setItem( mace ); break;
+						case 5 : randomArea.setItem( hatchet ); break;
+						case 6 : randomArea.setItem( magicalHatchet ); break;
+						case 7 : randomArea.setItem( spear ); break;
+						case 8 : randomArea.setItem( cleaver ); break;
+						case 9 : randomArea.setItem( glavius ); break;
+						case 10 : randomArea.setItem( veste ); break;
+						case 11 : randomArea.setItem( pantalon );break;
+						case 12 : randomArea.setItem( chausses );break;
+						case 13 : randomArea.setItem( mitaine );break;
+						case 14 : randomArea.setItem( helmet );break;
+						case 15 : randomArea.setItem( hood ); break;
+						case 16 : randomArea.setItem( belt );break;
+						case 17 : randomArea.setItem( bracer );break;
 					}
 					break;
 				}
@@ -146,45 +158,31 @@ public class ItemFactory {
 	
 	public static Item getRandomItem( Player player ) {
 		//no chest
-		int itemNumber = Constants.getRandomBetween(1, 18);
-		WeaponItem club = ItemGenerator.createGourdin( player );
-		WeaponItem knife = ItemGenerator.createKnife( player );
-		WeaponItem hammer = ItemGenerator.createHammer( player );
-		WeaponItem hatchet = ItemGenerator.createHatchet( player );
-		WeaponItem magicalHatchet = ItemGenerator.createMagicAttributeHatchet( player );
-		WeaponItem cleaver = ItemGenerator.createCleaver( player );
-		ArmorItem veste = ItemGenerator.createBasicVest( player );
-		ArmorItem pantalon = ItemGenerator.createBasicTrousers( player );
-		ArmorItem chausses = ItemGenerator.createBasicBoots( player );
-		ArmorItem mitaine = ItemGenerator.createBasicGloves( player );
-		ArmorItem helmet = ItemGenerator.createBasicHelmet (player );
-		ArmorItem belt = ItemGenerator.createBasicBelt( player );
-		ArmorItem bracer = ItemGenerator.createBasicBracer( player );
-		ConsumableItem meat = ItemGenerator.createMeat( player );
-		ConsumableItem waterbottle = ItemGenerator.createWaterBottle( player );
-		ConsumableItem tunaCan = ItemGenerator.createTunaCan( player );
-		ConsumableItem bandage = ItemGenerator.createBandage( player );
-		ConsumableItem medikit = ItemGenerator.createMedikit( player );
+		int itemNumber = Constants.getRandomBetween(1, 22);
 		
 		switch( itemNumber ){
-			case 1 : return club;
-			case 2 : return knife;
-			case 3 : return hammer;
-			case 4 : return hatchet;
-			case 5 : return magicalHatchet;
-			case 6 : return cleaver;
-			case 7 : return veste;
-			case 8 : return pantalon;
-			case 9 : return chausses;
-			case 10 : return mitaine;
-			case 11 : return helmet;
-			case 12 : return belt;
-			case 13 : return bracer;
-			case 14 : return meat;
-			case 15 : return waterbottle;
-			case 16 : return tunaCan;
-			case 17 : return bandage;
-			case 18 : return medikit;
+			case 1 : return ItemGenerator.createGourdin( player );
+			case 2 : return ItemGenerator.createKnife( player );
+			case 3 : return ItemGenerator.createHammer( player );
+			case 4 : return ItemGenerator.createMace( player );
+			case 5 : return ItemGenerator.createHatchet( player );
+			case 6 : return ItemGenerator.createMagicAttributeHatchet( player );
+			case 7 : return ItemGenerator.createSpear( player );
+			case 8 : return ItemGenerator.createCleaver( player );
+			case 9 : return ItemGenerator.createGlavius( player );
+			case 10 : return ItemGenerator.createBasicVest( player );
+			case 11 : return ItemGenerator.createBasicTrousers( player );
+			case 12 : return ItemGenerator.createBasicBoots( player );
+			case 13 : return ItemGenerator.createBasicGloves( player );
+			case 14 : return ItemGenerator.createBasicHelmet (player );
+			case 15 : return ItemGenerator.createBasicHood( player );
+			case 16 : return ItemGenerator.createBasicBelt( player );
+			case 17 : return ItemGenerator.createBasicBracer( player );
+			case 18 : return ItemGenerator.createMeat( player );
+			case 19 : return ItemGenerator.createWaterBottle( player );
+			case 20 : return ItemGenerator.createTunaCan( player );
+			case 21 : return ItemGenerator.createBandage( player );
+			case 22 : return ItemGenerator.createMedikit( player );
 		}
 		
 		return null;

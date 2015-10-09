@@ -46,16 +46,16 @@ public class GameServer extends Game implements Runnable {
 		
 		while( true ) {
 			try {
-				Socket serverSocket = null;
+				Socket clientSocket = null;
 				
 				try {
-					serverSocket = getHost().accept();
+					clientSocket = getHost().accept();
 				}
 				catch(SocketException es) {
 					continue;
 				}
 				
-				ClientWorker clientWorker = new ClientWorker( serverSocket );
+				ClientWorker clientWorker = new ClientWorker( clientSocket );
 				Thread clientWorkerThread = new Thread( clientWorker );
 				clientWorkerThread.start();
 			}
@@ -73,20 +73,20 @@ public class GameServer extends Game implements Runnable {
 	
 	class ClientWorker implements Runnable {
 		
-		private Socket serverSocket;
+		private Socket clientSocket;
 		private PrintStream out;
 		private DataInputStream in;
 		
 		private boolean hasSendedMap = false;
 		
-		public ClientWorker( Socket serverSocket ) throws Exception {
-			this.serverSocket = serverSocket;
-			this.out = new PrintStream( getServerSocket().getOutputStream(), true );
-			this.in = new DataInputStream( getServerSocket().getInputStream() );
+		public ClientWorker( Socket clientSocket ) throws Exception {
+			this.clientSocket = clientSocket;
+			this.out = new PrintStream( getClientSocket().getOutputStream(), true );
+			this.in = new DataInputStream( getClientSocket().getInputStream() );
 		}
 
 		@Override
-		public synchronized void run() {
+		public void run() {
 			try {
 				while( true ) {
 					try {
@@ -112,15 +112,15 @@ public class GameServer extends Game implements Runnable {
 				e.printStackTrace();
 			}
 			finally {
-				try { getServerSocket().close(); } catch (IOException e) {}
+				try { getClientSocket().close(); } catch (IOException e) {}
 			}
 		}
 		
-		public Socket getServerSocket() {return serverSocket;}
-		public void setServerSocket(Socket serverSocket) {this.serverSocket = serverSocket;}
+		public Socket getClientSocket() {return clientSocket;}
+		public void setClientSocket(Socket clientSocket) {this.clientSocket = clientSocket;}
 
-		private String handleInput() throws Exception {
-			String msg = "";
+		private synchronized String handleInput() throws Exception {
+			String msg = null;
 			String line = "";
 			
 			if( in.available() < 1 ) return null;
@@ -134,7 +134,7 @@ public class GameServer extends Game implements Runnable {
 			return msg;
 		}
 		
-		private void handleOutput( boolean sendMap, boolean sendAreas ) throws Exception {
+		private synchronized void handleOutput( boolean sendMap, boolean sendAreas ) throws Exception {
 			if( sendMap ) {
 				out.print( getCurrentRegionData() );
 				System.out.println("gamemap sended");

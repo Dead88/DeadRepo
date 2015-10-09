@@ -77,7 +77,7 @@ public class ItemGenerator {
 			Constants.getTexture( ".\\img\\items\\hammer.png" ), 
 			3, 
 			null,
-			5,
+			4,
 			8, 
 			4, 
 			4, 
@@ -99,6 +99,34 @@ public class ItemGenerator {
 		return hammer;
 	}
 	
+	public static WeaponItem createMace( final Player player ) {
+		WeaponItem mace = new WeaponItem(
+			"Masse à ailettes", 
+			Constants.getTexture( ".\\img\\items\\mace.png" ), 
+			4, 
+			null,
+			5,
+			9, 
+			4, 
+			4, 
+			2, 
+			1, 
+			1, 
+			0) {
+			@Override
+			public void wear() {
+				player.setItemMinDamage( player.getItemMinDamage() + this.getMinDamage() );
+				player.setItemMaxDamage( player.getItemMaxDamage() + this.getMaxDamage() );
+			}
+			@Override
+			public void unWear() {
+				player.setItemMinDamage( player.getItemMinDamage() - this.getMinDamage() );
+				player.setItemMaxDamage( player.getItemMaxDamage() - this.getMaxDamage() );
+			}
+		};
+		return mace;
+	}
+	
 	public static WeaponItem createHatchet( final Player player ) {
 		WeaponItem hatchet = new WeaponItem("Hachette rouillé", 
 			Constants.getTexture( ".\\img\\items\\hatchet.png" ), 
@@ -106,8 +134,8 @@ public class ItemGenerator {
 			null, 
 			6,
 			9, 
-			5, 
-			5, 
+			6, 
+			6, 
 			1, 
 			1, 
 			0, 
@@ -152,8 +180,8 @@ public class ItemGenerator {
 			props, 
 			7,
 			10, 
-			4, 
-			4, 
+			6, 
+			6, 
 			2, 
 			1, 
 			0, 
@@ -202,6 +230,33 @@ public class ItemGenerator {
 		return magicalHatchet;
 	}
 	
+	public static WeaponItem createSpear( final Player player ) {
+		WeaponItem spear = new WeaponItem("Epieu de fer", 
+			Constants.getTexture( ".\\img\\items\\spear.png" ), 
+			3, 
+			null, 
+			8,
+			12, 
+			4, 
+			4, 
+			2, 
+			0, 
+			2, 
+			0) {
+			@Override
+			public void wear() {
+				player.setItemMinDamage( player.getItemMinDamage() + this.getMinDamage() );
+				player.setItemMaxDamage( player.getItemMaxDamage() + this.getMaxDamage() );
+			}
+			@Override
+			public void unWear() {
+				player.setItemMinDamage( player.getItemMinDamage() - this.getMinDamage() );
+				player.setItemMaxDamage( player.getItemMaxDamage() - this.getMaxDamage() );
+			}
+		};
+		return spear;
+	}
+	
 	public static WeaponItem createCleaver( final Player player ) {
 		WeaponItem cleaver = new WeaponItem("Couperet rouillé", 
 			Constants.getTexture( ".\\img\\items\\cleaver.png" ), 
@@ -227,6 +282,33 @@ public class ItemGenerator {
 			}
 		};
 		return cleaver;
+	}
+	
+	public static WeaponItem createGlavius( final Player player ) {
+		WeaponItem glavius = new WeaponItem("Glaive ébréché", 
+			Constants.getTexture( ".\\img\\items\\glaive.png" ), 
+			5, 
+			null, 
+			12,
+			15, 
+			6, 
+			6, 
+			3, 
+			2, 
+			1, 
+			0) {
+			@Override
+			public void wear() {
+				player.setItemMinDamage( player.getItemMinDamage() + this.getMinDamage() );
+				player.setItemMaxDamage( player.getItemMaxDamage() + this.getMaxDamage() );
+			}
+			@Override
+			public void unWear() {
+				player.setItemMinDamage( player.getItemMinDamage() - this.getMinDamage() );
+				player.setItemMaxDamage( player.getItemMaxDamage() - this.getMaxDamage() );
+			}
+		};
+		return glavius;
 	}
 	
 	public static ArmorItem createBasicVest( final Player player ) {
@@ -335,8 +417,8 @@ public class ItemGenerator {
 	
 	public static ArmorItem createBasicHelmet( final Player player ) {
 		ArmorItem helmet = new ArmorItem(
-			"Casque de chantier usé", 
-			Constants.getTexture( ".\\img\\items\\buildinghelmet.png" ), 
+			"Heaume ancien", 
+			Constants.getTexture( ".\\img\\items\\heaume.png" ), 
 			3, 
 			null, 
 			3, 
@@ -344,6 +426,32 @@ public class ItemGenerator {
 			5, 
 			5, 
 			2, 
+			0, 
+			0, 
+			0){
+			@Override
+			public void wear() {
+				player.setItemDefense( player.getItemDefense() + this.getDefense() );
+			}
+			@Override
+			public void unWear() {
+				player.setItemDefense( player.getItemDefense() - this.getDefense() );
+			}
+		};
+		return helmet;
+	}
+	
+	public static ArmorItem createBasicHood( final Player player ) {
+		ArmorItem helmet = new ArmorItem(
+			"Capuchon en lambeaux", 
+			Constants.getTexture( ".\\img\\items\\hood.png" ), 
+			1, 
+			null, 
+			1, 
+			ArmorItem.Type.HEAD,
+			2, 
+			2, 
+			1, 
 			0, 
 			0, 
 			0){

@@ -12,9 +12,12 @@ public class EntityFactory {
 	public static void generateRandomEnemies( GameMap region, Player player, int number ) {
 		
 		Enemy zombie = null;
+		Enemy wolf = null;
 		Enemy strongerZombie = null;
+		Enemy lizard = null;
 		Enemy skeleton = null;
 		Enemy mummy = null;
+		Enemy troll = null;
 		Enemy horror = null;
 		Enemy scorpio = null;
 		Enemy cerber = null;
@@ -22,11 +25,14 @@ public class EntityFactory {
 		Area randomArea = new Area(0, 0, null, null );
 		
 		for( int i = 0; i < number; i++){
-			int entityNumber = Constants.getRandomBetween(1, 7);
+			int entityNumber = Constants.getRandomBetween(1, 10);
 			zombie = EntityGenerator.createZombie( player );
+			wolf = EntityGenerator.createWolf( player );
 			strongerZombie = EntityGenerator.createStrongerZombie( player );
+			lizard = EntityGenerator.createLizard( player );
 			skeleton = EntityGenerator.createSkeleton( player );
 			mummy = EntityGenerator.createMummy( player );
+			troll = EntityGenerator.createTroll( player );
 			horror = EntityGenerator.createHorror( player );
 			scorpio = EntityGenerator.createScorpio( player );
 			cerber = EntityGenerator.createCerber( player );
@@ -40,26 +46,38 @@ public class EntityFactory {
 							region.getEnemies().add( zombie );
 						} break;
 						case 2 : {
+							randomArea.setEntity( wolf );
+							region.getEnemies().add( wolf );
+						} break;
+						case 3 : {
 							randomArea.setEntity( strongerZombie );
 							region.getEnemies().add( strongerZombie );
 						} break;
-						case 3 : {
+						case 4 : {
+							randomArea.setEntity( lizard );
+							region.getEnemies().add( lizard );
+						} break;
+						case 5 : {
 							randomArea.setEntity( skeleton );
 							region.getEnemies().add( skeleton );
 						} break;
-						case 4 : {
+						case 6 : {
 							randomArea.setEntity( mummy );
 							region.getEnemies().add( mummy );
 						} break;
-						case 5 : {
+						case 7 : {
+							randomArea.setEntity( troll );
+							region.getEnemies().add( troll );
+						} break;
+						case 8 : {
 							randomArea.setEntity( horror );
 							region.getEnemies().add( horror );
 						} break;
-						case 6 : {
+						case 9 : {
 							randomArea.setEntity( scorpio );
 							region.getEnemies().add( scorpio );
 						} break;
-						case 7 : {
+						case 10 : {
 							randomArea.setEntity( cerber );
 							region.getEnemies().add( cerber );
 						} break;

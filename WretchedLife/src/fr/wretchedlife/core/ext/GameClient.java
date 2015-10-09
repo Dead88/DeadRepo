@@ -19,6 +19,7 @@ public class GameClient extends Game implements Runnable {
 	private PrintStream out;
 	private DataInputStream in;
 	
+	boolean isWaitingForResponse = false;
 	boolean isMapReady = false;
 	
 	public GameClient( String serverAddr ) throws Exception {
@@ -34,13 +35,15 @@ public class GameClient extends Game implements Runnable {
 	}
 	
 	@Override
-	public synchronized void run() {
+	public void run() {
 		try {
 			while(true) {
 				try {
 					if( !isMapReady ) {
-						handleOutput( true, false );
-
+						if( !isWaitingForResponse ) {
+							handleOutput( true, false );
+						}
+						
 						handleInput();
 					}
 					else {
@@ -63,8 +66,8 @@ public class GameClient extends Game implements Runnable {
 	public Socket getClientSocket() {return clientSocket;}
 	public void setClientSocket(Socket clientSocket) {this.clientSocket = clientSocket;}
 	
-	private String handleInput() throws Exception {
-		String msg = "";
+	private synchronized String handleInput() throws Exception {
+		String msg = null;
 		String line = "";
 		
 		if( in.available() < 1 ) return null;
@@ -74,6 +77,9 @@ public class GameClient extends Game implements Runnable {
 			if( msg != null && !"".equals(msg))
 				break;
 		}
+		
+		isWaitingForResponse = false;
+		System.out.println("readed "+msg);
 		
 		try {
 			GameMap gameMap = XmlTools.getObjectFromXMLString( msg );
@@ -86,9 +92,10 @@ public class GameClient extends Game implements Runnable {
 		return msg;
 	}
 	
-	private void handleOutput( boolean sendMapRequest, boolean sendAreasRequest ) throws Exception {
+	private synchronized void handleOutput( boolean sendMapRequest, boolean sendAreasRequest ) throws Exception {
 		if( sendMapRequest ) {
 			out.print("GAMEMAP");
+			isWaitingForResponse = true;
 		}
 	}
 	
