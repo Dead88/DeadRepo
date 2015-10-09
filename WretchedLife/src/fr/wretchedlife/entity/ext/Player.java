@@ -3,13 +3,13 @@ package fr.wretchedlife.entity.ext;
 import java.util.ArrayList;
 
 import fr.wretchedlife.Constants;
-import fr.wretchedlife.core.SinglePlayerGame;
+import fr.wretchedlife.core.Game;
 import fr.wretchedlife.entity.Entity;
 import fr.wretchedlife.factory.SoundFactory;
 import fr.wretchedlife.map.Area;
 import fr.wretchedlife.obj.Item;
-import fr.wretchedlife.obj.item.ArmorItem;
-import fr.wretchedlife.obj.item.WeaponItem;
+import fr.wretchedlife.obj.ext.ArmorItem;
+import fr.wretchedlife.obj.ext.WeaponItem;
 
 public class Player extends Entity {
 	private int level;
@@ -86,7 +86,7 @@ public class Player extends Entity {
 	
 	public void levelUp() {
 		setLevel( getLevel() + 1 );
-		setExperienceToReach( Math.round( getExperienceToReach() * Constants.levelUpRate ) );
+		setExperienceToReach( getExperienceToReach() + Math.round( getExperienceToReach() * Constants.levelUpRate ) );
 		setLife( (int) Math.round( getLife() * Constants.lifeUpRate ) );
 		setLifeRemain( (int) Math.round( getLifeRemain() * Constants.lifeUpRate ) );
 		setSkillPointsLeft( getSkillPointsLeft() + 1 );
@@ -94,7 +94,7 @@ public class Player extends Entity {
 		setTransportableWeight( (int) Math.round( getTransportableWeight() * Constants.transportableWeightUpRate ) );
 	}
 
-	public void move( SinglePlayerGame playerGame, Area currentArea, Area destinationArea ) {
+	public void move( Game playerGame, Area currentArea, Area destinationArea ) {
 		setMoving( true );
 		SoundFactory.playSound( SoundFactory.walkSoundFilePath );
 		

@@ -23,12 +23,12 @@ public class GameEventListener {
 				JPanel leftHudPanel = (JPanel) gameMenuPanel.getComponent(0);
 				PlayerInventoryPanel playerInventoryPanel = (PlayerInventoryPanel) leftHudPanel.getComponent(1);
 				
-				if( gamePanel.getSinglePlayerGame() != null && gamePanel.getSinglePlayerGame().getPlayer() != null ) {
-					if( gamePanel.getSinglePlayerGame().getPlayer().getLifeRemain() <= 0 ) {
+				if( gamePanel.getGame() != null && gamePanel.getGame().getPlayer() != null ) {
+					if( gamePanel.getGame().getPlayer().getLifeRemain() <= 0 ) {
 						gamePanel.gameOver();
 					}
-					else if( gamePanel.getSinglePlayerGame().getPlayer().getExperience() >= gamePanel.getSinglePlayerGame().getPlayer().getExperienceToReach() ) {
-						gamePanel.getSinglePlayerGame().getPlayer().levelUp();
+					else if( gamePanel.getGame().getPlayer().getExperience() >= gamePanel.getGame().getPlayer().getExperienceToReach() ) {
+						gamePanel.getGame().getPlayer().levelUp();
 						playerInventoryPanel.refresh();
 					}
 				}

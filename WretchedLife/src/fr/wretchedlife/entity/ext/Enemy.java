@@ -7,7 +7,7 @@ import fr.wretchedlife.factory.SoundFactory;
 import fr.wretchedlife.generator.ItemGenerator;
 import fr.wretchedlife.map.Area;
 import fr.wretchedlife.obj.Item;
-import fr.wretchedlife.obj.item.ContainerItem;
+import fr.wretchedlife.obj.ext.ContainerItem;
 import fr.wretchedlife.ui.panel.GamePanel;
 import fr.wretchedlife.ui.panel.InfoPanel;
 
@@ -73,7 +73,7 @@ public class Enemy extends Entity {
 	public void moveToPlayer( GamePanel gamePanel ) {
 		
 		Area enemyArea = gamePanel.getEnemyArea( getId() );
-		Area playerArea = gamePanel.getSinglePlayerGame().getPlayerArea();
+		Area playerArea = gamePanel.getGame().getPlayerArea();
 		Area destinationArea = null;
 		
 		if( playerArea.getX() < enemyArea.getX() ) {

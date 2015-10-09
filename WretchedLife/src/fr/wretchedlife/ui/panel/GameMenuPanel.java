@@ -10,7 +10,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import fr.wretchedlife.Constants;
-import fr.wretchedlife.core.SinglePlayerGame;
+import fr.wretchedlife.core.Game;
 import fr.wretchedlife.entity.ext.Enemy;
 import fr.wretchedlife.entity.ext.Player;
 import fr.wretchedlife.entity.ext.RegionEntrance;
@@ -18,27 +18,27 @@ import fr.wretchedlife.factory.SoundFactory;
 import fr.wretchedlife.map.Area;
 import fr.wretchedlife.obj.Item;
 import fr.wretchedlife.obj.ItemProperty;
-import fr.wretchedlife.obj.item.ArmorItem;
-import fr.wretchedlife.obj.item.ConsumableItem;
-import fr.wretchedlife.obj.item.ContainerItem;
-import fr.wretchedlife.obj.item.WeaponItem;
+import fr.wretchedlife.obj.ext.ArmorItem;
+import fr.wretchedlife.obj.ext.ConsumableItem;
+import fr.wretchedlife.obj.ext.ContainerItem;
+import fr.wretchedlife.obj.ext.WeaponItem;
 import fr.wretchedlife.ui.Window;
 
 public class GameMenuPanel extends JPanel {
 
 	private static final long serialVersionUID = -1597401836787382841L;
 	private Window window;
-	private SinglePlayerGame singlePlayerGame;
+	private Game game;
 	private Player player;
 	private InfoPanel infoPanel;
 	
 	public InfoPanel getInfoPanel() {return infoPanel;}
 	public void setInfoPanel(InfoPanel infoPanel) {this.infoPanel = infoPanel;}
 
-	public GameMenuPanel( Window _window, SinglePlayerGame _singlePlayerGame ) {
+	public GameMenuPanel( Window _window, Game _game ) {
 		this.window = _window;
-		this.singlePlayerGame = _singlePlayerGame;
-		this.player = singlePlayerGame.getPlayer();
+		this.game = _game;
+		this.player = game.getPlayer();
 		this.setLayout( new GridLayout(1,3) );
 		this.setPreferredSize( new Dimension( window.getWidth(), 250 ));
 		
@@ -77,7 +77,7 @@ public class GameMenuPanel extends JPanel {
 				areaInfoLabel.setIcon( e.getTexture() );
 				areaInfoLabel.setText( getEnemyInfoHtml( e ) );
 				
-				Area playerArea = singlePlayerGame.getPlayerArea();
+				Area playerArea = game.getPlayerArea();
 				
 				if( 
 					area.getX() >= playerArea.getX() - player.getTexture().getIconWidth()
@@ -255,7 +255,7 @@ public class GameMenuPanel extends JPanel {
 		}
 		
 		if( window.getCurrentPanel() instanceof GamePanel) {
-			final Area playerArea = singlePlayerGame.getPlayerArea();
+			final Area playerArea = game.getPlayerArea();
 				
 			JButton itemDropButton = new JButton("Jeter");
 			itemDropButton.addActionListener( new ActionListener() {

@@ -8,7 +8,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import fr.wretchedlife.Constants;
-import fr.wretchedlife.core.SinglePlayerGame;
+import fr.wretchedlife.core.Game;
 import fr.wretchedlife.entity.ext.Enemy;
 import fr.wretchedlife.entity.ext.Player;
 import fr.wretchedlife.factory.SoundFactory;
@@ -29,21 +29,21 @@ public class GamePanel extends JPanel {
 	private Area overArea;
 	
 	private GameMenuPanel gameMenuPanel;
-	private SinglePlayerGame singlePlayerGame;
+	private Game game;
 	private Player player;
 	
-	public SinglePlayerGame getSinglePlayerGame() {return singlePlayerGame;}
-	public void setSinglePlayerGame(SinglePlayerGame singlePlayerGame) {this.singlePlayerGame = singlePlayerGame;}
+	public Game getGame() {return game;}
+	public void setGame(Game game) {this.game = game;}
 	
 	public GameMenuPanel getGameMenuPanel() {return gameMenuPanel;}
 	public void setGameMenuPanel(GameMenuPanel gameMenuPanel) {this.gameMenuPanel = gameMenuPanel;}
 	
-	public GamePanel( final Window _window, SinglePlayerGame _singlePlayerGame, GameMenuPanel _gameMenuPanel ) throws Exception {
+	public GamePanel( final Window _window, Game _game, GameMenuPanel _gameMenuPanel ) throws Exception {
 		this.window = _window;
 		this.gameMenuPanel = _gameMenuPanel;
-		this.singlePlayerGame = _singlePlayerGame;
+		this.game = _game;
 		
-		this.player = singlePlayerGame.getPlayer();
+		this.player = game.getPlayer();
 		
 		this.setBackground( Color.CYAN );
 		this.setFocusable( true );
@@ -54,7 +54,7 @@ public class GamePanel extends JPanel {
 		
 		this.addMouseListener( new MouseEventListener( this ) );
 		this.addMouseMotionListener( new MouseMotionEventListener( this ) );
-		this.addKeyListener( new KeyEventListener( singlePlayerGame, this ) );
+		this.addKeyListener( new KeyEventListener( game, this ) );
 	}
 	
 	public void paintComponent(Graphics g) {	
@@ -64,8 +64,8 @@ public class GamePanel extends JPanel {
 			this.getWidth(),
 			this.getHeight());
 		
-		for(int i = 0; i < singlePlayerGame.getCurrentRegion().getAreas().size(); i++) {
-			Area area = singlePlayerGame.getCurrentRegion().getAreas().get( i );
+		for(int i = 0; i < game.getCurrentRegion().getAreas().size(); i++) {
+			Area area = game.getCurrentRegion().getAreas().get( i );
 			
 			if( area.isVisible()) {
 				g.drawImage( area.getTexture().getImage(), 
@@ -113,8 +113,9 @@ public class GamePanel extends JPanel {
 		
 		int randDamage = Constants.getRandomBetween( player.getItemMinDamage(), player.getItemMaxDamage()) - e.getItemDefense();
 		
-		if(randDamage > 0)
+		if(randDamage > 0) {
 			e.setLifeRemain( e.getLifeRemain() - randDamage);
+		}
 		
 		gameMenuPanel.getInfoPanel().log( "Dealed " + randDamage + " dmg to " + e.getName() );
 		SoundFactory.playSound( SoundFactory.attackSoundFilePath );
@@ -127,12 +128,12 @@ public class GamePanel extends JPanel {
 			player.setExperience( player.getExperience() + e.getExperienceToEarn() );
 			
 			if( e.getLootContainer() != null) {
-				Area nearestAreaFromEnemy = getNearestAvailableArea( singlePlayerGame.getCurrentRegion(), enemyArea, true );
+				Area nearestAreaFromEnemy = getNearestAvailableArea( game.getCurrentRegion(), enemyArea, true );
 				nearestAreaFromEnemy.setItem( e.getLootContainer() );
 			}
 
 			enemyArea.setEntity( null );
-			singlePlayerGame.getCurrentRegion().getEnemies().remove( e );
+			game.getCurrentRegion().getEnemies().remove( e );
 		}
 		else {
 			e.attackPlayer( gameMenuPanel.getInfoPanel(), player );
@@ -146,15 +147,15 @@ public class GamePanel extends JPanel {
 		
 		deselectArea();
 		
-		for(int i = 0; i < singlePlayerGame.getCurrentRegion().getAreas().size(); i++ ){
-			Area area = singlePlayerGame.getCurrentRegion().getAreas().get(i);
+		for(int i = 0; i < game.getCurrentRegion().getAreas().size(); i++ ){
+			Area area = game.getCurrentRegion().getAreas().get(i);
 			
 			if( isCoordinateOfArea(e.getX(), e.getY(), area) ) {
 				
 				clearAreaOver();
 				
 				if( area.getType() == Area.Type.GROUND_AREA )
-					area.setTexture( Constants.getTexture( singlePlayerGame.getCurrentRegion().getGroundSelectedTexturePath() ) );
+					area.setTexture( Constants.getTexture( game.getCurrentRegion().getGroundSelectedTexturePath() ) );
 				else if( area.getType() == Area.Type.SEA_AREA )
 					area.setTexture( Constants.getTexture( Constants.seaAreaTexturePath ) );
 				selectedArea = area;
@@ -176,13 +177,13 @@ public class GamePanel extends JPanel {
 			if( selectedArea == null
 			|| ( selectedArea != null && !isCoordinateOfArea(e.getX(), e.getY(), selectedArea)) ) {
 				
-				for( int i = 0; i < singlePlayerGame.getCurrentRegion().getAreas().size(); i++ ){
-					Area area = singlePlayerGame.getCurrentRegion().getAreas().get(i);
+				for( int i = 0; i < game.getCurrentRegion().getAreas().size(); i++ ){
+					Area area = game.getCurrentRegion().getAreas().get(i);
 					
 					if( isCoordinateOfArea(e.getX(), e.getY(), area) ) {
 						
 						if( area.getType() == Area.Type.GROUND_AREA )
-							area.setTexture( Constants.getTexture( singlePlayerGame.getCurrentRegion().getGroundOverTexturePath() ) );
+							area.setTexture( Constants.getTexture( game.getCurrentRegion().getGroundOverTexturePath() ) );
 						else if( area.getType() == Area.Type.SEA_AREA )
 							area.setTexture( Constants.getTexture( Constants.seaAreaTexturePath ) );
 						overArea = area;
@@ -196,7 +197,7 @@ public class GamePanel extends JPanel {
 	public void deselectArea() {
 		if( selectedArea != null ) {
 			if( selectedArea.getType() == Area.Type.GROUND_AREA )
-				selectedArea.setTexture( Constants.getTexture( singlePlayerGame.getCurrentRegion().getGroundTexturePath() ) );
+				selectedArea.setTexture( Constants.getTexture( game.getCurrentRegion().getGroundTexturePath() ) );
 			else if( selectedArea.getType() == Area.Type.SEA_AREA )
 				selectedArea.setTexture( Constants.getTexture( Constants.seaAreaTexturePath ) );
 			selectedArea = null;
@@ -209,7 +210,7 @@ public class GamePanel extends JPanel {
 		
 		if( overArea != null ) {
 			if( overArea.getType() == Area.Type.GROUND_AREA )
-				overArea.setTexture( Constants.getTexture( singlePlayerGame.getCurrentRegion().getGroundTexturePath() ) );
+				overArea.setTexture( Constants.getTexture( game.getCurrentRegion().getGroundTexturePath() ) );
 			else if( overArea.getType() == Area.Type.SEA_AREA )
 				overArea.setTexture( Constants.getTexture( Constants.seaAreaTexturePath ) );
 			overArea = null;
@@ -217,10 +218,10 @@ public class GamePanel extends JPanel {
 	}
 	
 	public void refreshVisibleAreas() {
-		Area playerArea = getSinglePlayerGame().getPlayerArea();
+		Area playerArea = getGame().getPlayerArea();
 		
-		for(int i = 0; i < singlePlayerGame.getCurrentRegion().getAreas().size(); i++) {
-			Area area = singlePlayerGame.getCurrentRegion().getAreas().get( i );
+		for(int i = 0; i < game.getCurrentRegion().getAreas().size(); i++) {
+			Area area = game.getCurrentRegion().getAreas().get( i );
 			
 			if(area.getX() <= ( playerArea.getX() + (player.getTexture().getIconWidth() * Constants.playerVisibilyRange) )
 			&& area.getX() >= ( playerArea.getX() - (player.getTexture().getIconWidth() * Constants.playerVisibilyRange) )
@@ -232,27 +233,27 @@ public class GamePanel extends JPanel {
 		}
 		
 		while( playerArea.getY() + (player.getTexture().getIconHeight() * (Constants.playerVisibilyRange + 1) ) >= this.getHeight() ){
-			for(int i = 0; i < singlePlayerGame.getCurrentRegion().getAreas().size(); i++) {
-				Area area = singlePlayerGame.getCurrentRegion().getAreas().get( i );
+			for(int i = 0; i < game.getCurrentRegion().getAreas().size(); i++) {
+				Area area = game.getCurrentRegion().getAreas().get( i );
 				area.setY( area.getY() - area.getTexture().getIconHeight() );
 			}
 		}
 		while( playerArea.getY() - (player.getTexture().getIconHeight() * (Constants.playerVisibilyRange) ) <= 0 ){
-			for(int i = 0; i < singlePlayerGame.getCurrentRegion().getAreas().size(); i++) {
-				Area area = singlePlayerGame.getCurrentRegion().getAreas().get( i );
+			for(int i = 0; i < game.getCurrentRegion().getAreas().size(); i++) {
+				Area area = game.getCurrentRegion().getAreas().get( i );
 				area.setY( area.getY() + area.getTexture().getIconHeight() );
 			}
 		}
 		
 		while( playerArea.getX() + (player.getTexture().getIconWidth() * (Constants.playerVisibilyRange + 1) ) >= this.getWidth() ){
-			for(int i = 0; i < singlePlayerGame.getCurrentRegion().getAreas().size(); i++) {
-				Area area = singlePlayerGame.getCurrentRegion().getAreas().get( i );
+			for(int i = 0; i < game.getCurrentRegion().getAreas().size(); i++) {
+				Area area = game.getCurrentRegion().getAreas().get( i );
 				area.setX( area.getX() - area.getTexture().getIconWidth() );
 			}
 		}
 		while( playerArea.getX() - (player.getTexture().getIconWidth() * (Constants.playerVisibilyRange + 1) ) <= 0 ){
-			for(int i = 0; i < singlePlayerGame.getCurrentRegion().getAreas().size(); i++) {
-				Area area = singlePlayerGame.getCurrentRegion().getAreas().get( i );
+			for(int i = 0; i < game.getCurrentRegion().getAreas().size(); i++) {
+				Area area = game.getCurrentRegion().getAreas().get( i );
 				area.setX( area.getX() + area.getTexture().getIconWidth() );
 			}
 		}
@@ -260,11 +261,11 @@ public class GamePanel extends JPanel {
 	
 	public void manageEnemies() {
 		
-		Area playerArea = getSinglePlayerGame().getPlayerArea();
+		Area playerArea = getGame().getPlayerArea();
 		if( playerArea == null) return;
 		
-		for(int i = 0; i < singlePlayerGame.getCurrentRegion().getEnemies().size(); i++) {
-			Enemy e = singlePlayerGame.getCurrentRegion().getEnemies().get(i);
+		for(int i = 0; i < game.getCurrentRegion().getEnemies().size(); i++) {
+			Enemy e = game.getCurrentRegion().getEnemies().get(i);
 			Area eArea = getEnemyArea( e.getId() );
 			if(eArea == null) continue;
 			
@@ -303,19 +304,9 @@ public class GamePanel extends JPanel {
 		return false;
 	}
 	
-//	public Area getPlayerArea() {
-//		for(int i = 0; i < singlePlayerGame.getCurrentRegion().getAreas().size(); i++) {
-//			Area area = singlePlayerGame.getCurrentRegion().getAreas().get( i );
-//			if(area.getEntity() != null && area.getEntity() instanceof Player) {
-//				return area;
-//			}
-//		}
-//		return null;
-//	}
-	
 	public Area getEnemyArea( String enemyId ) {
-		for(int i = 0; i < singlePlayerGame.getCurrentRegion().getAreas().size(); i++) {
-			Area area = singlePlayerGame.getCurrentRegion().getAreas().get( i );
+		for(int i = 0; i < game.getCurrentRegion().getAreas().size(); i++) {
+			Area area = game.getCurrentRegion().getAreas().get( i );
 			if(area.getEntity() != null && area.getEntity() instanceof Enemy
 			&& area.getEntity().getId().equals( enemyId ) ) {
 				return area;
@@ -325,8 +316,8 @@ public class GamePanel extends JPanel {
 	}
 	
 	public Area getAreaByCoordinate(int x, int y) {
-		for(int i = 0; i < singlePlayerGame.getCurrentRegion().getAreas().size(); i++) {
-			Area area = singlePlayerGame.getCurrentRegion().getAreas().get( i );
+		for(int i = 0; i < game.getCurrentRegion().getAreas().size(); i++) {
+			Area area = game.getCurrentRegion().getAreas().get( i );
 			if(area.getX() == x 
 			&& area.getY() == y) {
 				return area;

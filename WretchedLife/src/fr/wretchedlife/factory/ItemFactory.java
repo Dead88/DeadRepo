@@ -6,10 +6,10 @@ import fr.wretchedlife.generator.ItemGenerator;
 import fr.wretchedlife.map.Area;
 import fr.wretchedlife.map.GameMap;
 import fr.wretchedlife.obj.Item;
-import fr.wretchedlife.obj.item.ArmorItem;
-import fr.wretchedlife.obj.item.ConsumableItem;
-import fr.wretchedlife.obj.item.ContainerItem;
-import fr.wretchedlife.obj.item.WeaponItem;
+import fr.wretchedlife.obj.ext.ArmorItem;
+import fr.wretchedlife.obj.ext.ConsumableItem;
+import fr.wretchedlife.obj.ext.ContainerItem;
+import fr.wretchedlife.obj.ext.WeaponItem;
 
 public class ItemFactory {
 	

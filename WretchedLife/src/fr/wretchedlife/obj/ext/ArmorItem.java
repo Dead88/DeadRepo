@@ -1,4 +1,4 @@
-package fr.wretchedlife.obj.item;
+package fr.wretchedlife.obj.ext;
 
 import java.util.ArrayList;
 
@@ -7,10 +7,10 @@ import javax.swing.ImageIcon;
 import fr.wretchedlife.obj.Item;
 import fr.wretchedlife.obj.ItemProperty;
 
-public abstract class WeaponItem extends Item {
+public abstract class ArmorItem extends Item {
 
-	private int MinDamage;
-	private int MaxDamage;
+	private int Defense;
+	private Enum Type;
 	private int Durability;
 	private int DurabilityRemain;
 	private int RequiredLevel;
@@ -18,17 +18,29 @@ public abstract class WeaponItem extends Item {
 	private int RequiredAgility;
 	private int RequiredKnowledge;
 	
-	public WeaponItem() {
-		super();
+	public static enum Type {
+		HEAD,
+		SHOULDER,
+		ARM,
+		HANDS,
+		CHEST,
+		BELT,
+		LEGS,
+		FEET
 	}
 	
-	public WeaponItem(String name, ImageIcon texture, int weight,
-			ArrayList<ItemProperty> properties, int minDamage, int maxDamage,
-			int durability, int durabilityRemain, int requiredLevel,
-			int requiredStrengh, int requiredAgility, int requiredKnowledge) {
+	public ArmorItem() {
+		super();
+	}
+
+	public ArmorItem(String name, ImageIcon texture, int weight,
+			ArrayList<ItemProperty> properties, int defense,
+			Type type, int durability,
+			int durabilityRemain, int requiredLevel, int requiredStrengh,
+			int requiredAgility, int requiredKnowledge) {
 		super(name, texture, weight, properties);
-		MinDamage = minDamage;
-		MaxDamage = maxDamage;
+		Defense = defense;
+		Type = type;
 		Durability = durability;
 		DurabilityRemain = durabilityRemain;
 		RequiredLevel = requiredLevel;
@@ -36,24 +48,24 @@ public abstract class WeaponItem extends Item {
 		RequiredAgility = requiredAgility;
 		RequiredKnowledge = requiredKnowledge;
 	}
-	
+
 	public abstract void wear();
 	public abstract void unWear();
-
-	public int getMinDamage() {
-		return MinDamage;
+	
+	public int getDefense() {
+		return Defense;
 	}
 
-	public void setMinDamage(int minDamage) {
-		MinDamage = minDamage;
+	public void setDefense(int damage) {
+		Defense = damage;
+	}
+	
+	public Enum getType() {
+		return Type;
 	}
 
-	public int getMaxDamage() {
-		return MaxDamage;
-	}
-
-	public void setMaxDamage(int maxDamage) {
-		MaxDamage = maxDamage;
+	public void setType(Enum type) {
+		Type = type;
 	}
 
 	public int getDurability() {

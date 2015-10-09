@@ -3,7 +3,7 @@ package fr.wretchedlife.ui.utils;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-import fr.wretchedlife.core.SinglePlayerGame;
+import fr.wretchedlife.core.Game;
 import fr.wretchedlife.entity.ext.Player;
 import fr.wretchedlife.entity.ext.RegionEntrance;
 import fr.wretchedlife.factory.SoundFactory;
@@ -13,14 +13,14 @@ import fr.wretchedlife.ui.panel.GamePanel;
 
 public class KeyEventListener implements KeyListener {
 
-	private SinglePlayerGame singlePlayerGame;
+	private Game game;
 	private GamePanel gamePanel;
 	private Player player;
 	
-	public KeyEventListener(SinglePlayerGame singlePlayerGame, GamePanel gamePanel) {
-		this.singlePlayerGame = singlePlayerGame;
+	public KeyEventListener(Game game, GamePanel gamePanel) {
+		this.game = game;
 		this.gamePanel = gamePanel;
-		this.player = singlePlayerGame.getPlayer();
+		this.player = game.getPlayer();
 	}
 	
 	@Override
@@ -34,7 +34,7 @@ public class KeyEventListener implements KeyListener {
 				
 		if( !player.isMoving() ){
 			
-			Area playerArea = singlePlayerGame.getPlayerArea();
+			Area playerArea = game.getPlayerArea();
 			Area destinationArea =  null;
 			
 			if( e.getKeyChar() == 'q' ) {
@@ -61,8 +61,8 @@ public class KeyEventListener implements KeyListener {
 					
 					RegionEntrance regionEntrance = (RegionEntrance) destinationArea.getEntity();
 					
-					for(int i = 0; i < singlePlayerGame.getRegions().size(); i++) {
-						GameMap region = singlePlayerGame.getRegions().get(i);
+					for(int i = 0; i < game.getRegions().size(); i++) {
+						GameMap region = game.getRegions().get(i);
 						
 						if( regionEntrance.getRegionId().equals( region.getId() ) ) {
 							
@@ -74,12 +74,12 @@ public class KeyEventListener implements KeyListener {
 								if(regionArea.getEntity() != null && regionArea.getEntity() instanceof RegionEntrance) {
 									RegionEntrance destinationRegionExit = (RegionEntrance) regionArea.getEntity();
 									
-									if(destinationRegionExit.getRegionId().equals( singlePlayerGame.getCurrentRegion().getId() )) {
+									if(destinationRegionExit.getRegionId().equals( game.getCurrentRegion().getId() )) {
 										Area playerDestinationArea = gamePanel.getNearestAvailableArea( region, regionArea, false );
 										
 										if( playerDestinationArea != null ) {
-											player.move( singlePlayerGame, playerArea, playerDestinationArea );
-											singlePlayerGame.setCurrentRegion( region );
+											player.move( game, playerArea, playerDestinationArea );
+											game.setCurrentRegion( region );
 											break;
 										}
 									}
@@ -95,7 +95,7 @@ public class KeyEventListener implements KeyListener {
 					gamePanel.manageEnemies();
 					
 					if(destinationArea.getEntity() == null){
-						player.move( singlePlayerGame, playerArea, destinationArea );
+						player.move( game, playerArea, destinationArea );
 						
 						if(destinationArea.getItem() != null) {
 							if(player.getInventory().size() == player.getInventoryMaxSize()

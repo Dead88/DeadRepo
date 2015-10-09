@@ -1,4 +1,4 @@
-package fr.wretchedlife.obj.item;
+package fr.wretchedlife.obj.ext;
 
 import java.util.ArrayList;
 

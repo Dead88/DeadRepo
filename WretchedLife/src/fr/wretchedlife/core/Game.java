@@ -9,14 +9,14 @@ import fr.wretchedlife.factory.MapFactory;
 import fr.wretchedlife.map.Area;
 import fr.wretchedlife.map.GameMap;
 
-public class SinglePlayerGame {
+public class Game {
 	
 	private Player player;
 	private Area playerArea;
 	private ArrayList<GameMap> regions;
 	private GameMap currentRegion;
 	
-	public SinglePlayerGame( boolean generateRegions ) {
+	public Game( boolean generateRegions ) {
 		this.player = new Player();
 		
 		if(generateRegions) {

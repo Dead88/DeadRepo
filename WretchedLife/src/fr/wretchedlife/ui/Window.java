@@ -7,14 +7,12 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-import fr.wretchedlife.core.SinglePlayerGame;
+import fr.wretchedlife.core.Game;
 import fr.wretchedlife.core.ext.GameClient;
 import fr.wretchedlife.core.ext.GameServer;
-import fr.wretchedlife.factory.SoundFactory;
 import fr.wretchedlife.ui.panel.GameMenuPanel;
 import fr.wretchedlife.ui.panel.GamePanel;
 import fr.wretchedlife.ui.panel.MainMenuPanel;
-import fr.wretchedlife.ui.panel.PlayerInventoryPanel;
 import fr.wretchedlife.ui.utils.WindowEventListener;
 
 public class Window extends JFrame
@@ -48,9 +46,9 @@ public class Window extends JFrame
 			if(currentPanel instanceof GamePanel ) {
 				GamePanel gp = (GamePanel) currentPanel;
 				try {
-					if(gp.getSinglePlayerGame() instanceof GameServer) ((GameServer) gp.getSinglePlayerGame()).getHost().close();
-					else if(gp.getSinglePlayerGame() instanceof GameClient) ((GameClient) gp.getSinglePlayerGame()).getClientSocket().close();
-					gp.setSinglePlayerGame(null);
+					if(gp.getGame() instanceof GameServer) ((GameServer) gp.getGame()).getHost().close();
+					else if(gp.getGame() instanceof GameClient) ((GameClient) gp.getGame()).getClientSocket().close();
+					gp.setGame(null);
 				}
 				catch(Exception e) {}
 			}
@@ -71,9 +69,9 @@ public class Window extends JFrame
 		if(currentPanel != null) {
 			if(currentPanel instanceof GamePanel ) {
 				GamePanel gp = (GamePanel) currentPanel;
-				if(gp.getSinglePlayerGame() instanceof GameServer) ((GameServer) gp.getSinglePlayerGame()).getHost().close();
-				else if(gp.getSinglePlayerGame() instanceof GameClient) ((GameClient) gp.getSinglePlayerGame()).getClientSocket().close();
-				gp.setSinglePlayerGame(null);
+				if(gp.getGame() instanceof GameServer) ((GameServer) gp.getGame()).getHost().close();
+				else if(gp.getGame() instanceof GameClient) ((GameClient) gp.getGame()).getClientSocket().close();
+				gp.setGame(null);
 			}
 			this.remove( currentPanel );
 			currentPanel = null;
@@ -83,10 +81,10 @@ public class Window extends JFrame
 			currentMenuPanel = null;
 		}
 
-		SinglePlayerGame singlePlayerGame = new SinglePlayerGame( true );
+		Game game = new Game( true );
 		
-		GameMenuPanel gameMenuPanel = new GameMenuPanel( this, singlePlayerGame );
-		GamePanel gamePanel = new GamePanel( this, singlePlayerGame, gameMenuPanel );
+		GameMenuPanel gameMenuPanel = new GameMenuPanel( this, game );
+		GamePanel gamePanel = new GamePanel( this, game, gameMenuPanel );
 		
 		this.add( gameMenuPanel , BorderLayout.SOUTH );
 		this.add( gamePanel, BorderLayout.CENTER );
@@ -103,9 +101,9 @@ public class Window extends JFrame
 		if(currentPanel != null) {
 			if(currentPanel instanceof GamePanel ) {
 				GamePanel gp = (GamePanel) currentPanel;
-				if(gp.getSinglePlayerGame() instanceof GameServer) ((GameServer) gp.getSinglePlayerGame()).getHost().close();
-				else if(gp.getSinglePlayerGame() instanceof GameClient) ((GameClient) gp.getSinglePlayerGame()).getClientSocket().close();
-				gp.setSinglePlayerGame(null);
+				if(gp.getGame() instanceof GameServer) ((GameServer) gp.getGame()).getHost().close();
+				else if(gp.getGame() instanceof GameClient) ((GameClient) gp.getGame()).getClientSocket().close();
+				gp.setGame(null);
 			}
 			this.remove( currentPanel );
 			currentPanel = null;
@@ -133,9 +131,9 @@ public class Window extends JFrame
 		if(currentPanel != null) {
 			if(currentPanel instanceof GamePanel ) {
 				GamePanel gp = (GamePanel) currentPanel;
-				if(gp.getSinglePlayerGame() instanceof GameServer) ((GameServer) gp.getSinglePlayerGame()).getHost().close();
-				else if(gp.getSinglePlayerGame() instanceof GameClient) ((GameClient) gp.getSinglePlayerGame()).getClientSocket().close();
-				gp.setSinglePlayerGame(null);
+				if(gp.getGame() instanceof GameServer) ((GameServer) gp.getGame()).getHost().close();
+				else if(gp.getGame() instanceof GameClient) ((GameClient) gp.getGame()).getClientSocket().close();
+				gp.setGame(null);
 			}
 			this.remove( currentPanel );
 			currentPanel = null;

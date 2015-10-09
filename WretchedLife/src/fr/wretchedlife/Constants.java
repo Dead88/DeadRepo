@@ -99,7 +99,7 @@ public class Constants
 	
 	// GAME RATES
 	
-	public static final double levelUpRate = 1.10;
+	public static final double levelUpRate = 1.06;
 	public static final double lifeUpRate = 1.02;
 	public static final double hungerDownPercent = 0.25;
 	public static final double thirstDownPercent = 0.5;

@@ -10,11 +10,11 @@ import java.net.Socket;
 import java.net.SocketException;
 
 import fr.wretchedlife.Constants;
-import fr.wretchedlife.core.SinglePlayerGame;
+import fr.wretchedlife.core.Game;
 import fr.wretchedlife.core.utils.XmlTools;
 import fr.wretchedlife.map.GameMap;
 
-public class GameServer extends SinglePlayerGame implements Runnable {
+public class GameServer extends Game implements Runnable {
 
 	private ServerSocket host;
 

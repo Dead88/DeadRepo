@@ -9,11 +9,11 @@ import java.io.PrintWriter;
 import java.net.Socket;
 
 import fr.wretchedlife.Constants;
-import fr.wretchedlife.core.SinglePlayerGame;
+import fr.wretchedlife.core.Game;
 import fr.wretchedlife.core.utils.XmlTools;
 import fr.wretchedlife.map.GameMap;
 
-public class GameClient extends SinglePlayerGame implements Runnable {
+public class GameClient extends Game implements Runnable {
 	
 	private Socket clientSocket;
 	private PrintStream out;
