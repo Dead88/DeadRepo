@@ -86,9 +86,23 @@ public class Player extends Entity {
 	
 	public void levelUp() {
 		setLevel( getLevel() + 1 );
-		setExperienceToReach( getExperienceToReach() + Math.round( getExperienceToReach() * Constants.levelUpRate ) );
-		setLife( (int) Math.round( getLife() * Constants.lifeUpRate ) );
-		setLifeRemain( (int) Math.round( getLifeRemain() * Constants.lifeUpRate ) );
+		
+		if( getLevel() < 5 ) {
+			setExperienceToReach( Math.round( getExperienceToReach() * Constants.lowLevelUpRate ) );
+			setLife( (int) Math.round( getLife() * Constants.lowLifeUpRate ) );
+			setLifeRemain( (int) Math.round( getLifeRemain() * Constants.lowLifeUpRate ) );
+		}
+		else if( getLevel() < 10 ) {
+			setExperienceToReach( Math.round( getExperienceToReach() * Constants.mediumLevelUpRate ) );
+			setLife( (int) Math.round( getLife() * Constants.mediumLifeUpRate ) );
+			setLifeRemain( (int) Math.round( getLifeRemain() * Constants.mediumLifeUpRate ) );
+		}
+		else {
+			setExperienceToReach( Math.round( getExperienceToReach() * Constants.highLevelUpRate ) );
+			setLife( (int) Math.round( getLife() * Constants.highLifeUpRate ) );
+			setLifeRemain( (int) Math.round( getLifeRemain() * Constants.highLifeUpRate ) );
+		}
+		
 		setSkillPointsLeft( getSkillPointsLeft() + 1 );
 		setInventoryMaxSize( (int) Math.round( getInventoryMaxSize() * Constants.inventorySizeUpRate ) );
 		setTransportableWeight( (int) Math.round( getTransportableWeight() * Constants.transportableWeightUpRate ) );

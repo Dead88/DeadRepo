@@ -40,7 +40,7 @@ public class GameMap {
 	}
 	public GameMap(String name, Type type, FloorType floorType, ArrayList<Enemy> enemies,
 			int numberOfAreas, int numberOfLines, ArrayList<Area> areas
-) {
+	) {
 		this.id = Constants.getRandomId( Constants.gameMapIdLength );
 		this.name = name;
 		this.type = type;

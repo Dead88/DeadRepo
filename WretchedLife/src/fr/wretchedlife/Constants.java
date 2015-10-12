@@ -98,12 +98,17 @@ public class Constants
 	public static int maxBossPerUndergroundRegion = 1;
 	
 	// GAME RATES
+	public static final double lowLevelUpRate = 2.25;
+	public static final double mediumLevelUpRate = 1.60;
+	public static final double highLevelUpRate = 1.40;
 	
-	public static final double levelUpRate = 1.06;
-	public static final double lifeUpRate = 1.02;
+	public static final double lowLifeUpRate = 1.02;
+	public static final double mediumLifeUpRate = 1.06;
+	public static final double highLifeUpRate = 1.15;
+	
 	public static final double hungerDownPercent = 0.25;
-	public static final double thirstDownPercent = 0.5;
-	public static final double inventorySizeUpRate = 1.05;
+	public static final double thirstDownPercent = 0.45;
+	public static final double inventorySizeUpRate = 1.10;
 	public static final double transportableWeightUpRate = 1.10;
 	
 	public static final double waterRate = 0.05;
