@@ -150,14 +150,12 @@ public class GameServer extends Game implements Runnable {
 	
 	public String getCurrentRegionData() {
 		GameMap currentRegionClone = new GameMap( getCurrentRegion().getName(),
-			getCurrentRegion().getType(),	
+			getCurrentRegion().getType(),
+			getCurrentRegion().getFloorType(),
 			null, 
 			getCurrentRegion().getNumberOfAreas(), 
 			getCurrentRegion().getNumberOfLines(),
-			null, 
-			getCurrentRegion().getGroundTexturePath(), 
-			getCurrentRegion().getGroundOverTexturePath(), 
-			getCurrentRegion().getGroundSelectedTexturePath()
+			null
 		);
 		
 		String message = XmlTools.getXMLStringFromObject( currentRegionClone );

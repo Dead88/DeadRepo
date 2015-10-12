@@ -13,6 +13,7 @@ import fr.wretchedlife.generator.EntityGenerator;
 import fr.wretchedlife.generator.NameGenerator;
 import fr.wretchedlife.map.Area;
 import fr.wretchedlife.map.GameMap;
+import fr.wretchedlife.map.GameMap.FloorType;
 
 public class MapFactory {
 
@@ -20,44 +21,31 @@ public class MapFactory {
 		ArrayList<GameMap> regions = new ArrayList<GameMap>();
 		
 		for(int i = 0; i < Constants.numberOfOutdoorRegions; i++ ) {
-			
-			String groundTexturePath = "";
-			String groundOverTexturePath = "";
-			String groundSelectedTexturePath = "";
+			GameMap.FloorType floorType = null;
 			
 			int rand = Constants.getRandomBetween(1, 4);
 			switch(rand) {
 				case 1 : {
-					groundTexturePath = Constants.dirtTexturePath;
-					groundOverTexturePath = Constants.dirtOverTexturePath;
-					groundSelectedTexturePath = Constants.dirtSelectedTexturePath;
+					floorType = FloorType.DIRT;
 				} break;
 				case 2 : {
-					groundTexturePath = Constants.grassTexturePath;
-					groundOverTexturePath = Constants.grassOverTexturePath;
-					groundSelectedTexturePath = Constants.grassSelectedTexturePath;			
+					floorType = FloorType.GRASS;	
 				} break;
 				case 3 : {
-					groundTexturePath = Constants.sandTexturePath;
-					groundOverTexturePath = Constants.sandOverTexturePath;
-					groundSelectedTexturePath = Constants.sandSelectedTexturePath;
+					floorType = FloorType.SAND;
 				} break;
 				case 4 : {
-					groundTexturePath = Constants.snowTexturePath;
-					groundOverTexturePath = Constants.snowOverTexturePath;
-					groundSelectedTexturePath = Constants.snowSelectedTexturePath;
+					floorType = FloorType.SNOW;
 				} break;
 			}
 			
 			GameMap region = new GameMap( NameGenerator.getRandomRegionName( GameMap.Type.OUTDOOR )+" "+i, 
-				GameMap.Type.OUTDOOR, 
+				GameMap.Type.OUTDOOR,
+				floorType,
 				new ArrayList<Enemy>(), 
 				Constants.getRandomBetween( Constants.minAreasPerOutdoorRegion, Constants.maxAreasPerOutdoorRegion), 
 				Constants.getRandomBetween( Constants.minLinesPerOutdoorRegion, Constants.maxLinesPerOutdoorRegion ), 
-				null, 
-				groundTexturePath,
-				groundOverTexturePath,
-				groundSelectedTexturePath
+				null
 			);
 			
 			buildGameMapAreas( region );
@@ -83,14 +71,12 @@ public class MapFactory {
 		
 		for(int i = 0; i < Constants.numberOfBuildingRegions; i++ ) {
 			GameMap region = new GameMap( NameGenerator.getRandomRegionName( GameMap.Type.BUILDING )+" "+i,
-				GameMap.Type.BUILDING, 
+				GameMap.Type.BUILDING,
+				GameMap.FloorType.BUILDING,
 				new ArrayList<Enemy>(), 
 				Constants.getRandomBetween( Constants.minAreasPerBuildingRegion, Constants.maxAreasPerBuildingRegion), 
 				Constants.getRandomBetween( Constants.minLinesPerBuildingRegion, Constants.maxLinesPerBuildingRegion), 
-				null, 
-				Constants.parquetTexturePath,
-				Constants.parquetOverTexturePath,
-				Constants.parquetSelectedTexturePath
+				null
 			);
 			buildGameMapAreas( region );
 			
@@ -111,13 +97,11 @@ public class MapFactory {
 		for(int i = 0; i < Constants.numberOfUndergroundRegions; i++ ) {
 			GameMap region = new GameMap( NameGenerator.getRandomRegionName( GameMap.Type.UNDERGROUND )+" "+i,
 				GameMap.Type.UNDERGROUND, 
+				GameMap.FloorType.UNNDERGROUND,
 				new ArrayList<Enemy>(), 
 				Constants.getRandomBetween( Constants.minAreasPerUndergroundRegion , Constants.maxAreasPerUndergroundRegion ), 
 				Constants.getRandomBetween( Constants.minLinesPerUndergroundRegion, Constants.maxLinesPerUndergroundRegion ), 
-				null, 
-				Constants.rockTexturePath,
-				Constants.rockOverTexturePath,
-				Constants.rockSelectedTexturePath
+				null	
 			);
 			buildGameMapAreas( region );
 			
@@ -187,7 +171,7 @@ public class MapFactory {
 				rand = Constants.getRandomBetween( 0, areas.size() - 1 );
 			}
 			
-			forest = EntityGenerator.createForest();
+			forest = EntityGenerator.createTree( gameMap );
 			areas.get(rand).setEntity(forest);
 		}
 	}

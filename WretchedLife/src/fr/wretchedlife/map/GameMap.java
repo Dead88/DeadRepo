@@ -10,6 +10,7 @@ public class GameMap {
 	private String id;
 	private String name;
 	private Type type;
+	private FloorType floorType;
 	private ArrayList<Enemy> enemies = new ArrayList<Enemy>();
 	private int numberOfAreas;
 	private int numberOfLines;
@@ -24,25 +25,65 @@ public class GameMap {
 		BUILDING,
 		UNDERGROUND
 	}
+	
+	public static enum FloorType {
+		GRASS,
+		DIRT,
+		SAND,
+		SNOW,
+		BUILDING,
+		UNNDERGROUND
+	}
 
 	public GameMap() { 
 		this.id = Constants.getRandomId( Constants.gameMapIdLength );
 	}
-	public GameMap(String name, Type type, ArrayList<Enemy> enemies,
-			int numberOfAreas, int numberOfLines, ArrayList<Area> areas,
-			String groundTexturePath, String groundOverTexturePath, 
-			String groundSelectedTexturePath) {
+	public GameMap(String name, Type type, FloorType floorType, ArrayList<Enemy> enemies,
+			int numberOfAreas, int numberOfLines, ArrayList<Area> areas
+) {
 		this.id = Constants.getRandomId( Constants.gameMapIdLength );
 		this.name = name;
 		this.type = type;
+		this.floorType = floorType;
 		this.enemies = enemies;
 		this.numberOfAreas = numberOfAreas;
 		this.numberOfLines = numberOfLines;
 		this.areas = areas;
-		this.groundTexturePath = groundTexturePath;
-		this.groundOverTexturePath = groundOverTexturePath;
-		this.groundSelectedTexturePath = groundSelectedTexturePath;
 		this.isLinkedToAnotherRegion = false;
+		
+		switch( getFloorType() ) {
+			case DIRT : {
+				this.groundTexturePath = Constants.dirtTexturePath;
+				this.groundOverTexturePath = Constants.dirtOverTexturePath;
+				this.groundSelectedTexturePath = Constants.dirtSelectedTexturePath;
+			} break;
+			case GRASS : {
+				this.groundTexturePath = Constants.grassTexturePath;
+				this.groundOverTexturePath = Constants.grassOverTexturePath;
+				this.groundSelectedTexturePath = Constants.grassSelectedTexturePath;			
+			} break;
+			case SAND : {
+				this.groundTexturePath = Constants.sandTexturePath;
+				this.groundOverTexturePath = Constants.sandOverTexturePath;
+				this.groundSelectedTexturePath = Constants.sandSelectedTexturePath;
+			} break;
+			case SNOW : {
+				this.groundTexturePath = Constants.snowTexturePath;
+				this.groundOverTexturePath = Constants.snowOverTexturePath;
+				this.groundSelectedTexturePath = Constants.snowSelectedTexturePath;
+			} break;
+			case BUILDING : {
+				this.groundTexturePath = Constants.parquetTexturePath;
+				this.groundOverTexturePath = Constants.parquetOverTexturePath;
+				this.groundSelectedTexturePath = Constants.parquetSelectedTexturePath;
+			} break;
+			case UNNDERGROUND : {
+				this.groundTexturePath = Constants.rockTexturePath;
+				this.groundOverTexturePath = Constants.rockOverTexturePath;
+				this.groundSelectedTexturePath = Constants.rockSelectedTexturePath;
+			}
+			default : {} break;
+		}
 	}
 	public String getId() {
 		return id;
@@ -61,6 +102,12 @@ public class GameMap {
 	}
 	public void setType(Type type) {
 		this.type = type;
+	}
+	public FloorType getFloorType() {
+		return floorType;
+	}
+	public void setFloorType(FloorType floorType) {
+		this.floorType = floorType;
 	}
 	public ArrayList<Enemy> getEnemies() {
 		return enemies;

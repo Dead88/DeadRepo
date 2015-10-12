@@ -84,7 +84,7 @@ public class MultiGameLobbyEndpoint
 			}
 			
 			if(!gameFound){
-				session.getBasicRemote().sendText("#<br>Aucune parties trouvées...");
+				session.getBasicRemote().sendText("#<br>Aucune parties trouvÃ©es...");
 			}
 			else session.getBasicRemote().sendText("#<br>Bienvenue dans la partie de "+multigame.getHost().getUserName());
 		}

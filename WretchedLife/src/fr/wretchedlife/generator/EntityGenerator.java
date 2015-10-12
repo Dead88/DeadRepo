@@ -4,19 +4,10 @@ import fr.wretchedlife.Constants;
 import fr.wretchedlife.entity.Entity;
 import fr.wretchedlife.entity.ext.Enemy;
 import fr.wretchedlife.entity.ext.Player;
+import fr.wretchedlife.map.GameMap;
 
 public class EntityGenerator {
 
-	public static Entity createForest() {
-		Entity forest = new Entity();
-		
-		forest.setTexture( Constants.getTexture( ".\\img\\map\\forest.png"));
-		forest.setName("Arbre Mort");
-		
-		return forest;
-	}
-	
-	
 	public static Enemy createZombie( Player player ) {
 		Enemy zombie = new Enemy();
 		
@@ -231,5 +222,78 @@ public class EntityGenerator {
 		dragon.generateLootContainer( player );
 		
 		return dragon;
+	}
+	
+	public static Entity createTree( GameMap gameMap ) {
+		Entity forest = new Entity();
+		int rand = 0;
+		
+		switch( gameMap.getFloorType() ) {
+			case DIRT : {
+				rand = Constants.getRandomBetween( 1, 2);
+				switch( rand ) {
+					case 1 : {
+						forest.setTexture( Constants.getTexture( ".\\img\\map\\trees\\deadtree.gif"));
+						forest.setName("Arbre Mort");
+					} break;
+					case 2 : {
+						forest.setTexture( Constants.getTexture( ".\\img\\map\\trees\\tree4.gif"));
+						forest.setName("Arbre âbimé");
+					} break;
+				}
+			} break;
+			case GRASS : {
+				rand = Constants.getRandomBetween( 1, 3);
+				switch( rand ) {
+					case 1 : {
+						forest.setTexture( Constants.getTexture( ".\\img\\map\\trees\\tree.gif"));
+						forest.setName("Arbre");
+					} break;
+					case 2 : {
+						forest.setTexture( Constants.getTexture( ".\\img\\map\\trees\\tree2.gif"));
+						forest.setName("Arbre");
+					} break;
+					case 3 : {
+						forest.setTexture( Constants.getTexture( ".\\img\\map\\trees\\tree3.gif"));
+						forest.setName("Arbre");
+					} break;
+				}	
+			} break;
+			case SAND : {
+				rand = Constants.getRandomBetween( 1, 2);
+				switch( rand ) {
+					case 1 : {
+						forest.setTexture( Constants.getTexture( ".\\img\\map\\trees\\palm.gif"));
+						forest.setName("Palmier");
+					} break;
+					case 2 : {
+						forest.setTexture( Constants.getTexture( ".\\img\\map\\trees\\palm2.gif"));
+						forest.setName("Bananier");
+					} break;
+				}
+			} break;
+			case SNOW : {
+				rand = Constants.getRandomBetween( 1, 4);
+				switch( rand ) {
+					case 1 : {
+						forest.setTexture( Constants.getTexture( ".\\img\\map\\trees\\snowdeadtree.gif"));
+						forest.setName("Arbre mort enneigé");
+					} break;
+					case 2 : {
+						forest.setTexture( Constants.getTexture( ".\\img\\map\\trees\\snowfir.gif"));
+						forest.setName("Sapin enneigé");
+					} break;
+					case 3 : {
+						forest.setTexture( Constants.getTexture( ".\\img\\map\\trees\\snowtree.gif"));
+						forest.setName("Arbre enneigé");
+					} break;
+					case 4 : {
+						forest.setTexture( Constants.getTexture( ".\\img\\map\\trees\\fir.gif"));
+						forest.setName("Sapin");
+					} break;
+				}	
+			} break;
+		}
+		return forest;
 	}
 }

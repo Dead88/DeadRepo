@@ -38,12 +38,11 @@ public class SkirmishAction extends Action
 		
 		try
 		{	
-//TODO : logged user only
-//			if(PaperSession.getUserSession(request)==null)
-//			{
-//				response.sendRedirect(Constants.getUrlRedirect(request, "index.jsp"));
-//				return null;
-//			}
+			if(PaperSession.getUserSession(request)==null)
+			{
+				response.sendRedirect(Constants.getUrlRedirect(request, "index.jsp"));
+				return null;
+			}
 			
 			playerRaceId = Integer.parseInt(Constants.getParameter(request, "playerRaceId"));
 			enemyRaceId = Integer.parseInt(Constants.getParameter(request, "enemyRaceId"));

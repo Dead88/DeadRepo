@@ -40,7 +40,7 @@ function include (url) {
 	if (window.XMLHttpRequest) xhr = new XMLHttpRequest();
 	else if (window.ActiveXObject) xhr = new ActiveXObject("Microsoft.XMLHTTP");
 
-	if (xhr == null) throw new Error("XMLHttpRequest non supporté");
+	if (xhr == null) throw new Error("XMLHttpRequest non supportÃ©");
 
 	xhr.open("GET", url, true);
 	xhr.onreadystatechange = function () {
@@ -138,7 +138,7 @@ function render() {
 		$(ressourceStock).html("Paper : "+humanPlayer.PaperAmount+"&nbsp;&nbsp;&nbsp;&nbsp;" +
 				""+humanPlayer.PlayerRace.FictiveRessource.Name+" : "+humanPlayer.FictiveRessourceAmount);
 		
-		var actionTurnText = "Tour N°"+gameMap.Turn.Number+"<br />"+gameMap.Turn.Phase.Name;
+		var actionTurnText = "Tour NÂ°"+gameMap.Turn.Number+"<br />"+gameMap.Turn.Phase.Name;
 		
 		$(actionTurnDiv).html(actionTurnText);
 	}
@@ -374,11 +374,11 @@ function selectArea(){
 						giveMoveOrderToUnit(area);
 					}
 					else{ 
-						alert("Impossible déplacer l'unité ici !");
+						alert("Impossible dÃ©placer l'unitÃ© ici !");
 					}
 				}
 			}
-			else alert("Un seul ordre par unité pour le moment !");
+			else alert("Un seul ordre par unitÃ© pour le moment !");
 		}
 		else if(!entityToCreate && !selectedUnit && area){
 			deselectSelectedArea();
@@ -402,15 +402,15 @@ function selectArea(){
 					}
 					else if(area.Doodad){
 						if(area.Doodad.MeshType == "Deposit"){
-							var doodadtext = "Gisement : "+(area.Doodad.Type ? area.Doodad.Type.Name : "Papier")+"<br />Quantité : "+area.Doodad.Quantity;
+							var doodadtext = "Gisement : "+(area.Doodad.Type ? area.Doodad.Type.Name : "Papier")+"<br />QuantitÃ© : "+area.Doodad.Quantity;
 							$("#areatext").html(doodadtext);
 						}
 						else if(area.Doodad.MeshType == "Tree"){
-							$("#areatext").html("Forêt");
+							$("#areatext").html("ForÃªt");
 						}
 						else if(area.Doodad.MeshType == "Unit"){
 							var doodadtext = area.Doodad.Name+"<br />"+area.Doodad.LifeRemaining+"/"+area.Doodad.Life+" PV<br />Puissance : "+area.Doodad.Power+"<br />"
-							+"Armure : "+area.Doodad.Armor+"<br />Munitions : "+area.Doodad.Ammo+"/"+area.Doodad.AmmoRemaining+"<br />Portée : "+area.Doodad.Range+"<br />"+
+							+"Armure : "+area.Doodad.Armor+"<br />Munitions : "+area.Doodad.Ammo+"/"+area.Doodad.AmmoRemaining+"<br />PortÃ©e : "+area.Doodad.Range+"<br />"+
 							"Vitesse : "+area.Doodad.SpeedRemaining+" / "+area.Doodad.Speed+"<br />"+
 							"ID Joueur : "+area.Doodad.PlayerId;
 							$("#areatext").html(doodadtext);
@@ -431,7 +431,7 @@ function selectArea(){
 					}
 					else{
 						if(area.AreaType.Type.indexOf("ground")!=-1){
-							$("#areatext").html("Terre déserte<br />X : "+area.X+" Z : "+area.Z);	
+							$("#areatext").html("Terre dÃ©serte<br />X : "+area.X+" Z : "+area.Z);	
 						}
 						else $("#areatext").html("Eau");
 					}
@@ -769,7 +769,7 @@ function constructHUD(){
 	var menuLink = document.createElement('a');
 	$(menuLink).attr("class","hudElement");
 	$(menuLink).attr("href","index.jsp");
-	$(menuLink).html("Retour à l'accueil");
+	$(menuLink).html("Retour Ã  l'accueil");
 	rightHud.appendChild(menuLink);
 	
 	//SELECTED AREA INFO
@@ -803,7 +803,7 @@ function constructHUD(){
 	$(nextTurnButton).attr("id","nextTurnButton");
 	$(nextTurnButton).attr("type","button");
 	$(nextTurnButton).attr("value","Fin de Phase");
-	$(nextTurnButton).attr("onclick","alert('Vous êtes seul, impossible...');");
+	$(nextTurnButton).attr("onclick","alert('Vous Ãªtes seul, impossible...');");
 	topHudCenter.appendChild(nextTurnButton);
 }
 
@@ -912,7 +912,7 @@ function selectEntityToCreate(img, entityIdentifier, entity){
 	}
 	else if(entityIdentifier == "U"){
 		if(!addPlayerUnitAtCoordinate(entity.Id))
-			alert("La sortie du bâtiment producteur est obstruée !");
+			alert("La sortie du bÃ¢timent producteur est obstruÃ©e !");
 		deselectArea();
 	}
 }

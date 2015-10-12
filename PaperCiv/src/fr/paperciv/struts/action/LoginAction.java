@@ -59,7 +59,7 @@ public class LoginAction extends Action
 					
 					if(!isLogged)
 					{
-						Constants.sendResponse(response, "Connexion refusé");
+						Constants.sendResponse(response, "Connexion refusÃ©");
 					}
 					else
 					{
@@ -70,7 +70,7 @@ public class LoginAction extends Action
 				}
 				else
 				{
-					Constants.sendResponse(response, "Problème lors de la récupération du formulaire");
+					Constants.sendResponse(response, "ProblÃ¨me lors de la rÃ©cupÃ©ration du formulaire");
 				}
 			}
 		}
