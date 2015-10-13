@@ -16,6 +16,7 @@ public class Constants
 	
 	public static final int playerVisibilyRange = 3;
 	public static final int enemyVisibilyRange = 3;
+	public static final double enemyManagmentDelay = 600;
 	
 	public static final int multiplayerPort = 5000;
 	public static final int itemIdLength = 36;
@@ -107,7 +108,7 @@ public class Constants
 	public static final double highLifeUpRate = 1.15;
 	
 	public static final double hungerDownPercent = 0.25;
-	public static final double thirstDownPercent = 0.45;
+	public static final double thirstDownPercent = 0.5;
 	public static final double inventorySizeUpRate = 1.10;
 	public static final double transportableWeightUpRate = 1.10;
 	

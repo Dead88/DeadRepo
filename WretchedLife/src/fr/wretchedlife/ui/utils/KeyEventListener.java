@@ -92,8 +92,6 @@ public class KeyEventListener implements KeyListener {
 				}
 				else if(destinationArea.getEntity() == null){
 					
-					gamePanel.manageEnemies();
-					
 					if(destinationArea.getEntity() == null){
 						player.move( game, playerArea, destinationArea );
 						
