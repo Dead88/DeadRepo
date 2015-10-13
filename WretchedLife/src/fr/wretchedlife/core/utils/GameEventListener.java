@@ -24,13 +24,13 @@ public class GameEventListener {
 			GamePanel gamePanel = (GamePanel) w.getCurrentPanel();
 			
 			if( !gamePanel.hasFocus() ) gamePanel.grabFocus();
-
-			Calendar now = Calendar.getInstance();
-	
-			if( ( now.getTimeInMillis() - timer.getTimeInMillis() ) >= Constants.enemyManagmentDelay ) {
-				timer = Calendar.getInstance();
-				gamePanel.manageEnemies();
-			}
+// TODO : real time gameplay
+//			Calendar now = Calendar.getInstance();
+//	
+//			if( ( now.getTimeInMillis() - timer.getTimeInMillis() ) >= Constants.enemyManagmentDelay ) {
+//				timer = Calendar.getInstance();
+//				gamePanel.manageEnemies();
+//			}
 			
 			if( w.getCurrentMenuPanel() != null) {
 				GameMenuPanel gameMenuPanel = (GameMenuPanel)  w.getCurrentMenuPanel();

@@ -150,6 +150,9 @@ public class GamePanel extends JPanel {
 			enemyArea.setEntity( null );
 			game.getCurrentRegion().getEnemies().remove( e );
 		}
+		else {
+			e.attackPlayer( gameMenuPanel.getInfoPanel(), player );
+		}
 		
 		gameMenuPanel.clearPreviewInfoPanel();
 		gameMenuPanel.displayAreaInfos( this, enemyArea);
