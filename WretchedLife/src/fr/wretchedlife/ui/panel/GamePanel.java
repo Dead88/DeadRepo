@@ -1,7 +1,9 @@
 package fr.wretchedlife.ui.panel;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.event.MouseEvent;
 
 import javax.swing.JOptionPane;
@@ -103,6 +105,19 @@ public class GamePanel extends JPanel {
 					area.getEntity().getTexture().getIconHeight(),
 					null
 				);
+				
+				if( area.getEntity() instanceof Enemy ) {
+					Enemy e = (Enemy) area.getEntity();
+					
+					g.setColor(Color.RED);
+					((Graphics2D) g).setStroke(new BasicStroke(2));
+					g.drawLine(
+						area.getX(), 
+						area.getY(),
+						area.getX() + ( (int) ( e.getLifeRemain() * 64 ) / e.getLife() ), 
+						area.getY()
+					);
+				}
 			}	
 		}
 	}
