@@ -39,7 +39,7 @@ public class MapFactory {
 				} break;
 			}
 			
-			GameMap region = new GameMap( NameGenerator.getRandomRegionName( GameMap.Type.OUTDOOR )+" "+i, 
+			GameMap region = new GameMap( NameGenerator.getRandomRegionName( null )+" "+i, 
 				GameMap.Type.OUTDOOR,
 				floorType,
 				new ArrayList<Enemy>(), 
@@ -70,9 +70,9 @@ public class MapFactory {
 		}
 		
 		for(int i = 0; i < Constants.numberOfBuildingRegions; i++ ) {
-			GameMap region = new GameMap( NameGenerator.getRandomRegionName( GameMap.Type.BUILDING )+" "+i,
+			GameMap region = new GameMap( NameGenerator.getRandomRegionName( GameMap.FloorType.HOUSE )+" "+i,
 				GameMap.Type.BUILDING,
-				GameMap.FloorType.BUILDING,
+				GameMap.FloorType.HOUSE,
 				new ArrayList<Enemy>(), 
 				Constants.getRandomBetween( Constants.minAreasPerBuildingRegion, Constants.maxAreasPerBuildingRegion), 
 				Constants.getRandomBetween( Constants.minLinesPerBuildingRegion, Constants.maxLinesPerBuildingRegion), 
@@ -95,9 +95,9 @@ public class MapFactory {
 		}
 		
 		for(int i = 0; i < Constants.numberOfUndergroundRegions; i++ ) {
-			GameMap region = new GameMap( NameGenerator.getRandomRegionName( GameMap.Type.UNDERGROUND )+" "+i,
+			GameMap region = new GameMap( NameGenerator.getRandomRegionName( GameMap.FloorType.CAVE )+" "+i,
 				GameMap.Type.UNDERGROUND, 
-				GameMap.FloorType.UNNDERGROUND,
+				GameMap.FloorType.CAVE,
 				new ArrayList<Enemy>(), 
 				Constants.getRandomBetween( Constants.minAreasPerUndergroundRegion , Constants.maxAreasPerUndergroundRegion ), 
 				Constants.getRandomBetween( Constants.minLinesPerUndergroundRegion, Constants.maxLinesPerUndergroundRegion ), 
@@ -117,6 +117,33 @@ public class MapFactory {
 					Constants.minEnemiesPerUndergroundRegion, Constants.maxEnemiesPerUndergroundRegion ) );
 			EntityFactory.generateRandomEnemyBoss(region, player, Constants.getRandomBetween( 
 					Constants.minBossPerUndergroundRegion, Constants.maxBossPerUndergroundRegion ) );
+			
+			regions.add( region );
+		}
+		
+		for(int i = 0; i < Constants.numberOfDungeonRegions; i++ ) {
+			GameMap region = new GameMap( NameGenerator.getRandomRegionName( GameMap.FloorType.DUNGEON )+" "+i,
+				GameMap.Type.DUNGEON, 
+				GameMap.FloorType.DUNGEON,
+				new ArrayList<Enemy>(), 
+				Constants.getRandomBetween( Constants.minAreasPerDungeonRegion , Constants.maxAreasPerDungeonRegion ), 
+				Constants.getRandomBetween( Constants.minLinesPerDungeonRegion, Constants.maxLinesPerDungeonRegion ), 
+				null	
+			);
+			buildGameMapAreas( region );
+			
+			ItemFactory.generateRandomItems( region, player, Constants.getRandomBetween( 
+					Constants.minItemsPerDungeonRegion, Constants.maxItemsPerDungeonRegion ) );
+			ItemFactory.generateRandomConsumableItems( region, player, Constants.getRandomBetween( 
+					Constants.minConsumableItemsPerDungeonRegion, Constants.maxConsumableItemsPerDungeonRegion ) );
+			ItemFactory.generateRandomHealingConsumableItems( region, player, Constants.getRandomBetween( 
+					Constants.minHealingConsumableItemsPerDungeonRegion, Constants.maxHealingConsumableItemsPerDungeonRegion ) );
+			ItemFactory.generateRandomContainerItems( region, player, Constants.getRandomBetween(
+					Constants.minContainerItemsPerDungeonRegion, Constants.maxContainerItemsPerDungeonRegion));
+			EntityFactory.generateRandomEnemies( region, player, Constants.getRandomBetween( 
+					Constants.minEnemiesPerDungeonRegion, Constants.maxEnemiesPerDungeonRegion ) );
+			EntityFactory.generateRandomEnemyBoss(region, player, Constants.getRandomBetween( 
+					Constants.minBossPerDungeonRegion, Constants.maxBossPerDungeonRegion ) );
 			
 			regions.add( region );
 		}
@@ -281,7 +308,7 @@ public class MapFactory {
 				while(regionEntranceCount < maxRegionEntrances){
 					
 					while(true) {
-						randomArrayId = Constants.getRandomBetween( Constants.numberOfOutdoorRegions, regions.size() - 1);
+						randomArrayId = Constants.getRandomBetween( 0, regions.size() - 1);
 						
 						if( !regions.get( randomArrayId ).getId().equals( region.getId() ) 
 						&& !regions.get( randomArrayId ).isLinkedToAnotherRegion() 
@@ -304,15 +331,17 @@ public class MapFactory {
 					regionEntrance = new RegionEntrance() {
 						@Override
 						public void use() {
-							if(destinationRegion.getType() == GameMap.Type.BUILDING)
+							if(destinationRegion.getType() == GameMap.Type.BUILDING )
 								SoundFactory.playSound( SoundFactory.doorFilePath );
 						}
 					};
 					
-					if(destinationRegion.getType() == GameMap.Type.BUILDING)
+					if(destinationRegion.getFloorType() == GameMap.FloorType.HOUSE)
 						regionEntrance.setTexture( Constants.getTexture(".//img//entities//house.png") );
-					else if(destinationRegion.getType() == GameMap.Type.UNDERGROUND)
+					else if(destinationRegion.getFloorType() == GameMap.FloorType.CAVE)
 						regionEntrance.setTexture( Constants.getTexture(".//img//entities//cave.png") );
+					else if(destinationRegion.getFloorType() == GameMap.FloorType.DUNGEON)
+						regionEntrance.setTexture( Constants.getTexture(".//img//entities//dungeon.png") );
 					
 					regionEntrance.setName( "Entrée : "+destinationRegion.getName() );
 					regionEntrance.setRegionId( destinationRegion.getId() );
@@ -335,11 +364,13 @@ public class MapFactory {
 						}
 					};
 					
-					if(destinationRegion.getType() == GameMap.Type.BUILDING)
+					if(destinationRegion.getFloorType() == GameMap.FloorType.HOUSE)
 						regionBackEntrance.setTexture( Constants.getTexture(".//img//entities//door.png") );
-					else if(destinationRegion.getType() == GameMap.Type.UNDERGROUND)
+					else if(destinationRegion.getFloorType() == GameMap.FloorType.CAVE)
 						regionBackEntrance.setTexture( Constants.getTexture(".//img//entities//cave.png") );
-					
+					else if(destinationRegion.getFloorType() == GameMap.FloorType.DUNGEON)
+						regionBackEntrance.setTexture( Constants.getTexture(".//img//entities//dungeondoor.png") );
+						
 					regionBackEntrance.setName( "Sortie vers : "+region.getName() );
 					regionBackEntrance.setRegionId( region.getId() );
 					destinationRegionRandomArea.setEntity( regionBackEntrance );

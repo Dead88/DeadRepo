@@ -5,9 +5,9 @@ import fr.wretchedlife.map.GameMap;
 
 public class NameGenerator {
 
-	public static String getRandomRegionName( GameMap.Type regionType ) {
+	public static String getRandomRegionName( GameMap.FloorType floorType ) {
 		
-		if( regionType == GameMap.Type.OUTDOOR ) {
+		if( floorType == null ) {
 			int rand = Constants.getRandomBetween(1, 10);
 			switch( rand ) {
 				case 1 : return "Terres désolées";
@@ -22,7 +22,7 @@ public class NameGenerator {
 				case 10 : return "Plateaux du monde";
 			}
 		}
-		else if( regionType == GameMap.Type.BUILDING ) {
+		else if( floorType == GameMap.FloorType.HOUSE ) {
 			int rand = Constants.getRandomBetween(1, 10);
 			switch( rand ) {
 				case 1 : return "Maison abandonnée";
@@ -37,7 +37,7 @@ public class NameGenerator {
 				case 10 : return "Maison sacagée";
 			}
 		}
-		else if( regionType == GameMap.Type.UNDERGROUND ) {
+		else if( floorType == GameMap.FloorType.CAVE ) {
 			int rand = Constants.getRandomBetween(1, 10);
 			switch( rand ) {
 				case 1 : return "Cave sordide";
@@ -52,6 +52,16 @@ public class NameGenerator {
 				case 10 : return "Caverne odorante";
 			}
 		}
+		else if( floorType == GameMap.FloorType.DUNGEON ) {
+			int rand = Constants.getRandomBetween(1, 4);
+			switch( rand ) {
+				case 1 : return "Repaire du mal";
+				case 2 : return "Tour des oubliés";
+				case 3 : return "Donjon de la souffrance";
+				case 4 : return "Donjon ancestral";
+			}
+		}
+		
 		
 		return null;
 	}

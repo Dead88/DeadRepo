@@ -80,23 +80,45 @@ public class Constants
 	
 	public static int numberOfUndergroundRegions = 640;
 	
-	public static int minAreasPerUndergroundRegion = 200;
-	public static int maxAreasPerUndergroundRegion = 400;
+	public static int minAreasPerUndergroundRegion = 100;
+	public static int maxAreasPerUndergroundRegion = 300;
 	public static int minLinesPerUndergroundRegion = 10;
 	public static int maxLinesPerUndergroundRegion = 20;
 	
 	public static int minItemsPerUndergroundRegion = 0;
-	public static int maxItemsPerUndergroundRegion = 6;
+	public static int maxItemsPerUndergroundRegion = 5;
 	public static int minConsumableItemsPerUndergroundRegion = 0;
-	public static int maxConsumableItemsPerUndergroundRegion = 6;
+	public static int maxConsumableItemsPerUndergroundRegion = 5;
 	public static int minHealingConsumableItemsPerUndergroundRegion = 0;
-	public static int maxHealingConsumableItemsPerUndergroundRegion = 6;
+	public static int maxHealingConsumableItemsPerUndergroundRegion = 5;
 	public static int minContainerItemsPerUndergroundRegion = 0;
-	public static int maxContainerItemsPerUndergroundRegion = 2;
+	public static int maxContainerItemsPerUndergroundRegion = 1;
 	public static int minEnemiesPerUndergroundRegion = 0;
-	public static int maxEnemiesPerUndergroundRegion = 6;
+	public static int maxEnemiesPerUndergroundRegion = 5;
 	public static int minBossPerUndergroundRegion = 0;
 	public static int maxBossPerUndergroundRegion = 1;
+	
+	// DUNGEON REGION SETTINGS
+	
+	public static int numberOfDungeonRegions = 16;
+	
+	public static int minAreasPerDungeonRegion = 200;
+	public static int maxAreasPerDungeonRegion = 400;
+	public static int minLinesPerDungeonRegion = 20;
+	public static int maxLinesPerDungeonRegion = 30;
+	
+	public static int minItemsPerDungeonRegion = 2;
+	public static int maxItemsPerDungeonRegion = 6;
+	public static int minConsumableItemsPerDungeonRegion = 2;
+	public static int maxConsumableItemsPerDungeonRegion = 6;
+	public static int minHealingConsumableItemsPerDungeonRegion = 2;
+	public static int maxHealingConsumableItemsPerDungeonRegion = 6;
+	public static int minContainerItemsPerDungeonRegion = 1;
+	public static int maxContainerItemsPerDungeonRegion = 2;
+	public static int minEnemiesPerDungeonRegion = 2;
+	public static int maxEnemiesPerDungeonRegion = 6;
+	public static int minBossPerDungeonRegion = 1;
+	public static int maxBossPerDungeonRegion = 3;
 	
 	// GAME RATES
 	public static final double lowLevelUpRate = 2.25;
@@ -151,6 +173,10 @@ public class Constants
 	public static final String snowTexturePath = ".\\img\\map\\snow.jpg";
 	public static final String snowSelectedTexturePath = ".\\img\\map\\snow_selected.jpg";
 	public static final String snowOverTexturePath = ".\\img\\map\\snow_over.jpg";
+	
+	public static final String dungeonTexturePath = ".\\img\\map\\dale.jpg";
+	public static final String dungeonSelectedTexturePath = ".\\img\\map\\dale_selected.jpg";
+	public static final String dungeonOverTexturePath = ".\\img\\map\\dale_over.jpg";
 	
 	// COMMON METHODS
 	

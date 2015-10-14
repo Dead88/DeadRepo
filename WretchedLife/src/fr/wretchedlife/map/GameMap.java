@@ -23,7 +23,8 @@ public class GameMap {
 	public static enum Type {
 		OUTDOOR,
 		BUILDING,
-		UNDERGROUND
+		UNDERGROUND,
+		DUNGEON
 	}
 	
 	public static enum FloorType {
@@ -31,8 +32,9 @@ public class GameMap {
 		DIRT,
 		SAND,
 		SNOW,
-		BUILDING,
-		UNNDERGROUND
+		HOUSE,
+		CAVE,
+		DUNGEON
 	}
 
 	public GameMap() { 
@@ -72,15 +74,20 @@ public class GameMap {
 				this.groundOverTexturePath = Constants.snowOverTexturePath;
 				this.groundSelectedTexturePath = Constants.snowSelectedTexturePath;
 			} break;
-			case BUILDING : {
+			case HOUSE : {
 				this.groundTexturePath = Constants.parquetTexturePath;
 				this.groundOverTexturePath = Constants.parquetOverTexturePath;
 				this.groundSelectedTexturePath = Constants.parquetSelectedTexturePath;
 			} break;
-			case UNNDERGROUND : {
+			case CAVE : {
 				this.groundTexturePath = Constants.rockTexturePath;
 				this.groundOverTexturePath = Constants.rockOverTexturePath;
 				this.groundSelectedTexturePath = Constants.rockSelectedTexturePath;
+			}
+			case DUNGEON : {
+				this.groundTexturePath = Constants.dungeonTexturePath;
+				this.groundOverTexturePath = Constants.dungeonOverTexturePath;
+				this.groundSelectedTexturePath = Constants.dungeonSelectedTexturePath;
 			}
 			default : {} break;
 		}
