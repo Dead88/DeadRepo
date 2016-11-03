@@ -3,7 +3,6 @@ package fr.wretchedlife.core;
 import java.util.ArrayList;
 
 import fr.wretchedlife.Constants;
-import fr.wretchedlife.core.utils.XmlTools;
 import fr.wretchedlife.entity.ext.Player;
 import fr.wretchedlife.factory.MapFactory;
 import fr.wretchedlife.map.Area;

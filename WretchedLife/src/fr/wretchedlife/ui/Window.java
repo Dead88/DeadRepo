@@ -10,6 +10,7 @@ import javax.swing.JPanel;
 import fr.wretchedlife.core.Game;
 import fr.wretchedlife.core.ext.GameClient;
 import fr.wretchedlife.core.ext.GameServer;
+import fr.wretchedlife.factory.SoundFactory;
 import fr.wretchedlife.ui.panel.GameMenuPanel;
 import fr.wretchedlife.ui.panel.GamePanel;
 import fr.wretchedlife.ui.panel.MainMenuPanel;
@@ -38,7 +39,7 @@ public class Window extends JFrame
 		this.setLayout( new BorderLayout() );
 		this.addWindowListener( new WindowEventListener( this ) );
 		
-		//SoundFactory.playAmbientSound();
+		SoundFactory.playAmbientSound();
 	}
 
 	public void displayMainMenu() {
@@ -46,8 +47,6 @@ public class Window extends JFrame
 			if(currentPanel instanceof GamePanel ) {
 				GamePanel gp = (GamePanel) currentPanel;
 				try {
-					if(gp.getGame() instanceof GameServer) ((GameServer) gp.getGame()).getHost().close();
-					else if(gp.getGame() instanceof GameClient) ((GameClient) gp.getGame()).getClientSocket().close();
 					gp.setGame(null);
 				}
 				catch(Exception e) {}
@@ -69,8 +68,6 @@ public class Window extends JFrame
 		if(currentPanel != null) {
 			if(currentPanel instanceof GamePanel ) {
 				GamePanel gp = (GamePanel) currentPanel;
-				if(gp.getGame() instanceof GameServer) ((GameServer) gp.getGame()).getHost().close();
-				else if(gp.getGame() instanceof GameClient) ((GameClient) gp.getGame()).getClientSocket().close();
 				gp.setGame(null);
 			}
 			this.remove( currentPanel );
@@ -101,8 +98,6 @@ public class Window extends JFrame
 		if(currentPanel != null) {
 			if(currentPanel instanceof GamePanel ) {
 				GamePanel gp = (GamePanel) currentPanel;
-				if(gp.getGame() instanceof GameServer) ((GameServer) gp.getGame()).getHost().close();
-				else if(gp.getGame() instanceof GameClient) ((GameClient) gp.getGame()).getClientSocket().close();
 				gp.setGame(null);
 			}
 			this.remove( currentPanel );
@@ -114,11 +109,9 @@ public class Window extends JFrame
 		}
 		
 		GameServer gameServer = new GameServer();
-		Thread serverThread = new Thread( gameServer );
-		serverThread.start();
 	    
-		GameMenuPanel gameMenuPanel = new GameMenuPanel( this, gameServer );
-		GamePanel gamePanel = new GamePanel( this, gameServer, gameMenuPanel );
+		GameMenuPanel gameMenuPanel = new GameMenuPanel( this, gameServer.getGame() );
+		GamePanel gamePanel = new GamePanel( this, gameServer.getGame(), gameMenuPanel );
 		
 		this.add( gameMenuPanel , BorderLayout.SOUTH );
 		this.add( gamePanel, BorderLayout.CENTER );
@@ -131,8 +124,6 @@ public class Window extends JFrame
 		if(currentPanel != null) {
 			if(currentPanel instanceof GamePanel ) {
 				GamePanel gp = (GamePanel) currentPanel;
-				if(gp.getGame() instanceof GameServer) ((GameServer) gp.getGame()).getHost().close();
-				else if(gp.getGame() instanceof GameClient) ((GameClient) gp.getGame()).getClientSocket().close();
 				gp.setGame(null);
 			}
 			this.remove( currentPanel );
@@ -148,15 +139,12 @@ public class Window extends JFrame
 		try {
 			gameClient = new GameClient( serverAddr );
 			
-			Thread clientThread = new Thread( gameClient );
-			clientThread.start();
-			
-			while( gameClient.getClientSocket().isConnected() ) {
-			
+			while( gameClient.getGame().getCurrentRegion() == null) {
+				//waiting
 			}
 			
-			GameMenuPanel gameMenuPanel = new GameMenuPanel( this, gameClient );
-			GamePanel gamePanel = new GamePanel( this, gameClient, gameMenuPanel );	
+			GameMenuPanel gameMenuPanel = new GameMenuPanel( this, gameClient.getGame() );
+			GamePanel gamePanel = new GamePanel( this, gameClient.getGame(), gameMenuPanel );	
 			
 			this.add( gameMenuPanel , BorderLayout.SOUTH );
 			this.add( gamePanel, BorderLayout.CENTER );
