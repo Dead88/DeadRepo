@@ -59,7 +59,7 @@ public class Constants
 	
 	// BUILDING REGION SETTINGS
 	
-	public static int numberOfBuildingRegions = 640;
+	public static int numberOfBuildingRegions = 220;
 	
 	public static int minAreasPerBuildingRegion = 36;
 	public static int maxAreasPerBuildingRegion = 60;
@@ -79,7 +79,7 @@ public class Constants
 	
 	// UNDERGROUND REGION SETTINGS
 	
-	public static int numberOfUndergroundRegions = 640;
+	public static int numberOfUndergroundRegions = 220;
 	
 	public static int minAreasPerUndergroundRegion = 100;
 	public static int maxAreasPerUndergroundRegion = 300;
@@ -95,13 +95,13 @@ public class Constants
 	public static int minContainerItemsPerUndergroundRegion = 0;
 	public static int maxContainerItemsPerUndergroundRegion = 1;
 	public static int minEnemiesPerUndergroundRegion = 1;
-	public static int maxEnemiesPerUndergroundRegion = 5;
+	public static int maxEnemiesPerUndergroundRegion = 4;
 	public static int minBossPerUndergroundRegion = 0;
 	public static int maxBossPerUndergroundRegion = 1;
 	
 	// DUNGEON REGION SETTINGS
 	
-	public static int numberOfDungeonRegions = 16;
+	public static int numberOfDungeonRegions = 40;
 	
 	public static int minAreasPerDungeonRegion = 200;
 	public static int maxAreasPerDungeonRegion = 400;
