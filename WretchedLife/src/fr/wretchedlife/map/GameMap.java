@@ -83,7 +83,7 @@ public class GameMap {
 				this.groundTexturePath = Constants.rockTexturePath;
 				this.groundOverTexturePath = Constants.rockOverTexturePath;
 				this.groundSelectedTexturePath = Constants.rockSelectedTexturePath;
-			}
+			} break;
 			case DUNGEON : {
 				this.groundTexturePath = Constants.dungeonTexturePath;
 				this.groundOverTexturePath = Constants.dungeonOverTexturePath;

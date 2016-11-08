@@ -392,7 +392,7 @@ public class GameMenuPanel extends JPanel {
 	}
 	
 	public static String getEntranceInfoHtml( RegionEntrance regionEntrance ) {
-		String regionEntranceInfo = "<html><u>"+ regionEntrance.getName() + "</u><br /></html>";
+		String regionEntranceInfo = "<html><u>"+ regionEntrance.getName() +"</u><br /></html>";
 		return regionEntranceInfo;
 	}
 }

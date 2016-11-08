@@ -22,10 +22,11 @@ public class Constants
 	public static final int itemIdLength = 36;
 	public static final int gameMapIdLength = 20;
 	
-	public static final int minItemsPerRandomChest = 2;
-	public static final int maxItemsPerRandomChest = 4;
-	public static final int minItemsPerEnemyChest = 0;
-	public static final int maxItemsPerEnemyChest = 3;
+	public static final int minItemsPerRandomChest = 1;
+	public static final int maxItemsPerRandomChest = 3;
+	public static final int minItemsPerEnemyChest = 1;
+	public static final int maxItemsPerEnemyChest = 2;
+	
 	// STYLES 
 	
 	public static final Color goldColor = new Color(201, 180, 87);
@@ -44,13 +45,13 @@ public class Constants
 	public static int maxRegionEntrancesPerOutdoorRegion = 60;
 	
 	public static int minItemsPerOutdoorRegion = 10;
-	public static int maxItemsPerOutdoorRegion = 50;
-	public static int minConsumableItemsPerOutdoorRegion = 10;
-	public static int maxConsumableItemsPerOutdoorRegion = 50;
-	public static int minHealingConsumableItemsPerOutdoorRegion = 10;
-	public static int maxHealingConsumableItemsPerOutdoorRegion = 20;
-	public static int minContainerItemsPerOutdoorRegion = 4;
-	public static int maxContainerItemsPerOutdoorRegion = 16;
+	public static int maxItemsPerOutdoorRegion = 25;
+	public static int minConsumableItemsPerOutdoorRegion = 15;
+	public static int maxConsumableItemsPerOutdoorRegion = 25;
+	public static int minHealingConsumableItemsPerOutdoorRegion = 5;
+	public static int maxHealingConsumableItemsPerOutdoorRegion = 15;
+	public static int minContainerItemsPerOutdoorRegion = 5;
+	public static int maxContainerItemsPerOutdoorRegion = 10;
 	public static int minEnemiesPerOutdoorRegion = 15;
 	public static int maxEnemiesPerOutdoorRegion = 55;
 	public static int minBossPerOutdoorRegion = 1;
@@ -74,7 +75,7 @@ public class Constants
 	public static int minContainerItemsPerBuildingRegion = 0;
 	public static int maxContainerItemsPerBuildingRegion = 1;
 	public static int minEnemiesPerBuildingRegion = 0;
-	public static int maxEnemiesPerBuildingRegion = 1;
+	public static int maxEnemiesPerBuildingRegion = 2;
 	
 	// UNDERGROUND REGION SETTINGS
 	
@@ -86,14 +87,14 @@ public class Constants
 	public static int maxLinesPerUndergroundRegion = 20;
 	
 	public static int minItemsPerUndergroundRegion = 0;
-	public static int maxItemsPerUndergroundRegion = 5;
+	public static int maxItemsPerUndergroundRegion = 4;
 	public static int minConsumableItemsPerUndergroundRegion = 0;
-	public static int maxConsumableItemsPerUndergroundRegion = 5;
+	public static int maxConsumableItemsPerUndergroundRegion = 4;
 	public static int minHealingConsumableItemsPerUndergroundRegion = 0;
-	public static int maxHealingConsumableItemsPerUndergroundRegion = 5;
+	public static int maxHealingConsumableItemsPerUndergroundRegion = 2;
 	public static int minContainerItemsPerUndergroundRegion = 0;
 	public static int maxContainerItemsPerUndergroundRegion = 1;
-	public static int minEnemiesPerUndergroundRegion = 0;
+	public static int minEnemiesPerUndergroundRegion = 1;
 	public static int maxEnemiesPerUndergroundRegion = 5;
 	public static int minBossPerUndergroundRegion = 0;
 	public static int maxBossPerUndergroundRegion = 1;
@@ -107,12 +108,12 @@ public class Constants
 	public static int minLinesPerDungeonRegion = 20;
 	public static int maxLinesPerDungeonRegion = 30;
 	
-	public static int minItemsPerDungeonRegion = 2;
-	public static int maxItemsPerDungeonRegion = 6;
-	public static int minConsumableItemsPerDungeonRegion = 2;
-	public static int maxConsumableItemsPerDungeonRegion = 6;
-	public static int minHealingConsumableItemsPerDungeonRegion = 2;
-	public static int maxHealingConsumableItemsPerDungeonRegion = 6;
+	public static int minItemsPerDungeonRegion = 1;
+	public static int maxItemsPerDungeonRegion = 5;
+	public static int minConsumableItemsPerDungeonRegion = 1;
+	public static int maxConsumableItemsPerDungeonRegion = 5;
+	public static int minHealingConsumableItemsPerDungeonRegion = 1;
+	public static int maxHealingConsumableItemsPerDungeonRegion = 5;
 	public static int minContainerItemsPerDungeonRegion = 1;
 	public static int maxContainerItemsPerDungeonRegion = 2;
 	public static int minEnemiesPerDungeonRegion = 2;
