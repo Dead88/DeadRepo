@@ -9,6 +9,10 @@ import fr.wretchedlife.obj.ItemProperty;
 
 public abstract class ConsumableItem extends Item {
 	
+	public ConsumableItem() {
+		super();
+	}
+	
 	public ConsumableItem(String name, ImageIcon texture, int weight,
 			ArrayList<ItemProperty> properties) {
 		super(name, texture, weight, properties);

@@ -15,143 +15,124 @@ import fr.wretchedlife.obj.ext.WeaponItem;
 
 public class ItemGenerator {
 
-	public static WeaponItem createGourdin( final Player player ) {
-		WeaponItem gourdin = new WeaponItem(
-			"Gourdin", 
-			Constants.getTexture( ".\\img\\items\\club.png" ), 
-			5, 
-			null,
-			4,
-			7, 
-			3, 
-			3, 
-			1, 
-			1, 
-			0, 
-			0) {
+	public static WeaponItem createClub( final Player player ) {
+		WeaponItem weapon = new WeaponItem() {
 			@Override
-			public void wear() {
-				player.setItemMinDamage( player.getItemMinDamage() + this.getMinDamage() );
-				player.setItemMaxDamage( player.getItemMaxDamage() + this.getMaxDamage() );
-			}
+			public void onEquip() {}
 			@Override
-			public void unWear() {
-				player.setItemMinDamage( player.getItemMinDamage() - this.getMinDamage() );
-				player.setItemMaxDamage( player.getItemMaxDamage() - this.getMaxDamage() );
-			}
+			public void onDesequip() {}
 		};
-		return gourdin;
+		
+		weapon.setName( "Gourdin" );
+		weapon.setTexture( Constants.getTexture( ".\\img\\items\\club.png" ) );
+		weapon.setWeight( 5 );
+		weapon.setProperties( null);
+		weapon.setMinDamage( 4 );
+		weapon.setMaxDamage( 7 );
+		weapon.setDurability( 3 );
+		weapon.setDurabilityRemain( 3 );
+		weapon.setRequiredLevel( 1 );
+		weapon.setRequiredStrengh( 1 );
+		weapon.setRequiredAgility( 0 );
+		weapon.setRequiredKnowledge( 0 );
+		
+		return weapon;
 	}
 	
 	public static WeaponItem createKnife( final Player player ) {
-		WeaponItem knife = new WeaponItem(
-			"Couteau usé", 
-			Constants.getTexture( ".\\img\\items\\knife.png" ), 
-			2, 
-			null,
-			5,
-			6, 
-			3, 
-			3, 
-			1, 
-			0, 
-			1, 
-			0) {
+		WeaponItem weapon = new WeaponItem() {
 			@Override
-			public void wear() {
-				player.setItemMinDamage( player.getItemMinDamage() + this.getMinDamage() );
-				player.setItemMaxDamage( player.getItemMaxDamage() + this.getMaxDamage() );
-			}
+			public void onEquip() {}
 			@Override
-			public void unWear() {
-				player.setItemMinDamage( player.getItemMinDamage() - this.getMinDamage() );
-				player.setItemMaxDamage( player.getItemMaxDamage() - this.getMaxDamage() );
-			}
+			public void onDesequip() {}
 		};
-		return knife;
+		
+		weapon.setName( "Couteau usé" );
+		weapon.setTexture( Constants.getTexture( ".\\img\\items\\knife.png" ) );
+		weapon.setWeight( 2 );
+		weapon.setProperties( null);
+		weapon.setMinDamage( 5 );
+		weapon.setMaxDamage( 6 );
+		weapon.setDurability( 4 );
+		weapon.setDurabilityRemain( 4 );
+		weapon.setRequiredLevel( 1 );
+		weapon.setRequiredStrengh( 0 );
+		weapon.setRequiredAgility( 1 );
+		weapon.setRequiredKnowledge( 0 );
+		
+		return weapon;
 	}
 	
 	public static WeaponItem createHammer( final Player player ) {
-		WeaponItem hammer = new WeaponItem(
-			"Marteau abîmé", 
-			Constants.getTexture( ".\\img\\items\\hammer.png" ), 
-			3, 
-			null,
-			4,
-			8, 
-			4, 
-			4, 
-			1, 
-			1, 
-			0, 
-			0) {
+		WeaponItem weapon = new WeaponItem() {
 			@Override
-			public void wear() {
-				player.setItemMinDamage( player.getItemMinDamage() + this.getMinDamage() );
-				player.setItemMaxDamage( player.getItemMaxDamage() + this.getMaxDamage() );
-			}
+			public void onEquip() {}
 			@Override
-			public void unWear() {
-				player.setItemMinDamage( player.getItemMinDamage() - this.getMinDamage() );
-				player.setItemMaxDamage( player.getItemMaxDamage() - this.getMaxDamage() );
-			}
+			public void onDesequip() {}
 		};
-		return hammer;
-	}
-	
-	public static WeaponItem createMace( final Player player ) {
-		WeaponItem mace = new WeaponItem(
-			"Masse à ailettes", 
-			Constants.getTexture( ".\\img\\items\\mace.png" ), 
-			4, 
-			null,
-			5,
-			9, 
-			4, 
-			4, 
-			2, 
-			1, 
-			1, 
-			0) {
-			@Override
-			public void wear() {
-				player.setItemMinDamage( player.getItemMinDamage() + this.getMinDamage() );
-				player.setItemMaxDamage( player.getItemMaxDamage() + this.getMaxDamage() );
-			}
-			@Override
-			public void unWear() {
-				player.setItemMinDamage( player.getItemMinDamage() - this.getMinDamage() );
-				player.setItemMaxDamage( player.getItemMaxDamage() - this.getMaxDamage() );
-			}
-		};
-		return mace;
+		
+		weapon.setName( "Marteau abîmé" );
+		weapon.setTexture( Constants.getTexture( ".\\img\\items\\hammer.png" ) );
+		weapon.setWeight( 4 );
+		weapon.setProperties( null);
+		weapon.setMinDamage( 4 );
+		weapon.setMaxDamage( 7 );
+		weapon.setDurability( 4 );
+		weapon.setDurabilityRemain( 4 );
+		weapon.setRequiredLevel( 1 );
+		weapon.setRequiredStrengh( 1 );
+		weapon.setRequiredAgility( 0 );
+		weapon.setRequiredKnowledge( 0 );
+		
+		return weapon;
 	}
 	
 	public static WeaponItem createHatchet( final Player player ) {
-		WeaponItem hatchet = new WeaponItem("Hachette rouillé", 
-			Constants.getTexture( ".\\img\\items\\hatchet.png" ), 
-			4, 
-			null, 
-			6,
-			9, 
-			6, 
-			6, 
-			1, 
-			1, 
-			0, 
-			0) {
+		WeaponItem weapon = new WeaponItem() {
 			@Override
-			public void wear() {
-				player.setItemMinDamage( player.getItemMinDamage() + this.getMinDamage() );
-				player.setItemMaxDamage( player.getItemMaxDamage() + this.getMaxDamage() );
-			}
+			public void onEquip() {}
 			@Override
-			public void unWear() {
-				player.setItemMinDamage( player.getItemMinDamage() - this.getMinDamage() );
-				player.setItemMaxDamage( player.getItemMaxDamage() - this.getMaxDamage() );
-			}
+			public void onDesequip() {}
 		};
-		return hatchet;
+		
+		weapon.setName( "Hachette rouillé" );
+		weapon.setTexture( Constants.getTexture( ".\\img\\items\\hatchet.png" ) );
+		weapon.setWeight( 4 );
+		weapon.setProperties( null);
+		weapon.setMinDamage( 5 );
+		weapon.setMaxDamage( 8 );
+		weapon.setDurability( 4 );
+		weapon.setDurabilityRemain( 4 );
+		weapon.setRequiredLevel( 1 );
+		weapon.setRequiredStrengh( 1 );
+		weapon.setRequiredAgility( 0 );
+		weapon.setRequiredKnowledge( 0 );
+		
+		return weapon;
+	}
+	
+	public static WeaponItem createMace( final Player player ) {
+		WeaponItem weapon = new WeaponItem() {
+			@Override
+			public void onEquip() {}
+			@Override
+			public void onDesequip() {}
+		};
+		
+		weapon.setName( "Masse à ailettes" );
+		weapon.setTexture( Constants.getTexture( ".\\img\\items\\mace.png" ) );
+		weapon.setWeight( 5 );
+		weapon.setProperties( null);
+		weapon.setMinDamage( 6 );
+		weapon.setMaxDamage( 10 );
+		weapon.setDurability( 5 );
+		weapon.setDurabilityRemain( 5 );
+		weapon.setRequiredLevel( 2 );
+		weapon.setRequiredStrengh( 2 );
+		weapon.setRequiredAgility( 0 );
+		weapon.setRequiredKnowledge( 0 );
+		
+		return weapon;
 	}
 	
 	public static WeaponItem createMagicAttributeHatchet( final Player player ) {
@@ -173,24 +154,9 @@ public class ItemGenerator {
 			props.add( prop );
 		}
 		
-		WeaponItem magicalHatchet = new WeaponItem(
-			"Hachette magique rouillé", 
-			Constants.getTexture( ".\\img\\items\\hatchet.png" ), 
-			4, 
-			props, 
-			7,
-			10, 
-			6, 
-			6, 
-			2, 
-			1, 
-			0, 
-			1){
+		WeaponItem weapon = new WeaponItem() {
 			@Override
-			public void wear() {
-				player.setItemMinDamage( player.getItemMinDamage() + this.getMinDamage() );
-				player.setItemMaxDamage( player.getItemMaxDamage() + this.getMaxDamage() );
-				
+			public void onEquip() {
 				for(int i=0; i < this.getProperties().size() ; i++ ) {
 					ItemProperty hatchetProp = this.getProperties().get(i);
 					int hatchetPropPower = Integer.parseInt( hatchetProp.getValue().replace("+ ", "") );
@@ -207,10 +173,7 @@ public class ItemGenerator {
 				}
 			}
 			@Override
-			public void unWear() {
-				player.setItemMinDamage( player.getItemMinDamage() - this.getMinDamage() );
-				player.setItemMaxDamage( player.getItemMaxDamage() - this.getMaxDamage() );
-				
+			public void onDesequip() {
 				for(int i=0; i < this.getProperties().size() ; i++ ) {
 					ItemProperty hatchetProp = this.getProperties().get(i);
 					int hatchetPropPower = Integer.parseInt( hatchetProp.getValue().replace("+ ", "") );
@@ -227,311 +190,295 @@ public class ItemGenerator {
 				}
 			}
 		};
-		return magicalHatchet;
+		
+		weapon.setName( "Hachette magique rouillé" );
+		weapon.setTexture( Constants.getTexture( ".\\img\\items\\hatchet.png" ) );
+		weapon.setWeight( 4 );
+		weapon.setProperties( props );
+		weapon.setMinDamage( 7 );
+		weapon.setMaxDamage( 10 );
+		weapon.setDurability( 4 );
+		weapon.setDurabilityRemain( 4 );
+		weapon.setRequiredLevel( 2 );
+		weapon.setRequiredStrengh( 1 );
+		weapon.setRequiredAgility( 0 );
+		weapon.setRequiredKnowledge( 1 );
+		
+		return weapon;
 	}
 	
 	public static WeaponItem createSpear( final Player player ) {
-		WeaponItem spear = new WeaponItem("Epieu de fer", 
-			Constants.getTexture( ".\\img\\items\\spear.png" ), 
-			3, 
-			null, 
-			8,
-			12, 
-			4, 
-			4, 
-			2, 
-			0, 
-			2, 
-			0) {
+		WeaponItem weapon = new WeaponItem() {
 			@Override
-			public void wear() {
-				player.setItemMinDamage( player.getItemMinDamage() + this.getMinDamage() );
-				player.setItemMaxDamage( player.getItemMaxDamage() + this.getMaxDamage() );
-			}
+			public void onEquip() {}
 			@Override
-			public void unWear() {
-				player.setItemMinDamage( player.getItemMinDamage() - this.getMinDamage() );
-				player.setItemMaxDamage( player.getItemMaxDamage() - this.getMaxDamage() );
-			}
+			public void onDesequip() {}
 		};
-		return spear;
+		
+		weapon.setName( "Epieu de fer" );
+		weapon.setTexture( Constants.getTexture( ".\\img\\items\\spear.png" ) );
+		weapon.setWeight( 3 );
+		weapon.setProperties( null);
+		weapon.setMinDamage( 7 );
+		weapon.setMaxDamage( 12 );
+		weapon.setDurability( 3 );
+		weapon.setDurabilityRemain( 3 );
+		weapon.setRequiredLevel( 2 );
+		weapon.setRequiredStrengh( 0 );
+		weapon.setRequiredAgility( 2 );
+		weapon.setRequiredKnowledge( 0 );
+		
+		return weapon;
 	}
 	
 	public static WeaponItem createCleaver( final Player player ) {
-		WeaponItem cleaver = new WeaponItem("Couperet rouillé", 
-			Constants.getTexture( ".\\img\\items\\cleaver.png" ), 
-			6, 
-			null, 
-			9,
-			14, 
-			8, 
-			8, 
-			3, 
-			2, 
-			0, 
-			0) {
+		WeaponItem weapon = new WeaponItem() {
 			@Override
-			public void wear() {
-				player.setItemMinDamage( player.getItemMinDamage() + this.getMinDamage() );
-				player.setItemMaxDamage( player.getItemMaxDamage() + this.getMaxDamage() );
-			}
+			public void onEquip() {}
 			@Override
-			public void unWear() {
-				player.setItemMinDamage( player.getItemMinDamage() - this.getMinDamage() );
-				player.setItemMaxDamage( player.getItemMaxDamage() - this.getMaxDamage() );
-			}
+			public void onDesequip() {}
 		};
-		return cleaver;
+		
+		weapon.setName( "Couperet" );
+		weapon.setTexture( Constants.getTexture( ".\\img\\items\\cleaver.png" ) );
+		weapon.setWeight( 6 );
+		weapon.setProperties( null);
+		weapon.setMinDamage( 8 );
+		weapon.setMaxDamage( 13 );
+		weapon.setDurability( 7 );
+		weapon.setDurabilityRemain( 7 );
+		weapon.setRequiredLevel( 3 );
+		weapon.setRequiredStrengh( 2 );
+		weapon.setRequiredAgility( 0 );
+		weapon.setRequiredKnowledge( 0 );
+		
+		return weapon;
 	}
 	
 	public static WeaponItem createGlavius( final Player player ) {
-		WeaponItem glavius = new WeaponItem("Glaive ébréché", 
-			Constants.getTexture( ".\\img\\items\\glaive.png" ), 
-			5, 
-			null, 
-			12,
-			15, 
-			6, 
-			6, 
-			3, 
-			2, 
-			1, 
-			0) {
+		WeaponItem weapon = new WeaponItem() {
 			@Override
-			public void wear() {
-				player.setItemMinDamage( player.getItemMinDamage() + this.getMinDamage() );
-				player.setItemMaxDamage( player.getItemMaxDamage() + this.getMaxDamage() );
-			}
+			public void onEquip() {}
 			@Override
-			public void unWear() {
-				player.setItemMinDamage( player.getItemMinDamage() - this.getMinDamage() );
-				player.setItemMaxDamage( player.getItemMaxDamage() - this.getMaxDamage() );
-			}
+			public void onDesequip() {}
 		};
-		return glavius;
+		
+		weapon.setName( "Glaive ébréché" );
+		weapon.setTexture( Constants.getTexture( ".\\img\\items\\glaive.png" ) );
+		weapon.setWeight( 5 );
+		weapon.setProperties( null);
+		weapon.setMinDamage( 10 );
+		weapon.setMaxDamage( 15 );
+		weapon.setDurability( 6 );
+		weapon.setDurabilityRemain( 6 );
+		weapon.setRequiredLevel( 3 );
+		weapon.setRequiredStrengh( 2 );
+		weapon.setRequiredAgility( 1 );
+		weapon.setRequiredKnowledge( 0 );
+		
+		return weapon;
 	}
 	
 	public static ArmorItem createBasicVest( final Player player ) {
-		ArmorItem a = new ArmorItem(
-			"Veste de tissu", 
-			Constants.getTexture( ".\\img\\items\\assets\\Tw2_armor_quiltedleather.png" ), 
-			4, 
-			null, 
-			2, 
-			ArmorItem.Type.CHEST,
-			5, 
-			5, 
-			1, 
-			0, 
-			0, 
-			0) {
+		ArmorItem armor = new ArmorItem() {
 			@Override
-			public void wear() {
-				player.setItemDefense( player.getItemDefense() + this.getDefense() );
-			}
+			public void onEquip() {}
 			@Override
-			public void unWear() {
-				player.setItemDefense( player.getItemDefense() - this.getDefense() );
-			}
+			public void onDesequip() {}
 		};
-		return a;
+		
+		armor.setName( "Veste de tissu" );
+		armor.setTexture( Constants.getTexture( ".\\img\\items\\assets\\Tw2_armor_quiltedleather.png" ) );
+		armor.setWeight( 5 );
+		armor.setProperties( null );
+		armor.setDefense( 4 );
+		armor.setType( ArmorItem.Type.CHEST );
+		armor.setDurability( 5 );
+		armor.setDurabilityRemain( 5 );
+		armor.setRequiredLevel( 1 );
+		armor.setRequiredStrengh( 1 );
+		armor.setRequiredAgility( 0 );
+		armor.setRequiredKnowledge( 0 );
+		
+		return armor;
 	}
 	
 	public static ArmorItem createBasicTrousers( final Player player ) {
-		ArmorItem pantalon = new ArmorItem(
-			"Pantalon de cuir léger", 
-			Constants.getTexture( ".\\img\\items\\assets\\Tw2_armor_superbleathertrousers.png" ), 
-			3, 
-			null, 
-			2, 
-			ArmorItem.Type.LEGS,
-			3, 
-			3, 
-			1, 
-			0, 
-			0, 
-			0) {
+		ArmorItem armor = new ArmorItem() {
 			@Override
-			public void wear() {
-				player.setItemDefense( player.getItemDefense() + this.getDefense() );
-			}
+			public void onEquip() {}
 			@Override
-			public void unWear() {
-				player.setItemDefense( player.getItemDefense() - this.getDefense() );
-			}
+			public void onDesequip() {}
 		};
-		return pantalon;
+		
+		armor.setName( "Pantalon de cuir léger" );
+		armor.setTexture( Constants.getTexture( ".\\img\\items\\assets\\Tw2_armor_superbleathertrousers.png" ) );
+		armor.setWeight( 3 );
+		armor.setProperties( null );
+		armor.setDefense( 3 );
+		armor.setType( ArmorItem.Type.LEGS );
+		armor.setDurability( 4 );
+		armor.setDurabilityRemain( 4 );
+		armor.setRequiredLevel( 1 );
+		armor.setRequiredStrengh( 1 );
+		armor.setRequiredAgility( 0 );
+		armor.setRequiredKnowledge( 0 );
+		
+		return armor;
 	}
 	
 	public static ArmorItem createBasicBoots( final Player player ) {
-		ArmorItem chausses = new ArmorItem(
-			"Chausses en lambaux", 
-			Constants.getTexture( ".\\img\\items\\assets\\Tw2_armor_soakedboots.png" ), 
-			3, 
-			null, 
-			1, 
-			ArmorItem.Type.FEET,
-			2, 
-			2, 
-			1, 
-			0, 
-			0, 
-			0){
+		ArmorItem armor = new ArmorItem() {
 			@Override
-			public void wear() {
-				player.setItemDefense( player.getItemDefense() + this.getDefense() );
-			}
+			public void onEquip() {}
 			@Override
-			public void unWear() {
-				player.setItemDefense( player.getItemDefense() - this.getDefense() );
-			}
+			public void onDesequip() {}
 		};
-		return chausses;
+		
+		armor.setName( "Chausses en lambaux" );
+		armor.setTexture( Constants.getTexture( ".\\img\\items\\assets\\Tw2_armor_soakedboots.png" ) );
+		armor.setWeight( 4 );
+		armor.setProperties( null );
+		armor.setDefense( 2 );
+		armor.setType( ArmorItem.Type.FEET );
+		armor.setDurability( 3 );
+		armor.setDurabilityRemain( 3 );
+		armor.setRequiredLevel( 1 );
+		armor.setRequiredStrengh( 0 );
+		armor.setRequiredAgility( 1 );
+		armor.setRequiredKnowledge( 0 );
+		
+		return armor;
 	}
 	
 	public static ArmorItem createBasicGloves( final Player player ) {
-		ArmorItem mitaine = new ArmorItem(
-			"Mitaine de cuir léger", 
-			Constants.getTexture( ".\\img\\items\\assets\\Tw2_armor_wornleathergauntlets.png" ), 
-			1, 
-			null, 
-			1, 
-			ArmorItem.Type.HANDS,
-			3, 
-			3, 
-			1, 
-			0, 
-			0, 
-			0){
+		ArmorItem armor = new ArmorItem() {
 			@Override
-			public void wear() {
-				player.setItemDefense( player.getItemDefense() + this.getDefense() );
-			}
+			public void onEquip() {}
 			@Override
-			public void unWear() {
-				player.setItemDefense( player.getItemDefense() - this.getDefense() );
-			}
+			public void onDesequip() {}
 		};
-		return mitaine;
+		
+		armor.setName( "Mitaine de cuir léger" );
+		armor.setTexture( Constants.getTexture( ".\\img\\items\\assets\\Tw2_armor_wornleathergauntlets.png" ) );
+		armor.setWeight( 1 );
+		armor.setProperties( null );
+		armor.setDefense( 1 );
+		armor.setType( ArmorItem.Type.HANDS );
+		armor.setDurability( 2 );
+		armor.setDurabilityRemain( 2 );
+		armor.setRequiredLevel( 1 );
+		armor.setRequiredStrengh( 0 );
+		armor.setRequiredAgility( 0 );
+		armor.setRequiredKnowledge( 0 );
+		
+		return armor;
 	}
 	
 	public static ArmorItem createBasicHelmet( final Player player ) {
-		ArmorItem helmet = new ArmorItem(
-			"Heaume ancien", 
-			Constants.getTexture( ".\\img\\items\\heaume.png" ), 
-			3, 
-			null, 
-			3, 
-			ArmorItem.Type.HEAD,
-			5, 
-			5, 
-			2, 
-			0, 
-			0, 
-			0){
+		ArmorItem armor = new ArmorItem() {
 			@Override
-			public void wear() {
-				player.setItemDefense( player.getItemDefense() + this.getDefense() );
-			}
+			public void onEquip() {}
 			@Override
-			public void unWear() {
-				player.setItemDefense( player.getItemDefense() - this.getDefense() );
-			}
+			public void onDesequip() {}
 		};
-		return helmet;
+		
+		armor.setName( "Heaume ancien" );
+		armor.setTexture( Constants.getTexture( ".\\img\\items\\heaume.png" ) );
+		armor.setWeight( 4 );
+		armor.setProperties( null );
+		armor.setDefense( 4 );
+		armor.setType( ArmorItem.Type.HEAD );
+		armor.setDurability( 5 );
+		armor.setDurabilityRemain( 5 );
+		armor.setRequiredLevel( 2 );
+		armor.setRequiredStrengh( 1 );
+		armor.setRequiredAgility( 0 );
+		armor.setRequiredKnowledge( 0 );
+		
+		return armor;
 	}
 	
 	public static ArmorItem createBasicHood( final Player player ) {
-		ArmorItem helmet = new ArmorItem(
-			"Capuchon en lambeaux", 
-			Constants.getTexture( ".\\img\\items\\hood.png" ), 
-			1, 
-			null, 
-			1, 
-			ArmorItem.Type.HEAD,
-			2, 
-			2, 
-			1, 
-			0, 
-			0, 
-			0){
+		ArmorItem armor = new ArmorItem() {
 			@Override
-			public void wear() {
-				player.setItemDefense( player.getItemDefense() + this.getDefense() );
-			}
+			public void onEquip() {}
 			@Override
-			public void unWear() {
-				player.setItemDefense( player.getItemDefense() - this.getDefense() );
-			}
+			public void onDesequip() {}
 		};
-		return helmet;
+		
+		armor.setName( "Capuchon en lambeaux" );
+		armor.setTexture( Constants.getTexture( ".\\img\\items\\hood.png" ) );
+		armor.setWeight( 2 );
+		armor.setProperties( null );
+		armor.setDefense( 2 );
+		armor.setType( ArmorItem.Type.HEAD );
+		armor.setDurability( 2 );
+		armor.setDurabilityRemain( 2 );
+		armor.setRequiredLevel( 1 );
+		armor.setRequiredStrengh( 0 );
+		armor.setRequiredAgility( 0 );
+		armor.setRequiredKnowledge( 0 );
+		
+		return armor;
 	}
 	
 	public static ArmorItem createBasicBelt( final Player player ) {
-		ArmorItem belt = new ArmorItem(
-			"Ceinture usé de cuir", 
-			Constants.getTexture( ".\\img\\items\\leatherbelt.png" ), 
-			1, 
-			null, 
-			1, 
-			ArmorItem.Type.BELT,
-			3, 
-			3, 
-			1, 
-			0, 
-			0, 
-			0){
+		ArmorItem armor = new ArmorItem() {
 			@Override
-			public void wear() {
-				player.setItemDefense( player.getItemDefense() + this.getDefense() );
-			}
+			public void onEquip() {}
 			@Override
-			public void unWear() {
-				player.setItemDefense( player.getItemDefense() - this.getDefense() );
-			}
+			public void onDesequip() {}
 		};
-		return belt;
+		
+		armor.setName( "Ceinture de cuir usé" );
+		armor.setTexture( Constants.getTexture( ".\\img\\items\\leatherbelt.png" ) );
+		armor.setWeight( 1 );
+		armor.setProperties( null );
+		armor.setDefense( 1 );
+		armor.setType( ArmorItem.Type.BELT );
+		armor.setDurability( 3 );
+		armor.setDurabilityRemain( 3 );
+		armor.setRequiredLevel( 1 );
+		armor.setRequiredStrengh( 0 );
+		armor.setRequiredAgility( 0 );
+		armor.setRequiredKnowledge( 0 );
+		
+		return armor;
 	}
 	
 	public static ArmorItem createBasicBracer( final Player player ) {
-		ArmorItem bracer = new ArmorItem(
-			"Brassard de cuir léger", 
-			Constants.getTexture( ".\\img\\items\\leatherbracer.png" ), 
-			1, 
-			null, 
-			1, 
-			ArmorItem.Type.ARM,
-			3, 
-			3, 
-			1, 
-			0, 
-			0, 
-			0){
+		ArmorItem armor = new ArmorItem() {
 			@Override
-			public void wear() {
-				player.setItemDefense( player.getItemDefense() + this.getDefense() );
-			}
+			public void onEquip() {}
 			@Override
-			public void unWear() {
-				player.setItemDefense( player.getItemDefense() - this.getDefense() );
-			}
+			public void onDesequip() {}
 		};
-		return bracer;
+		
+		armor.setName( "Brassard de cuir léger" );
+		armor.setTexture( Constants.getTexture( ".\\img\\items\\leatherbracer.png" ) );
+		armor.setWeight( 2 );
+		armor.setProperties( null );
+		armor.setDefense( 2 );
+		armor.setType( ArmorItem.Type.ARM );
+		armor.setDurability( 3 );
+		armor.setDurabilityRemain( 3 );
+		armor.setRequiredLevel( 1 );
+		armor.setRequiredStrengh( 1 );
+		armor.setRequiredAgility( 0 );
+		armor.setRequiredKnowledge( 0 );
+		
+		return armor;
 	}
 	
 	public static ConsumableItem createMeat( final Player player ) {
-		ArrayList< ItemProperty > beanzProps = new ArrayList<ItemProperty>();
-		ItemProperty beanzProp1 = new ItemProperty( ItemProperty.Code.Faim, "+ 40%");
-		ItemProperty beanzProp2 = new ItemProperty( ItemProperty.Code.Soif, "+ 5%");
-		beanzProps.add( beanzProp1 );
-		beanzProps.add( beanzProp2 );
+		ArrayList< ItemProperty > props = new ArrayList<ItemProperty>();
+		ItemProperty hungerProp = new ItemProperty( ItemProperty.Code.Faim, "+ 40%");
+		ItemProperty thirstProp = new ItemProperty( ItemProperty.Code.Soif, "+ 5%");
+		props.add( hungerProp );
+		props.add( thirstProp );
 		
-		ConsumableItem meat = new ConsumableItem(
-			"Viande", 
-			Constants.getTexture( ".\\img\\items\\meat.png" ), 
-			2, 
-			beanzProps 
-		) {
+		ConsumableItem consumableItem = new ConsumableItem() {
 			@Override
 			public void use() {
 				SoundFactory.playSound( SoundFactory.eatSoundFilePath );
@@ -543,20 +490,20 @@ public class ItemGenerator {
 			}
 		};
 		
-		return meat;
+		consumableItem.setName( "Viande" );
+		consumableItem.setTexture( Constants.getTexture( ".\\img\\items\\meat.png" ) );
+		consumableItem.setWeight( 2 );
+		consumableItem.setProperties( props );
+		
+		return consumableItem;
 	}
 	
 	public static ConsumableItem createWaterBottle( final Player player ) {
-		ArrayList< ItemProperty > watterbottleProps = new ArrayList<ItemProperty>();
-		ItemProperty watterbottleProp1 = new ItemProperty( ItemProperty.Code.Soif, "+ 60%");
-		watterbottleProps.add( watterbottleProp1 );
+		ArrayList< ItemProperty > props = new ArrayList<ItemProperty>();
+		ItemProperty thirstProp = new ItemProperty( ItemProperty.Code.Soif, "+ 60%");
+		props.add( thirstProp );
 		
-		ConsumableItem waterbottle = new ConsumableItem(
-			"Bouteille d'eau", 
-			Constants.getTexture( ".\\img\\items\\waterbottle.png" ), 
-			1, 
-			watterbottleProps
-		) {
+		ConsumableItem consumableItem = new ConsumableItem() {
 			@Override
 			public void use() {
 				SoundFactory.playSound( SoundFactory.drinkSoundFilePath );
@@ -566,22 +513,22 @@ public class ItemGenerator {
 			}
 		};
 		
-		return waterbottle;
+		consumableItem.setName( "Bouteille d'eau" );
+		consumableItem.setTexture( Constants.getTexture( ".\\img\\items\\waterbottle.png" ) );
+		consumableItem.setWeight( 1 );
+		consumableItem.setProperties( props );
+		
+		return consumableItem;
 	}
 	
 	public static ConsumableItem createTunaCan( final Player player ) {
-		ArrayList< ItemProperty > tunaCanProps = new ArrayList<ItemProperty>();
-		ItemProperty tunaCanProp1 = new ItemProperty( ItemProperty.Code.Faim, "+ 25%");
-		ItemProperty tunaCanProp2 = new ItemProperty( ItemProperty.Code.Soif, "+ 15%");
-		tunaCanProps.add( tunaCanProp1 );
-		tunaCanProps.add( tunaCanProp2 );
+		ArrayList< ItemProperty > props = new ArrayList<ItemProperty>();
+		ItemProperty hungerProp = new ItemProperty( ItemProperty.Code.Faim, "+ 25%");
+		ItemProperty thristProp = new ItemProperty( ItemProperty.Code.Soif, "+ 15%");
+		props.add( hungerProp );
+		props.add( thristProp );
 		
-		ConsumableItem waterbottle = new ConsumableItem(
-			"Thon en conserve", 
-			Constants.getTexture( ".\\img\\items\\tunacan.png" ), 
-			1, 
-			tunaCanProps
-		) {
+		ConsumableItem consumableItem = new ConsumableItem() {
 			@Override
 			public void use() {
 				SoundFactory.playSound( SoundFactory.eatSoundFilePath );
@@ -594,20 +541,20 @@ public class ItemGenerator {
 			}
 		};
 		
-		return waterbottle;
+		consumableItem.setName( "Thon en conserve" );
+		consumableItem.setTexture( Constants.getTexture( ".\\img\\items\\tunacan.png" ) );
+		consumableItem.setWeight( 1 );
+		consumableItem.setProperties( props );
+		
+		return consumableItem;
 	}
 	
 	public static ConsumableItem createBandage( final Player player ) {
-		ArrayList< ItemProperty > bandageProps = new ArrayList<ItemProperty>();
-		ItemProperty bandageProp = new ItemProperty( ItemProperty.Code.Vie, "+ 25");
-		bandageProps.add( bandageProp );
+		ArrayList< ItemProperty > props = new ArrayList<ItemProperty>();
+		ItemProperty lifeProp = new ItemProperty( ItemProperty.Code.Vie, "+ 25");
+		props.add( lifeProp );
 		
-		ConsumableItem waterbottle = new ConsumableItem(
-			"Bandages", 
-			Constants.getTexture( ".\\img\\items\\bandage.png" ), 
-			1, 
-			bandageProps
-		) {
+		ConsumableItem consumableItem = new ConsumableItem() {
 			@Override
 			public void use() {
 				player.setLifeRemain( player.getLifeRemain() + 25 );
@@ -615,20 +562,20 @@ public class ItemGenerator {
 			}
 		};
 		
-		return waterbottle;
+		consumableItem.setName( "Bandages" );
+		consumableItem.setTexture( Constants.getTexture( ".\\img\\items\\bandage.png" ) );
+		consumableItem.setWeight( 1 );
+		consumableItem.setProperties( props );
+		
+		return consumableItem;
 	}
 	
 	public static ConsumableItem createMedikit( final Player player ) {
-		ArrayList< ItemProperty > medikitProps = new ArrayList<ItemProperty>();
-		ItemProperty medikitProp = new ItemProperty( ItemProperty.Code.Vie, "+ 50");
-		medikitProps.add( medikitProp );
+		ArrayList< ItemProperty > props = new ArrayList<ItemProperty>();
+		ItemProperty lifeProp = new ItemProperty( ItemProperty.Code.Vie, "+ 50");
+		props.add( lifeProp );
 		
-		ConsumableItem waterbottle = new ConsumableItem(
-			"Trousse de soin", 
-			Constants.getTexture( ".\\img\\items\\medikit.png" ), 
-			1, 
-			medikitProps
-		) {
+		ConsumableItem consumableItem = new ConsumableItem() {
 			@Override
 			public void use() {
 				player.setLifeRemain( player.getLifeRemain() + 50 );
@@ -636,37 +583,42 @@ public class ItemGenerator {
 			}
 		};
 		
-		return waterbottle;
+		consumableItem.setName( "Trousse de soin" );
+		consumableItem.setTexture( Constants.getTexture( ".\\img\\items\\medikit.png" ) );
+		consumableItem.setWeight( 1 );
+		consumableItem.setProperties( props );
+		
+		return consumableItem;
 	}
 	
 	public static ContainerItem createEmptyChest( final Player player) {
-		ContainerItem chest = new ContainerItem( 
-			"Coffre", 
-			Constants.getTexture( ".\\img\\items\\chest.png" ),
-			2, 
-			null, 
-			new ArrayList<Item>(), 
-			false
-		);
-		return chest;
+		ContainerItem containerItem = new ContainerItem();
+		containerItem.setName( "Coffre" );
+		containerItem.setTexture( Constants.getTexture( ".\\img\\items\\chest.png" ) );
+		containerItem.setWeight( 2 );
+		containerItem.setProperties( null );
+		containerItem.setInventory( new ArrayList<Item>() );
+		containerItem.setLocked( false );
+		
+		return containerItem;
 	}
 	
 	public static ContainerItem createChest( final Player player, int numberOfItems ) {
-		ArrayList<Item> chestInventory = new ArrayList<Item>();
+		ArrayList<Item> chestContent = new ArrayList<Item>();
 		
 		for (int i = 0; i < numberOfItems; i++) {
 			Item randomItem = ItemFactory.getRandomItem(player);
-			chestInventory.add( randomItem );
+			chestContent.add( randomItem );
 		}
 		
-		ContainerItem chest = new ContainerItem( 
-			"Coffre", 
-			Constants.getTexture( ".\\img\\items\\chest.png" ),
-			2, 
-			null, 
-			chestInventory, 
-			false
-		);
-		return chest;
+		ContainerItem containerItem = new ContainerItem();
+		containerItem.setName( "Coffre" );
+		containerItem.setTexture( Constants.getTexture( ".\\img\\items\\chest.png" ) );
+		containerItem.setWeight( 2 );
+		containerItem.setProperties( null );
+		containerItem.setInventory( chestContent );
+		containerItem.setLocked( false );
+		
+		return containerItem;
 	}
 }

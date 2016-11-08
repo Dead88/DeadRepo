@@ -178,7 +178,7 @@ public class GameMenuPanel extends JPanel {
 							player.setRightHandWeaponItem( (WeaponItem) item );
 						}
 						
-						((WeaponItem) item).wear();
+						((WeaponItem) item).wear( player );
 					}	
 					else if( item instanceof ArmorItem ) {
 						
@@ -244,7 +244,7 @@ public class GameMenuPanel extends JPanel {
 							player.setFeetArmor( armorItem );
 						}
 						
-						((ArmorItem) item).wear();
+						((ArmorItem) item).wear( player );
 					}
 					
 					player.getInventory().remove( item );
@@ -298,7 +298,7 @@ public class GameMenuPanel extends JPanel {
 					else if( player.getRightHandWeaponItem() != null && item.getId().equals( player.getRightHandWeaponItem().getId() ) ){
 						player.setRightHandWeaponItem( null );
 					}
-					((WeaponItem) item).unWear();
+					((WeaponItem) item).unWear( player );
 				}
 				else if( item instanceof ArmorItem ) {
 					if( player.getLeftShoulderArmor() != null && item.getId().equals( player.getLeftShoulderArmor().getId() ) ) {
@@ -328,7 +328,7 @@ public class GameMenuPanel extends JPanel {
 					if( player.getFeetArmor() != null && item.getId().equals( player.getFeetArmor().getId() ) ) {
 						player.setFeetArmor( null); 
 					}
-					((ArmorItem) item).unWear();
+					((ArmorItem) item).unWear( player );
 				}
 				
 				SoundFactory.playSound( SoundFactory.storeItemSoundFilePath );

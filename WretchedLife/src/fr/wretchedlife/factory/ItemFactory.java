@@ -6,77 +6,42 @@ import fr.wretchedlife.generator.ItemGenerator;
 import fr.wretchedlife.map.Area;
 import fr.wretchedlife.map.GameMap;
 import fr.wretchedlife.obj.Item;
-import fr.wretchedlife.obj.ext.ArmorItem;
 import fr.wretchedlife.obj.ext.ConsumableItem;
 import fr.wretchedlife.obj.ext.ContainerItem;
-import fr.wretchedlife.obj.ext.WeaponItem;
 
 public class ItemFactory {
 	
 	public static void generateRandomItems( GameMap region, Player player, int number ) {
 		
-		WeaponItem club = null;
-		WeaponItem knife = null;
-		WeaponItem hammer = null;
-		WeaponItem mace = null;
-		WeaponItem hatchet = null;
-		WeaponItem magicalHatchet = null;
-		WeaponItem spear = null;
-		WeaponItem cleaver = null;
-		WeaponItem glavius = null;
-		ArmorItem veste = null;
-		ArmorItem pantalon = null;
-		ArmorItem chausses = null;
-		ArmorItem mitaine = null;
-		ArmorItem helmet = null;
-		ArmorItem hood = null;
-		ArmorItem belt = null;
-		ArmorItem bracer = null;
-		
-		Area randomArea = new Area(0, 0, null, null );
+		Area randomArea = null;
+		Item item = null;
 		
 		for( int i = 0; i < number; i++){
 			int itemNumber = Constants.getRandomBetween(1, 17);
-			club = ItemGenerator.createGourdin( player );
-			knife = ItemGenerator.createKnife( player );
-			hammer = ItemGenerator.createHammer( player );
-			mace = ItemGenerator.createMace( player );
-			hatchet = ItemGenerator.createHatchet( player );
-			magicalHatchet = ItemGenerator.createMagicAttributeHatchet( player );
-			spear = ItemGenerator.createSpear( player );
-			cleaver = ItemGenerator.createCleaver( player );
-			glavius = ItemGenerator.createGlavius( player );
-			veste = ItemGenerator.createBasicVest( player );
-			pantalon = ItemGenerator.createBasicTrousers( player );
-			chausses = ItemGenerator.createBasicBoots( player );
-			mitaine = ItemGenerator.createBasicGloves( player );
-			helmet = ItemGenerator.createBasicHelmet (player );
-			hood = ItemGenerator.createBasicHood( player );
-			belt = ItemGenerator.createBasicBelt( player );
-			bracer = ItemGenerator.createBasicBracer( player );
 			
 			while(true){
 				randomArea = region.getAreas().get( Constants.getRandomBetween(0, region.getAreas().size() - 1) );
 				if (randomArea.getType() == Area.Type.GROUND_AREA && randomArea.getItem() == null && randomArea.getEntity() == null  ){
 					switch( itemNumber ){
-						case 1 : randomArea.setItem( club ); break;
-						case 2 : randomArea.setItem( knife ); break;
-						case 3 : randomArea.setItem( hammer ); break;
-						case 4 : randomArea.setItem( mace ); break;
-						case 5 : randomArea.setItem( hatchet ); break;
-						case 6 : randomArea.setItem( magicalHatchet ); break;
-						case 7 : randomArea.setItem( spear ); break;
-						case 8 : randomArea.setItem( cleaver ); break;
-						case 9 : randomArea.setItem( glavius ); break;
-						case 10 : randomArea.setItem( veste ); break;
-						case 11 : randomArea.setItem( pantalon );break;
-						case 12 : randomArea.setItem( chausses );break;
-						case 13 : randomArea.setItem( mitaine );break;
-						case 14 : randomArea.setItem( helmet );break;
-						case 15 : randomArea.setItem( hood ); break;
-						case 16 : randomArea.setItem( belt );break;
-						case 17 : randomArea.setItem( bracer );break;
+						case 1 : item = ItemGenerator.createClub( player ); break;
+						case 2 : item = ItemGenerator.createKnife( player ); break;
+						case 3 : item = ItemGenerator.createHammer( player ); break;
+						case 4 : item = ItemGenerator.createMace( player ); break;
+						case 5 : item = ItemGenerator.createHatchet( player ); break;
+						case 6 : item = ItemGenerator.createMagicAttributeHatchet( player ); break;
+						case 7 : item = ItemGenerator.createSpear( player ); break;
+						case 8 : item = ItemGenerator.createCleaver( player ); break;
+						case 9 : item = ItemGenerator.createGlavius( player ); break;
+						case 10 : item = ItemGenerator.createBasicVest( player ); break;
+						case 11 : item = ItemGenerator.createBasicTrousers( player ); break;
+						case 12 : item = ItemGenerator.createBasicBoots( player ); break;
+						case 13 : item = ItemGenerator.createBasicGloves( player ); break;
+						case 14 : item = ItemGenerator.createBasicHelmet (player ); break;
+						case 15 : item = ItemGenerator.createBasicHood( player ); break;
+						case 16 : item = ItemGenerator.createBasicBelt( player ); break;
+						case 17 : item = ItemGenerator.createBasicBracer( player ); break;
 					}
+					randomArea.setItem(item);
 					break;
 				}
 			}
@@ -85,26 +50,21 @@ public class ItemFactory {
 	
 	public static void generateRandomConsumableItems( GameMap region, Player player, int number ) {
 		
-		ConsumableItem meat = null;
-		ConsumableItem waterbottle = null;
-		ConsumableItem tunaCan = null;
-		
-		Area randomArea = new Area(0, 0, null, null );
+		Area randomArea = null;
+		ConsumableItem consumableItem = null;
 		
 		for( int i = 0; i < number; i++){
 			int itemNumber = Constants.getRandomBetween(1, 3);
-			meat = ItemGenerator.createMeat( player );
-			waterbottle = ItemGenerator.createWaterBottle( player );
-			tunaCan = ItemGenerator.createTunaCan( player );
 			
 			while(true){
 				randomArea = region.getAreas().get( Constants.getRandomBetween(0, region.getAreas().size() - 1) );
 				if (randomArea.getType() == Area.Type.GROUND_AREA && randomArea.getItem() == null && randomArea.getEntity() == null ){
 					switch( itemNumber ){
-						case 1 : randomArea.setItem( meat ); break;
-						case 2 : randomArea.setItem( waterbottle ); break;
-						case 3 : randomArea.setItem( tunaCan ); break;
+						case 1 : consumableItem = ItemGenerator.createMeat( player ); break;
+						case 2 : consumableItem = ItemGenerator.createWaterBottle( player ); break;
+						case 3 : consumableItem = ItemGenerator.createTunaCan( player ); break;
 					}
+					randomArea.setItem(consumableItem);
 					break;
 				}
 			}
@@ -113,23 +73,20 @@ public class ItemFactory {
 	
 	public static void generateRandomHealingConsumableItems( GameMap region, Player player, int number ) {
 		
-		ConsumableItem bandage = null;
-		ConsumableItem medikit = null;
-		
-		Area randomArea = new Area(0, 0, null, null );
+		Area randomArea = null;
+		ConsumableItem consumableItem = null;
 		
 		for( int i = 0; i < number; i++){
 			int itemNumber = Constants.getRandomBetween(1, 2);
-			bandage = ItemGenerator.createBandage( player );
-			medikit = ItemGenerator.createMedikit( player );
 			
 			while(true){
 				randomArea = region.getAreas().get( Constants.getRandomBetween(0, region.getAreas().size() - 1) );
 				if (randomArea.getType() == Area.Type.GROUND_AREA && randomArea.getItem() == null && randomArea.getEntity() == null ){
 					switch( itemNumber ){
-						case 1 : randomArea.setItem( bandage ); break;
-						case 2 : randomArea.setItem( medikit ); break;
+						case 1 : consumableItem = ItemGenerator.createBandage( player ); break;
+						case 2 : consumableItem = ItemGenerator.createMedikit( player ); break;
 					}
+					randomArea.setItem(consumableItem);
 					break;
 				}
 			}
@@ -161,7 +118,7 @@ public class ItemFactory {
 		int itemNumber = Constants.getRandomBetween(1, 22);
 		
 		switch( itemNumber ){
-			case 1 : return ItemGenerator.createGourdin( player );
+			case 1 : return ItemGenerator.createClub( player );
 			case 2 : return ItemGenerator.createKnife( player );
 			case 3 : return ItemGenerator.createHammer( player );
 			case 4 : return ItemGenerator.createMace( player );

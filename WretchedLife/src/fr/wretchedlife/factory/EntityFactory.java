@@ -11,77 +11,30 @@ public class EntityFactory {
 
 	public static void generateRandomEnemies( GameMap region, Player player, int number ) {
 		
-		Enemy zombie = null;
-		Enemy wolf = null;
-		Enemy strongerZombie = null;
-		Enemy lizard = null;
-		Enemy skeleton = null;
-		Enemy mummy = null;
-		Enemy troll = null;
-		Enemy horror = null;
-		Enemy scorpio = null;
-		Enemy cerber = null;
-		
-		Area randomArea = new Area(0, 0, null, null );
+		Area randomArea = null;
+		Enemy enemy = null;
 		
 		for( int i = 0; i < number; i++){
 			int entityNumber = Constants.getRandomBetween(1, 10);
-			zombie = EntityGenerator.createZombie( player );
-			wolf = EntityGenerator.createWolf( player );
-			strongerZombie = EntityGenerator.createStrongerZombie( player );
-			lizard = EntityGenerator.createLizard( player );
-			skeleton = EntityGenerator.createSkeleton( player );
-			mummy = EntityGenerator.createMummy( player );
-			troll = EntityGenerator.createTroll( player );
-			horror = EntityGenerator.createHorror( player );
-			scorpio = EntityGenerator.createScorpio( player );
-			cerber = EntityGenerator.createCerber( player );
 			
 			while(true){
 				randomArea = region.getAreas().get( Constants.getRandomBetween(0, region.getAreas().size() - 1) );
 				if( randomArea.getType() == Area.Type.GROUND_AREA && randomArea.getItem() == null && randomArea.getEntity() == null ){
+					enemy = null;
 					switch( entityNumber ){
-						case 1 : {
-							randomArea.setEntity( zombie );
-							region.getEnemies().add( zombie );
-						} break;
-						case 2 : {
-							randomArea.setEntity( wolf );
-							region.getEnemies().add( wolf );
-						} break;
-						case 3 : {
-							randomArea.setEntity( strongerZombie );
-							region.getEnemies().add( strongerZombie );
-						} break;
-						case 4 : {
-							randomArea.setEntity( lizard );
-							region.getEnemies().add( lizard );
-						} break;
-						case 5 : {
-							randomArea.setEntity( skeleton );
-							region.getEnemies().add( skeleton );
-						} break;
-						case 6 : {
-							randomArea.setEntity( mummy );
-							region.getEnemies().add( mummy );
-						} break;
-						case 7 : {
-							randomArea.setEntity( troll );
-							region.getEnemies().add( troll );
-						} break;
-						case 8 : {
-							randomArea.setEntity( horror );
-							region.getEnemies().add( horror );
-						} break;
-						case 9 : {
-							randomArea.setEntity( scorpio );
-							region.getEnemies().add( scorpio );
-						} break;
-						case 10 : {
-							randomArea.setEntity( cerber );
-							region.getEnemies().add( cerber );
-						} break;
+						case 1 : enemy = EntityGenerator.createZombie( player ); break;
+						case 3 : enemy = EntityGenerator.createStrongerZombie( player ); break;
+						case 2 : enemy = EntityGenerator.createWolf( player ); break;
+						case 4 : enemy = EntityGenerator.createLizard( player ); break;
+						case 6 : enemy = EntityGenerator.createMummy( player ); break;
+						case 5 : enemy = EntityGenerator.createSkeleton( player ); break;
+						case 7 : enemy = EntityGenerator.createTroll( player ); break;
+						case 8 : enemy = EntityGenerator.createHorror( player ); break;
+						case 9 : enemy = EntityGenerator.createScorpio( player ); break;
+						case 10 : enemy = EntityGenerator.createCerber( player ); break;
 					}
+					randomArea.setEntity( enemy );
+					region.getEnemies().add( enemy );
 					break;
 				}
 			}
@@ -90,29 +43,21 @@ public class EntityFactory {
 	
 	public static void generateRandomEnemyBoss( GameMap region, Player player, int number ) {
 		
-		Enemy sorcerer = null;
-		Enemy dragon = null;
-		
-		Area randomArea = new Area(0, 0, null, null );
+		Area randomArea = null;
+		Enemy enemy = null;
 		
 		for( int i = 0; i < number; i++){
 			int entityNumber = Constants.getRandomBetween(1, 2);
-			sorcerer = EntityGenerator.createSorcererBoss( player );
-			dragon = EntityGenerator.createSkeletonDragonBoss( player );
 			
 			while(true){
 				randomArea = region.getAreas().get( Constants.getRandomBetween(0, region.getAreas().size() - 1) );
 				if( randomArea.getType() == Area.Type.GROUND_AREA && randomArea.getItem() == null && randomArea.getEntity() == null ){
 					switch( entityNumber ){
-						case 1 : {
-							randomArea.setEntity( sorcerer );
-							region.getEnemies().add( sorcerer );
-						} break;
-						case 2 : {
-							randomArea.setEntity( dragon );
-							region.getEnemies().add( dragon );
-						} break;
+						case 1 : enemy = EntityGenerator.createSorcererBoss( player ); break;
+						case 2 : enemy = EntityGenerator.createSkeletonDragonBoss( player ); break;
 					}
+					randomArea.setEntity( enemy );
+					region.getEnemies().add( enemy );
 					break;
 				}
 			}

@@ -4,13 +4,14 @@ import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 
+import fr.wretchedlife.entity.ext.Player;
 import fr.wretchedlife.obj.Item;
 import fr.wretchedlife.obj.ItemProperty;
 
 public abstract class ArmorItem extends Item {
 
 	private int Defense;
-	private Enum Type;
+	private Type Type;
 	private int Durability;
 	private int DurabilityRemain;
 	private int RequiredLevel;
@@ -49,8 +50,15 @@ public abstract class ArmorItem extends Item {
 		RequiredKnowledge = requiredKnowledge;
 	}
 
-	public abstract void wear();
-	public abstract void unWear();
+	public void wear( Player player ) {
+		player.setItemDefense( player.getItemDefense() + this.getDefense() );
+	}
+	public void unWear( Player player ) {
+		player.setItemDefense( player.getItemDefense() - this.getDefense() );
+	}
+
+	public abstract void onEquip();
+	public abstract void onDesequip();
 	
 	public int getDefense() {
 		return Defense;
@@ -60,11 +68,11 @@ public abstract class ArmorItem extends Item {
 		Defense = damage;
 	}
 	
-	public Enum getType() {
+	public Type getType() {
 		return Type;
 	}
 
-	public void setType(Enum type) {
+	public void setType(Type type) {
 		Type = type;
 	}
 

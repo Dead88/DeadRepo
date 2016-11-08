@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 
+import fr.wretchedlife.entity.ext.Player;
 import fr.wretchedlife.obj.Item;
 import fr.wretchedlife.obj.ItemProperty;
 
@@ -37,9 +38,18 @@ public abstract class WeaponItem extends Item {
 		RequiredKnowledge = requiredKnowledge;
 	}
 	
-	public abstract void wear();
-	public abstract void unWear();
+	public void wear( Player player ) {
+		player.setItemMinDamage( player.getItemMinDamage() + this.getMinDamage() );
+		player.setItemMaxDamage( player.getItemMaxDamage() + this.getMaxDamage() );
+	}
+	public void unWear( Player player ) {
+		player.setItemMinDamage( player.getItemMinDamage() - this.getMinDamage() );
+		player.setItemMaxDamage( player.getItemMaxDamage() - this.getMaxDamage() );
+	}
 
+	public abstract void onEquip();
+	public abstract void onDesequip();
+	
 	public int getMinDamage() {
 		return MinDamage;
 	}

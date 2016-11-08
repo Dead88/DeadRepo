@@ -16,8 +16,8 @@ public class EntityGenerator {
 		zombie.setLevel( 1 );
 		zombie.setLife( 20 );
 		zombie.setLifeRemain( 20 );
-		zombie.setItemMinDamage( 7 );
-		zombie.setItemMaxDamage( 11 );
+		zombie.setItemMinDamage( 6 );
+		zombie.setItemMaxDamage( 12);
 		zombie.setItemDefense( 1 );
 		zombie.setExperienceToEarn( 5 );
 		
@@ -26,40 +26,40 @@ public class EntityGenerator {
 		return zombie;
 	}
 	
-	public static Enemy createWolf( Player player ) {
-		Enemy wolf = new Enemy();
-		
-		wolf.setTexture( Constants.getTexture( ".\\img\\entities\\wolf.gif"));
-		wolf.setName("Loup nocture");
-		wolf.setLevel( 1 );
-		wolf.setLife( 15 );
-		wolf.setLifeRemain( 15 );
-		wolf.setItemMinDamage( 7 );
-		wolf.setItemMaxDamage( 14 );
-		wolf.setItemDefense( 1 );
-		wolf.setExperienceToEarn( 6 );
-		
-		wolf.generateLootContainer( player );
-		
-		return wolf;
-	}
-	
 	public static Enemy createStrongerZombie( Player player ) {
 		Enemy strongerZombie = new Enemy();
 		
 		strongerZombie.setTexture( Constants.getTexture( ".\\img\\entities\\undead.gif"));
 		strongerZombie.setName("Mutant Purulent");
 		strongerZombie.setLevel( 2 );
-		strongerZombie.setLife( 25 );
-		strongerZombie.setLifeRemain( 25 );
+		strongerZombie.setLife( 20 );
+		strongerZombie.setLifeRemain( 20 );
 		strongerZombie.setItemMinDamage( 9 );
 		strongerZombie.setItemMaxDamage( 13 );
 		strongerZombie.setItemDefense( 2 );
-		strongerZombie.setExperienceToEarn( 10 );
+		strongerZombie.setExperienceToEarn( 8 );
 		
 		strongerZombie.generateLootContainer( player );
 		
 		return strongerZombie;
+	}
+	
+	public static Enemy createWolf( Player player ) {
+		Enemy wolf = new Enemy();
+		
+		wolf.setTexture( Constants.getTexture( ".\\img\\entities\\wolf.gif"));
+		wolf.setName("Loup nocture");
+		wolf.setLevel( 2 );
+		wolf.setLife( 25 );
+		wolf.setLifeRemain( 25 );
+		wolf.setItemMinDamage( 7 );
+		wolf.setItemMaxDamage( 15 );
+		wolf.setItemDefense( 3 );
+		wolf.setExperienceToEarn( 10 );
+		
+		wolf.generateLootContainer( player );
+		
+		return wolf;
 	}
 	
 	public static Enemy createLizard( Player player ) {
@@ -71,31 +71,13 @@ public class EntityGenerator {
 		lizard.setLife( 30 );
 		lizard.setLifeRemain( 30 );
 		lizard.setItemMinDamage( 12 );
-		lizard.setItemMaxDamage( 14 );
-		lizard.setItemDefense( 2 );
-		lizard.setExperienceToEarn( 12 );
+		lizard.setItemMaxDamage( 16 );
+		lizard.setItemDefense( 4 );
+		lizard.setExperienceToEarn( 14 );
 		
 		lizard.generateLootContainer( player );
 		
 		return lizard;
-	}
-	
-	public static Enemy createSkeleton( Player player ) {
-		Enemy skeleton = new Enemy();
-		
-		skeleton.setTexture( Constants.getTexture( ".\\img\\entities\\skeleton.gif"));
-		skeleton.setName("Combattant d'Autrefois");
-		skeleton.setLevel( 2 );
-		skeleton.setLife( 30 );
-		skeleton.setLifeRemain( 30 );
-		skeleton.setItemMinDamage( 10 );
-		skeleton.setItemMaxDamage( 15 );
-		skeleton.setItemDefense( 3 );
-		skeleton.setExperienceToEarn( 15 );
-		
-		skeleton.generateLootContainer( player );
-		
-		return skeleton;
 	}
 	
 	public static Enemy createMummy( Player player ) {
@@ -106,28 +88,46 @@ public class EntityGenerator {
 		mummy.setLevel( 2 );
 		mummy.setLife( 35 );
 		mummy.setLifeRemain( 35 );
-		mummy.setItemMinDamage( 13 );
-		mummy.setItemMaxDamage( 16 );
+		mummy.setItemMinDamage( 11 );
+		mummy.setItemMaxDamage( 17 );
 		mummy.setItemDefense( 3 );
-		mummy.setExperienceToEarn( 20 );
+		mummy.setExperienceToEarn( 18 );
 		
 		mummy.generateLootContainer( player );
 		
 		return mummy;
 	}
 	
+	public static Enemy createSkeleton( Player player ) {
+		Enemy skeleton = new Enemy();
+		
+		skeleton.setTexture( Constants.getTexture( ".\\img\\entities\\skeleton.gif"));
+		skeleton.setName("Combattant d'Autrefois");
+		skeleton.setLevel( 3 );
+		skeleton.setLife( 40 );
+		skeleton.setLifeRemain( 40 );
+		skeleton.setItemMinDamage( 14 );
+		skeleton.setItemMaxDamage( 19 );
+		skeleton.setItemDefense( 4 );
+		skeleton.setExperienceToEarn( 25 );
+		
+		skeleton.generateLootContainer( player );
+		
+		return skeleton;
+	}
+	
 	public static Enemy createTroll( Player player ) {
 		Enemy troll = new Enemy();
 		
 		troll.setTexture( Constants.getTexture( ".\\img\\entities\\troll.gif"));
-		troll.setName("Troll inconnu");
+		troll.setName("Troll sournois");
 		troll.setLevel( 3 );
-		troll.setLife( 30 );
-		troll.setLifeRemain( 30 );
-		troll.setItemMinDamage( 14);
-		troll.setItemMaxDamage( 16 );
-		troll.setItemDefense( 3 );
-		troll.setExperienceToEarn( 22 );
+		troll.setLife( 42 );
+		troll.setLifeRemain( 42 );
+		troll.setItemMinDamage( 17 );
+		troll.setItemMaxDamage( 22 );
+		troll.setItemDefense( 5 );
+		troll.setExperienceToEarn( 28 );
 		
 		troll.generateLootContainer( player );
 		
@@ -140,12 +140,12 @@ public class EntityGenerator {
 		horror.setTexture( Constants.getTexture( ".\\img\\entities\\horror.gif"));
 		horror.setName("Mutant Evolué");
 		horror.setLevel( 3 );
-		horror.setLife( 42 );
-		horror.setLifeRemain( 42 );
-		horror.setItemMinDamage( 13 );
-		horror.setItemMaxDamage( 18 );
+		horror.setLife( 45 );
+		horror.setLifeRemain( 45 );
+		horror.setItemMinDamage( 20 );
+		horror.setItemMaxDamage( 25 );
 		horror.setItemDefense( 4 );
-		horror.setExperienceToEarn( 25 );
+		horror.setExperienceToEarn( 32 );
 		
 		horror.generateLootContainer( player );
 		
@@ -158,12 +158,12 @@ public class EntityGenerator {
 		scorpio.setTexture( Constants.getTexture( ".\\img\\entities\\scorpio.gif"));
 		scorpio.setName("Scorpion Irradié");
 		scorpio.setLevel( 4 );
-		scorpio.setLife( 48 );
-		scorpio.setLifeRemain( 48 );
-		scorpio.setItemMinDamage( 15 );
-		scorpio.setItemMaxDamage( 20 );
-		scorpio.setItemDefense( 5 );
-		scorpio.setExperienceToEarn( 35 );
+		scorpio.setLife( 50 );
+		scorpio.setLifeRemain( 50 );
+		scorpio.setItemMinDamage( 18 );
+		scorpio.setItemMaxDamage( 28 );
+		scorpio.setItemDefense( 7 );
+		scorpio.setExperienceToEarn( 38 );
 		
 		scorpio.generateLootContainer( player );
 		
@@ -176,12 +176,12 @@ public class EntityGenerator {
 		cerber.setTexture( Constants.getTexture( ".\\img\\entities\\cerber.gif"));
 		cerber.setName("Hyène mutante");
 		cerber.setLevel( 4 );
-		cerber.setLife( 56 );
-		cerber.setLifeRemain( 56 );
-		cerber.setItemMinDamage( 19 );
-		cerber.setItemMaxDamage( 27 );
-		cerber.setItemDefense( 4 );
-		cerber.setExperienceToEarn( 50 );
+		cerber.setLife( 55 );
+		cerber.setLifeRemain( 55 );
+		cerber.setItemMinDamage( 22 );
+		cerber.setItemMaxDamage( 28 );
+		cerber.setItemDefense( 6 );
+		cerber.setExperienceToEarn( 45 );
 		
 		cerber.generateLootContainer( player );
 		
@@ -193,13 +193,13 @@ public class EntityGenerator {
 		
 		sorcerer.setTexture( Constants.getTexture( ".\\img\\entities\\sorcerer.gif"));
 		sorcerer.setName("Boss : Gourou de l'ère nouvelle");
-		sorcerer.setLevel( 5 );
+		sorcerer.setLevel( 4 );
 		sorcerer.setLife( 70 );
 		sorcerer.setLifeRemain( 70 );
-		sorcerer.setItemMinDamage( 26 );
-		sorcerer.setItemMaxDamage( 38 );
-		sorcerer.setItemDefense( 6 );
-		sorcerer.setExperienceToEarn( 100 );
+		sorcerer.setItemMinDamage( 32 );
+		sorcerer.setItemMaxDamage( 45 );
+		sorcerer.setItemDefense( 8 );
+		sorcerer.setExperienceToEarn( 75 );
 		
 		sorcerer.generateLootContainer( player );
 		
@@ -211,13 +211,13 @@ public class EntityGenerator {
 		
 		dragon.setTexture( Constants.getTexture( ".\\img\\entities\\skeletondragon.gif"));
 		dragon.setName("Boss : Charognard de l'éffroi");
-		dragon.setLevel( 6 );
+		dragon.setLevel( 5 );
 		dragon.setLife( 90 );
 		dragon.setLifeRemain( 90 );
-		dragon.setItemMinDamage( 40 );
-		dragon.setItemMaxDamage( 55 );
-		dragon.setItemDefense( 8 );
-		dragon.setExperienceToEarn( 250 );
+		dragon.setItemMinDamage( 50 );
+		dragon.setItemMaxDamage( 70 );
+		dragon.setItemDefense( 12 );
+		dragon.setExperienceToEarn( 100 );
 		
 		dragon.generateLootContainer( player );
 		

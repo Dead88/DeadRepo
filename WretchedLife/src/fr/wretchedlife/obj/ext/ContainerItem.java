@@ -12,7 +12,10 @@ public class ContainerItem extends Item {
 	private ArrayList<Item> inventory;
 	private boolean isLocked;
 	
-	public ContainerItem() {}
+	public ContainerItem() {
+		super();
+	}
+	
 	public ContainerItem(String name, ImageIcon texture, int weight,
 			ArrayList<ItemProperty> properties, ArrayList<Item> inventory,
 			boolean isLocked) {
