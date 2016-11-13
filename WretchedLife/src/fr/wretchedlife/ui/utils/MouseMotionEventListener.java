@@ -7,7 +7,7 @@ import fr.wretchedlife.ui.panel.GamePanel;
 
 public class MouseMotionEventListener implements MouseMotionListener {
 
-private GamePanel gamePanel;
+	private GamePanel gamePanel;
 	
 	public MouseMotionEventListener(GamePanel gamePanel) {
 		this.gamePanel = gamePanel;
@@ -15,7 +15,7 @@ private GamePanel gamePanel;
 	
 	@Override
 	public void mouseMoved(MouseEvent e) {
-		gamePanel.overArea(e);
+		gamePanel.getGame().getCurrentRegion().overArea(e);
 	}
 	@Override
 	public void mouseDragged(MouseEvent e) {

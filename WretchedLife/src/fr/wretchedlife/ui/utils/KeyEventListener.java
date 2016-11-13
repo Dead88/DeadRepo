@@ -13,14 +13,13 @@ import fr.wretchedlife.ui.panel.GamePanel;
 
 public class KeyEventListener implements KeyListener {
 
-	private Game game;
 	private GamePanel gamePanel;
 	private Player player;
 	
-	public KeyEventListener(Game game, GamePanel gamePanel) {
-		this.game = game;
+	public KeyEventListener(GamePanel gamePanel) {
+		
 		this.gamePanel = gamePanel;
-		this.player = game.getPlayer();
+		this.player = gamePanel.getGame().getPlayer();
 	}
 	
 	@Override
@@ -33,31 +32,32 @@ public class KeyEventListener implements KeyListener {
 	public void keyPressed(KeyEvent e) {
 				
 		if( !player.isMoving() ){
-			
+			Game game = gamePanel.getGame();
+			GameMap currentRegion = game.getCurrentRegion();
 			Area playerArea = game.getPlayerArea();
 			Area destinationArea =  null;
 			
 			if( e.getKeyChar() == 'q' ) {
-				destinationArea = gamePanel.getAreaByCoordinate( playerArea.getX() - player.getTexture().getIconWidth(), playerArea.getY() );
+				destinationArea = currentRegion.getAreaByCoordinate( playerArea.getX() - player.getTexture().getIconWidth(), playerArea.getY() );
 			}
 			else if( e.getKeyChar() == 'z' ) {
-				destinationArea = gamePanel.getAreaByCoordinate( playerArea.getX() , playerArea.getY() - player.getTexture().getIconHeight() );
+				destinationArea = currentRegion.getAreaByCoordinate( playerArea.getX() , playerArea.getY() - player.getTexture().getIconHeight() );
 			}
 			else if( e.getKeyChar() == 'd' ) {
-				destinationArea = gamePanel.getAreaByCoordinate( playerArea.getX() + player.getTexture().getIconWidth(), playerArea.getY() );
+				destinationArea = currentRegion.getAreaByCoordinate( playerArea.getX() + player.getTexture().getIconWidth(), playerArea.getY() );
 			}
 			else if( e.getKeyChar() == 's' ) {
-				destinationArea = gamePanel.getAreaByCoordinate( playerArea.getX() , playerArea.getY() + player.getTexture().getIconHeight() );
+				destinationArea = currentRegion.getAreaByCoordinate( playerArea.getX() , playerArea.getY() + player.getTexture().getIconHeight() );
 			}
 			
 			if(destinationArea == null) return;
 			if(destinationArea.getType() == Area.Type.GROUND_AREA ) {
 				
-				gamePanel.deselectArea();
+				currentRegion.deselectArea( gamePanel.getGameMenuPanel() );
 				
 				if(destinationArea.getEntity() != null && destinationArea.getEntity() instanceof RegionEntrance ) {
 					
-					gamePanel.clearAreaOver();
+					currentRegion.clearAreaOver();
 					
 					RegionEntrance regionEntrance = (RegionEntrance) destinationArea.getEntity();
 					
@@ -75,7 +75,7 @@ public class KeyEventListener implements KeyListener {
 									RegionEntrance destinationRegionExit = (RegionEntrance) regionArea.getEntity();
 									
 									if(destinationRegionExit.getRegionId().equals( game.getCurrentRegion().getId() )) {
-										Area playerDestinationArea = gamePanel.getNearestAvailableArea( region, regionArea, false );
+										Area playerDestinationArea = region.getNearestAvailableArea( regionArea, game.getPlayer(), false );
 										
 										if( playerDestinationArea != null ) {
 											player.move( game, playerArea, playerDestinationArea );
@@ -92,7 +92,7 @@ public class KeyEventListener implements KeyListener {
 				}
 				else if(destinationArea.getEntity() == null){
 					
-					gamePanel.manageEnemies();
+					currentRegion.manageEnemies( gamePanel );
 					
 					if(destinationArea.getEntity() == null){
 						player.move( game, playerArea, destinationArea );
@@ -115,7 +115,7 @@ public class KeyEventListener implements KeyListener {
 				}
 			}
 			
-			gamePanel.refreshVisibleAreas();
+			currentRegion.refreshVisibleAreas( gamePanel);
 		}
 	}
 }

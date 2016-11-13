@@ -1,11 +1,13 @@
 package fr.wretchedlife.entity.ext;
 
 import fr.wretchedlife.Constants;
+import fr.wretchedlife.core.Game;
 import fr.wretchedlife.entity.Entity;
 import fr.wretchedlife.factory.ItemFactory;
 import fr.wretchedlife.factory.SoundFactory;
 import fr.wretchedlife.generator.ItemGenerator;
 import fr.wretchedlife.map.Area;
+import fr.wretchedlife.map.GameMap;
 import fr.wretchedlife.obj.Item;
 import fr.wretchedlife.obj.ext.ContainerItem;
 import fr.wretchedlife.ui.panel.GamePanel;
@@ -52,16 +54,16 @@ public class Enemy extends Entity {
 	}
 	
 	public void moveToRandomArea ( GamePanel gamePanel ) {
-			
-		Area enemyArea = gamePanel.getEnemyArea( getId() );
+		GameMap enemyRegion = gamePanel.getGame().getCurrentRegion();
+		Area enemyArea = enemyRegion.getEnemyArea( this );
 		Area destinationArea = null;
 		
 		int rand = Constants.getRandomBetween(1, 4);
 		switch(rand) {
-			case 1 : destinationArea = gamePanel.getAreaByCoordinate( enemyArea.getX() - getTexture().getIconWidth(), enemyArea.getY() ); break;
-			case 2 : destinationArea = gamePanel.getAreaByCoordinate( enemyArea.getX() , enemyArea.getY() - getTexture().getIconHeight() ); break;
-			case 3 : destinationArea = gamePanel.getAreaByCoordinate( enemyArea.getX() + getTexture().getIconWidth(), enemyArea.getY() ); break;
-			case 4 : destinationArea = gamePanel.getAreaByCoordinate( enemyArea.getX() , enemyArea.getY() + getTexture().getIconHeight() ); break;
+			case 1 : destinationArea = enemyRegion.getAreaByCoordinate( enemyArea.getX() - getTexture().getIconWidth(), enemyArea.getY() ); break;
+			case 2 : destinationArea = enemyRegion.getAreaByCoordinate( enemyArea.getX() , enemyArea.getY() - getTexture().getIconHeight() ); break;
+			case 3 : destinationArea = enemyRegion.getAreaByCoordinate( enemyArea.getX() + getTexture().getIconWidth(), enemyArea.getY() ); break;
+			case 4 : destinationArea = enemyRegion.getAreaByCoordinate( enemyArea.getX() , enemyArea.getY() + getTexture().getIconHeight() ); break;
 		}
 			
 		if(destinationArea == null) return;
@@ -71,14 +73,15 @@ public class Enemy extends Entity {
 	}
 	
 	public void moveToPlayer( GamePanel gamePanel ) {
-		
-		Area enemyArea = gamePanel.getEnemyArea( getId() );
-		Area playerArea = gamePanel.getGame().getPlayerArea();
+		Game game = gamePanel.getGame();
+		GameMap enemyRegion = game.getCurrentRegion();
+		Area enemyArea = enemyRegion.getEnemyArea( this );
+		Area playerArea = game.getPlayerArea();
 		Area destinationArea = null;
 		
 		if( playerArea.getX() < enemyArea.getX() ) {
 			
-			destinationArea = gamePanel.getAreaByCoordinate( enemyArea.getX() - getTexture().getIconWidth(), enemyArea.getY() );
+			destinationArea = enemyRegion.getAreaByCoordinate( enemyArea.getX() - getTexture().getIconWidth(), enemyArea.getY() );
 			if(destinationArea != null && destinationArea.getType() == Area.Type.GROUND_AREA && destinationArea.getEntity() == null ) {
 				move( enemyArea, destinationArea );
 				return;
@@ -86,7 +89,7 @@ public class Enemy extends Entity {
 		}
 		if( playerArea.getX() > enemyArea.getX() ) {
 			
-			destinationArea = gamePanel.getAreaByCoordinate( enemyArea.getX() + getTexture().getIconWidth(), enemyArea.getY() );
+			destinationArea = enemyRegion.getAreaByCoordinate( enemyArea.getX() + getTexture().getIconWidth(), enemyArea.getY() );
 			if(destinationArea != null && destinationArea.getType() == Area.Type.GROUND_AREA && destinationArea.getEntity() == null ) {
 				move( enemyArea, destinationArea );
 				return;
@@ -94,7 +97,7 @@ public class Enemy extends Entity {
 		}
 		if( playerArea.getY() < enemyArea.getY() ) {
 			
-			destinationArea = gamePanel.getAreaByCoordinate( enemyArea.getX() , enemyArea.getY() - getTexture().getIconHeight() );
+			destinationArea = enemyRegion.getAreaByCoordinate( enemyArea.getX() , enemyArea.getY() - getTexture().getIconHeight() );
 			if(destinationArea != null && destinationArea.getType() == Area.Type.GROUND_AREA && destinationArea.getEntity() == null ) {
 				move( enemyArea, destinationArea );
 				return;
@@ -102,7 +105,7 @@ public class Enemy extends Entity {
 		}
 		if( playerArea.getY() > enemyArea.getY() ){
 			
-			destinationArea = gamePanel.getAreaByCoordinate( enemyArea.getX() , enemyArea.getY() + getTexture().getIconHeight() );
+			destinationArea = enemyRegion.getAreaByCoordinate( enemyArea.getX() , enemyArea.getY() + getTexture().getIconHeight() );
 			if(destinationArea != null && destinationArea.getType() == Area.Type.GROUND_AREA && destinationArea.getEntity() == null ) {
 				move( enemyArea, destinationArea );
 				return;

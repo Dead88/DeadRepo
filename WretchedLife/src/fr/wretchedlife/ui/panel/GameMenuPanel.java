@@ -89,7 +89,7 @@ public class GameMenuPanel extends JPanel {
 					attackButton.addActionListener( new ActionListener() {
 						@Override
 						public void actionPerformed(ActionEvent arg0) {
-							gamePanel.attackEnemy( area );
+							game.getCurrentRegion().attackEnemy( area, gamePanel );
 						}
 					});
 				}

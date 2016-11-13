@@ -31,6 +31,24 @@ public class Area {
 		GROUND_AREA,
 		SEA_AREA,
 	}
+	
+	public boolean isCoordinateOfArea(int x, int y) {
+		if(
+			(
+				x > getX()
+				&& x < getX() + ( getTexture().getIconWidth() )
+			) 
+			&&
+			(
+				y > getY()
+				&& y < getY() + ( getTexture().getIconHeight() ) 
+			) 
+		) {
+			return true;
+		}
+		
+		return false;
+	}
 
 	public int getX() {
 		return X;

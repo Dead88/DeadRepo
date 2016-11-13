@@ -19,9 +19,9 @@ public class MouseEventListener implements MouseListener {
 	@Override
 	public void mousePressed(MouseEvent e) {
 		if(e.getButton() == 1)
-			gamePanel.selectArea( e );
+			gamePanel.getGame().getCurrentRegion().selectArea( e, gamePanel );
 		else if(e.getButton() == 3)
-			gamePanel.deselectArea();
+			gamePanel.getGame().getCurrentRegion().deselectArea( gamePanel.getGameMenuPanel() );
 	}
 	@Override
 	public void mouseExited(MouseEvent e) {
