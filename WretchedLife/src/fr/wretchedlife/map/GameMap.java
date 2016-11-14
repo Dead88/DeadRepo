@@ -25,6 +25,8 @@ public class GameMap {
 	private String groundOverTexturePath;
 	private String groundSelectedTexturePath;
 	private boolean isLinkedToAnotherRegion;
+	private int minLevel;
+	private int maxLevel;
 	
 	Area selectedArea;
 	Area overArea;
@@ -449,5 +451,17 @@ public class GameMap {
 	}
 	public void setLinkedToAnotherRegion(boolean isLinkedToAnotherRegion) {
 		this.isLinkedToAnotherRegion = isLinkedToAnotherRegion;
+	}
+	public int getMinLevel() {
+		return minLevel;
+	}
+	public void setMinLevel(int minLevel) {
+		this.minLevel = minLevel;
+	}
+	public int getMaxLevel() {
+		return maxLevel;
+	}
+	public void setMaxLevel(int maxLevel) {
+		this.maxLevel = maxLevel;
 	}
 }

@@ -65,7 +65,9 @@ public class GameMenuPanel extends JPanel {
 		
 		JButton attackButton = null;
 		
-		areaInfoLabel.setText( area.getType().name()+" at "+area.getX()+" "+area.getY() );
+		areaInfoLabel.setText( 
+			area.getType().name()+" of "+game.getCurrentRegion().getName()+" "
+			+"LVL"+game.getCurrentRegion().getMinLevel()+"/"+ game.getCurrentRegion().getMaxLevel());
 		
 		if(area.getItem() != null) {
 			areaInfoLabel.setIcon( area.getItem().getTexture() );

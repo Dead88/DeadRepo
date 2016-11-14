@@ -2,12 +2,15 @@ package fr.wretchedlife.factory;
 
 import fr.wretchedlife.Constants;
 import fr.wretchedlife.entity.ext.Player;
+import fr.wretchedlife.generator.EntityGenerator;
 import fr.wretchedlife.generator.ItemGenerator;
 import fr.wretchedlife.map.Area;
 import fr.wretchedlife.map.GameMap;
 import fr.wretchedlife.obj.Item;
+import fr.wretchedlife.obj.ext.ArmorItem;
 import fr.wretchedlife.obj.ext.ConsumableItem;
 import fr.wretchedlife.obj.ext.ContainerItem;
+import fr.wretchedlife.obj.ext.WeaponItem;
 
 public class ItemFactory {
 	
@@ -17,30 +20,45 @@ public class ItemFactory {
 		Item item = null;
 		
 		for( int i = 0; i < number; i++){
-			int itemNumber = Constants.getRandomBetween(1, 17);
+			while(true) {
+				int itemNumber = Constants.getRandomBetween(1, 17);
+				switch( itemNumber ){
+					case 1 : item = ItemGenerator.createClub( player ); break;
+					case 2 : item = ItemGenerator.createKnife( player ); break;
+					case 3 : item = ItemGenerator.createHammer( player ); break;
+					case 4 : item = ItemGenerator.createMace( player ); break;
+					case 5 : item = ItemGenerator.createHatchet( player ); break;
+					case 6 : item = ItemGenerator.createMagicAttributeHatchet( player ); break;
+					case 7 : item = ItemGenerator.createSpear( player ); break;
+					case 8 : item = ItemGenerator.createCleaver( player ); break;
+					case 9 : item = ItemGenerator.createGlavius( player ); break;
+					case 10 : item = ItemGenerator.createBasicVest( player ); break;
+					case 11 : item = ItemGenerator.createBasicTrousers( player ); break;
+					case 12 : item = ItemGenerator.createBasicBoots( player ); break;
+					case 13 : item = ItemGenerator.createBasicGloves( player ); break;
+					case 14 : item = ItemGenerator.createBasicHelmet (player ); break;
+					case 15 : item = ItemGenerator.createBasicHood( player ); break;
+					case 16 : item = ItemGenerator.createBasicBelt( player ); break;
+					case 17 : item = ItemGenerator.createBasicBracer( player ); break;
+				}
+				
+				if( item instanceof WeaponItem ) {
+					WeaponItem weapon = (WeaponItem) item;
+					if( weapon.getRequiredLevel() <= region.getMaxLevel() ) {
+						break;
+					}
+				}
+				else if( item instanceof ArmorItem ) {
+					ArmorItem armor = (ArmorItem) item;
+					if( armor.getRequiredLevel() <= region.getMaxLevel() ) {
+						break;
+					}
+				}
+			}
 			
 			while(true){
 				randomArea = region.getAreas().get( Constants.getRandomBetween(0, region.getAreas().size() - 1) );
 				if (randomArea.getType() == Area.Type.GROUND_AREA && randomArea.getItem() == null && randomArea.getEntity() == null  ){
-					switch( itemNumber ){
-						case 1 : item = ItemGenerator.createClub( player ); break;
-						case 2 : item = ItemGenerator.createKnife( player ); break;
-						case 3 : item = ItemGenerator.createHammer( player ); break;
-						case 4 : item = ItemGenerator.createMace( player ); break;
-						case 5 : item = ItemGenerator.createHatchet( player ); break;
-						case 6 : item = ItemGenerator.createMagicAttributeHatchet( player ); break;
-						case 7 : item = ItemGenerator.createSpear( player ); break;
-						case 8 : item = ItemGenerator.createCleaver( player ); break;
-						case 9 : item = ItemGenerator.createGlavius( player ); break;
-						case 10 : item = ItemGenerator.createBasicVest( player ); break;
-						case 11 : item = ItemGenerator.createBasicTrousers( player ); break;
-						case 12 : item = ItemGenerator.createBasicBoots( player ); break;
-						case 13 : item = ItemGenerator.createBasicGloves( player ); break;
-						case 14 : item = ItemGenerator.createBasicHelmet (player ); break;
-						case 15 : item = ItemGenerator.createBasicHood( player ); break;
-						case 16 : item = ItemGenerator.createBasicBelt( player ); break;
-						case 17 : item = ItemGenerator.createBasicBracer( player ); break;
-					}
 					randomArea.setItem(item);
 					break;
 				}

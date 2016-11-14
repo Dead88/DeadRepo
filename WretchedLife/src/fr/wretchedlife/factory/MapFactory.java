@@ -49,6 +49,7 @@ public class MapFactory {
 			);
 			
 			buildGameMapAreas( region );
+			setGameMapMinMaxLevel(i, region, Constants.numberOfOutdoorRegions);
 			
 			MapFactory.generateWater( region );
 			MapFactory.generateDoodad( region );
@@ -78,7 +79,9 @@ public class MapFactory {
 				Constants.getRandomBetween( Constants.minLinesPerBuildingRegion, Constants.maxLinesPerBuildingRegion), 
 				null
 			);
+			
 			buildGameMapAreas( region );
+			setGameMapMinMaxLevel(i, region, Constants.numberOfBuildingRegions);
 			
 			ItemFactory.generateRandomItems( region, player, Constants.getRandomBetween(  
 					Constants.minItemsPerBuildingRegion, Constants.maxItemsPerBuildingRegion ) );
@@ -103,7 +106,9 @@ public class MapFactory {
 				Constants.getRandomBetween( Constants.minLinesPerUndergroundRegion, Constants.maxLinesPerUndergroundRegion ), 
 				null	
 			);
+			
 			buildGameMapAreas( region );
+			setGameMapMinMaxLevel(i, region, Constants.numberOfUndergroundRegions);
 			
 			ItemFactory.generateRandomItems( region, player, Constants.getRandomBetween( 
 					Constants.minItemsPerUndergroundRegion, Constants.maxItemsPerUndergroundRegion ) );
@@ -130,7 +135,9 @@ public class MapFactory {
 				Constants.getRandomBetween( Constants.minLinesPerDungeonRegion, Constants.maxLinesPerDungeonRegion ), 
 				null	
 			);
+			
 			buildGameMapAreas( region );
+			setGameMapMinMaxLevel(i, region, Constants.numberOfDungeonRegions);
 			
 			ItemFactory.generateRandomItems( region, player, Constants.getRandomBetween( 
 					Constants.minItemsPerDungeonRegion, Constants.maxItemsPerDungeonRegion ) );
@@ -379,6 +386,17 @@ public class MapFactory {
 					regionEntranceCount++;
 				}
 			}
+		}
+	}
+	
+	public static void setGameMapMinMaxLevel(int currentRegionCount, GameMap region, int totalCount ) {
+		if(currentRegionCount <= totalCount * 0.5 ) {
+			region.setMinLevel( Constants.getRandomBetween(1, 2) );
+			region.setMaxLevel( Constants.getRandomBetween(2, 2) );
+		}
+		else if(currentRegionCount <= totalCount) {
+			region.setMinLevel( Constants.getRandomBetween(2, 3) );
+			region.setMaxLevel( Constants.getRandomBetween(3, 4) );
 		}
 	}
 }
