@@ -224,7 +224,9 @@ public class GameMap {
 			&& playerArea.getY() >= ( eArea.getY() - (e.getTexture().getIconHeight() * Constants.enemyVisibilyRange) ) ){
 				e.moveToPlayer( gamePanel );
 			}
-			else e.moveToRandomArea( gamePanel );
+			else {
+				e.moveToRandomArea( gamePanel );
+			}
 		}
 	}
 	

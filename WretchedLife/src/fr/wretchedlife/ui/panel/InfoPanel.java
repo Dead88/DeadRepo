@@ -51,7 +51,7 @@ public class InfoPanel extends JPanel {
 		private static final long serialVersionUID = 6186981376029056855L;
 		private JLabel messageLabel;
 		private String messageText;
-		private JScrollPane scroller;
+		public JScrollPane scroller;
 		
 		public MessagePanel() {
 			super();
@@ -66,12 +66,6 @@ public class InfoPanel extends JPanel {
 				      JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 			scroller.setPreferredSize( new Dimension( 300,240 ) );
 			scroller.getViewport().add( messageLabel );
-			scroller.getVerticalScrollBar().addAdjustmentListener( new AdjustmentListener() {
-				@Override
-				public void adjustmentValueChanged(AdjustmentEvent e) {
-					e.getAdjustable().setValue( e.getAdjustable().getMaximum() );
-				}
-			});
 			
 			this.add( scroller );
 		}
@@ -79,6 +73,10 @@ public class InfoPanel extends JPanel {
 		private void log( String message ) {
 			messageText += "<br />" +message;
 			messageLabel.setText( "<html>" + messageText + "</html>" );
+			
+			JScrollPane scroller = messagePanel.scroller;
+			scroller.getVerticalScrollBar().validate();
+			scroller.getVerticalScrollBar().setValue( scroller.getVerticalScrollBar().getMaximum() );
 		}
 		
 		@Override

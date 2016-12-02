@@ -139,6 +139,7 @@ public class ItemGenerator {
 		return weapon;
 	}
 	
+	// FIXME : Les bonus de stats ne s'affiche pas
 	public static WeaponItem createMagicAttributeHatchet( final Player player ) {
 		
 		ArrayList<ItemProperty> props = new ArrayList<ItemProperty>();
