@@ -35,7 +35,7 @@ public class Constants
 	
 	// OUTDOOR REGION SETTINGS
 		
-	public static int numberOfOutdoorRegions = 8;
+	public static int numberOfOutdoorRegions = 10;
 	
 	public static int minAreasPerOutdoorRegion = 8000;
 	public static int maxAreasPerOutdoorRegion = 12000;
@@ -59,7 +59,7 @@ public class Constants
 	
 	// BUILDING REGION SETTINGS
 	
-	public static int numberOfBuildingRegions = 220;
+	public static int numberOfBuildingRegions = 250;
 	
 	public static int minAreasPerBuildingRegion = 36;
 	public static int maxAreasPerBuildingRegion = 60;
@@ -79,7 +79,7 @@ public class Constants
 	
 	// UNDERGROUND REGION SETTINGS
 	
-	public static int numberOfUndergroundRegions = 220;
+	public static int numberOfUndergroundRegions = 250;
 	
 	public static int minAreasPerUndergroundRegion = 100;
 	public static int maxAreasPerUndergroundRegion = 300;
@@ -101,7 +101,7 @@ public class Constants
 	
 	// DUNGEON REGION SETTINGS
 	
-	public static int numberOfDungeonRegions = 40;
+	public static int numberOfDungeonRegions = 100;
 	
 	public static int minAreasPerDungeonRegion = 200;
 	public static int maxAreasPerDungeonRegion = 400;

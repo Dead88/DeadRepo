@@ -16,18 +16,19 @@ public class EntityFactory {
 			Enemy enemy = null;
 			
 			while(true) {
-				int entityNumber = Constants.getRandomBetween(1, 10);
+				int entityNumber = Constants.getRandomBetween(1, 11);
 				switch( entityNumber ){
 					case 1 : enemy = EntityGenerator.createZombie( player ); break;
+					case 2 : enemy = EntityGenerator.createGoblin( player ); break;
 					case 3 : enemy = EntityGenerator.createStrongerZombie( player ); break;
-					case 2 : enemy = EntityGenerator.createWolf( player ); break;
-					case 4 : enemy = EntityGenerator.createLizard( player ); break;
+					case 4 : enemy = EntityGenerator.createWolf( player ); break;
+					case 5 : enemy = EntityGenerator.createLizard( player ); break;
 					case 6 : enemy = EntityGenerator.createMummy( player ); break;
-					case 5 : enemy = EntityGenerator.createSkeleton( player ); break;
-					case 7 : enemy = EntityGenerator.createTroll( player ); break;
-					case 8 : enemy = EntityGenerator.createHorror( player ); break;
-					case 9 : enemy = EntityGenerator.createScorpio( player ); break;
-					case 10 : enemy = EntityGenerator.createCerber( player ); break;
+					case 7 : enemy = EntityGenerator.createSkeleton( player ); break;
+					case 8 : enemy = EntityGenerator.createTroll( player ); break;
+					case 9 : enemy = EntityGenerator.createHorror( player ); break;
+					case 10 : enemy = EntityGenerator.createScorpio( player ); break;
+					case 11 : enemy = EntityGenerator.createCerber( player ); break;
 				}
 				if( enemy.getLevel() >= region.getMinLevel() && enemy.getLevel() <= region.getMaxLevel() ) {
 					break;
@@ -54,10 +55,11 @@ public class EntityFactory {
 			Enemy enemy = null;
 			
 			while(true) {
-				int entityNumber = Constants.getRandomBetween(1, 2);
+				int entityNumber = Constants.getRandomBetween(1, 3);
 				switch( entityNumber ){
 					case 1 : enemy = EntityGenerator.createSorcererBoss( player ); break;
 					case 2 : enemy = EntityGenerator.createSkeletonDragonBoss( player ); break;
+					case 3 : enemy = EntityGenerator.createBlueDragonBoss( player ); break;
 				}
 				break;
 			}

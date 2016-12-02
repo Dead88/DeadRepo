@@ -7,17 +7,17 @@ import fr.wretchedlife.entity.ext.Player;
 import fr.wretchedlife.map.GameMap;
 
 public class EntityGenerator {
-
+	
 	public static Enemy createZombie( Player player ) {
 		Enemy zombie = new Enemy();
 		
 		zombie.setTexture( Constants.getTexture( ".\\img\\entities\\zombie.gif"));
 		zombie.setName("Mutant");
 		zombie.setLevel( 1 );
-		zombie.setLife( 20 );
-		zombie.setLifeRemain( 20 );
+		zombie.setLife( 15 );
+		zombie.setLifeRemain( 15 );
 		zombie.setItemMinDamage( 6 );
-		zombie.setItemMaxDamage( 12);
+		zombie.setItemMaxDamage( 10);
 		zombie.setItemDefense( 1 );
 		zombie.setExperienceToEarn( 5 );
 		
@@ -25,6 +25,25 @@ public class EntityGenerator {
 		
 		return zombie;
 	}
+	
+	public static Enemy createGoblin( Player player ) {
+		Enemy goblin = new Enemy();
+		
+		goblin.setTexture( Constants.getTexture( ".\\img\\entities\\goblin.gif"));
+		goblin.setName("Goblin répugnant");
+		goblin.setLevel( 1 );
+		goblin.setLife( 20 );
+		goblin.setLifeRemain( 20 );
+		goblin.setItemMinDamage( 7 );
+		goblin.setItemMaxDamage( 12);
+		goblin.setItemDefense( 1 );
+		goblin.setExperienceToEarn( 6 );
+		
+		goblin.generateLootContainer( player );
+		
+		return goblin;
+	}
+	
 	
 	public static Enemy createStrongerZombie( Player player ) {
 		Enemy strongerZombie = new Enemy();
@@ -218,6 +237,24 @@ public class EntityGenerator {
 		dragon.setItemMaxDamage( 70 );
 		dragon.setItemDefense( 12 );
 		dragon.setExperienceToEarn( 100 );
+		
+		dragon.generateLootContainer( player );
+		
+		return dragon;
+	}
+	
+	public static Enemy createBlueDragonBoss( Player player ) {
+		Enemy dragon = new Enemy();
+		
+		dragon.setTexture( Constants.getTexture( ".\\img\\entities\\blue_dragon.gif"));
+		dragon.setName("Boss : Dragon de l'hiver nucléaire");
+		dragon.setLevel( 6 );
+		dragon.setLife( 150 );
+		dragon.setLifeRemain( 150 );
+		dragon.setItemMinDamage( 70 );
+		dragon.setItemMaxDamage( 120 );
+		dragon.setItemDefense( 18 );
+		dragon.setExperienceToEarn( 500 );
 		
 		dragon.generateLootContainer( player );
 		

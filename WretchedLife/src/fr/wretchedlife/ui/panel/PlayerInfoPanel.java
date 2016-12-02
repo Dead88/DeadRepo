@@ -1,5 +1,6 @@
 package fr.wretchedlife.ui.panel;
 
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -112,6 +113,8 @@ public class PlayerInfoPanel extends JPanel {
 	@Override
 	protected void paintComponent(Graphics g) {
 		
+		Font font = new Font(Font.SANS_SERIF, Font.BOLD, 15);
+		
 		g.drawImage( backgroundImage, 0, 0, this.getWidth(), this.getHeight(), this);
 		
 		((JLabel) this.getComponent(0)).setForeground(Constants.goldColor);
@@ -119,6 +122,12 @@ public class PlayerInfoPanel extends JPanel {
 		((JLabel) this.getComponent(2)).setForeground(Constants.goldColor);
 		((JLabel) this.getComponent(4)).setForeground(Constants.goldColor);
 		((JLabel) this.getComponent(5)).setForeground(Constants.goldColor);
+		
+		((JLabel) this.getComponent(0)).setFont(font);
+		((JLabel) this.getComponent(1)).setFont(font);
+		((JLabel) this.getComponent(2)).setFont(font);
+		((JLabel) this.getComponent(4)).setFont(font);
+		((JLabel) this.getComponent(5)).setFont(font);
 		
 		((JLabel) this.getComponent(0)).setText("<html>Niveau " + player.getLevel()+"<br />"+"Exp " + player.getExperience()+" / "+ player.getExperienceToReach()+"</html>" ) ;
 		((JLabel) this.getComponent(1)).setText("<html>"

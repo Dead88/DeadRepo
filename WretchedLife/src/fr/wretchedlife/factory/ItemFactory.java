@@ -2,7 +2,6 @@ package fr.wretchedlife.factory;
 
 import fr.wretchedlife.Constants;
 import fr.wretchedlife.entity.ext.Player;
-import fr.wretchedlife.generator.EntityGenerator;
 import fr.wretchedlife.generator.ItemGenerator;
 import fr.wretchedlife.map.Area;
 import fr.wretchedlife.map.GameMap;
@@ -159,7 +158,7 @@ public class ItemFactory {
 			case 21 : return ItemGenerator.createBandage( player );
 			case 22 : return ItemGenerator.createMedikit( player );
 		}
-		
+	
 		return null;
 	}
 }

@@ -390,13 +390,13 @@ public class MapFactory {
 	}
 	
 	public static void setGameMapMinMaxLevel(int currentRegionCount, GameMap region, int totalCount ) {
-		if(currentRegionCount <= totalCount * 0.5 ) {
-			region.setMinLevel( Constants.getRandomBetween(1, 2) );
-			region.setMaxLevel( Constants.getRandomBetween(2, 2) );
+		if(currentRegionCount <= totalCount / 2 ) {
+			region.setMinLevel( Constants.getRandomBetween(1, 1) );
+			region.setMaxLevel( Constants.getRandomBetween(2, 3) );
 		}
-		else if(currentRegionCount <= totalCount) {
-			region.setMinLevel( Constants.getRandomBetween(2, 3) );
-			region.setMaxLevel( Constants.getRandomBetween(3, 4) );
+		else if(currentRegionCount <= totalCount ) {
+			region.setMinLevel( Constants.getRandomBetween(3, 3) );
+			region.setMaxLevel( Constants.getRandomBetween(4, 6) );
 		}
 	}
 }

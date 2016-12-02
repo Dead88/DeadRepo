@@ -10,6 +10,7 @@ import javax.swing.JPanel;
 
 import fr.wretchedlife.core.Game;
 import fr.wretchedlife.entity.ext.Enemy;
+import fr.wretchedlife.entity.ext.Player;
 import fr.wretchedlife.map.Area;
 import fr.wretchedlife.ui.Window;
 import fr.wretchedlife.ui.utils.KeyEventListener;
@@ -95,10 +96,40 @@ public class GamePanel extends JPanel {
 					null
 				);
 				
-				if( area.getEntity() instanceof Enemy ) {
+				if( area.getEntity() instanceof Player ) {
+					Player p = (Player) area.getEntity();
+					
+					g.setColor(Color.GREEN);
+					((Graphics2D) g).setStroke(new BasicStroke(2));
+					g.drawLine(
+						area.getX(), 
+						area.getY(),
+						area.getX() + ( (int) ( p.getLifeRemain() * 64 ) / p.getLife() ), 
+						area.getY()
+					);
+					
+					g.setColor(Color.MAGENTA);
+					((Graphics2D) g).setStroke(new BasicStroke(2));
+					g.drawLine(
+						area.getX(), 
+						area.getY() + 3,
+						area.getX() + ( (int) ( p.getHungerPercent() * 64 ) / 100 ), 
+						area.getY() + 3
+					);
+					
+					g.setColor(Color.CYAN);
+					((Graphics2D) g).setStroke(new BasicStroke(2));
+					g.drawLine(
+						area.getX(), 
+						area.getY() + 5,
+						area.getX() + ( (int) ( p.getThirstPercent() * 64 ) / 100 ), 
+						area.getY() + 5
+					);
+				}
+				else if( area.getEntity() instanceof Enemy ) {
 					Enemy e = (Enemy) area.getEntity();
 					
-					g.setColor(Color.RED);
+					g.setColor(Color.GREEN);
 					((Graphics2D) g).setStroke(new BasicStroke(2));
 					g.drawLine(
 						area.getX(), 

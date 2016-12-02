@@ -14,6 +14,10 @@ import fr.wretchedlife.obj.ext.ContainerItem;
 import fr.wretchedlife.obj.ext.WeaponItem;
 
 public class ItemGenerator {
+	
+	public ItemGenerator() {
+		
+	}
 
 	public static WeaponItem createClub( final Player player ) {
 		WeaponItem weapon = new WeaponItem() {

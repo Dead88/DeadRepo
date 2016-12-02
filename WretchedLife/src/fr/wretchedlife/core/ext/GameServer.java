@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 
+import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 import com.esotericsoftware.kryonet.Server;
@@ -38,12 +39,10 @@ public class GameServer extends Listener {
 	public GameServer() {
 		try {
 			server = new Server();
-			
 			registerClasses();
-					
 			server.bind( Constants.multiplayerPort, Constants.multiplayerPort );
 			server.start();
-			
+
 			server.addListener( this );
 			
 			System.out.println("Server started...");
@@ -53,44 +52,41 @@ public class GameServer extends Listener {
 		}
 		
 		game = new Game( true );
-		
-		System.out.println("Game ready, server too...");
 	}
 	
 	public void registerClasses() {
-		server.getKryo().register( GameMap.class );
-		server.getKryo().register( GameMap.Type.class );
-		server.getKryo().register( GameMap.FloorType.class );
+		Kryo kryo = server.getKryo();
+		kryo.register( ImageIcon.class );
+		kryo.register( ArrayList.class );
 		
-		server.getKryo().register( Area.class );
-		server.getKryo().register( Area.Type.class );
+		kryo.register( GameMap.class );
+		kryo.register( GameMap.Type.class );
+		kryo.register( GameMap.FloorType.class );
+		kryo.register( Area.class );
+		kryo.register( Area.Type.class );
 		
-		server.getKryo().register( Entity.class );
-		server.getKryo().register( Enemy.class );
-		server.getKryo().register( Player.class );
+		kryo.register( Entity.class );
+		kryo.register( Enemy.class );
+		kryo.register( Player.class );
+		kryo.register( RegionEntrance.class );
 		
-		server.getKryo().register( Item.class );
-		server.getKryo().register( ItemProperty.class );
-		server.getKryo().register( ItemProperty.Code.class );
-		server.getKryo().register( ArmorItem.class );
-		server.getKryo().register( ArmorItem.Type.class );
-		server.getKryo().register( WeaponItem.class );
-		server.getKryo().register( ConsumableItem.class );
-		server.getKryo().register( ContainerItem.class );
+		kryo.register( EntityGenerator.class );
+		kryo.register( ItemGenerator.class );
+		kryo.register( NameGenerator.class );
 		
-		server.getKryo().register( RegionEntrance.class );
+		kryo.register( EntityFactory.class );
+		kryo.register( MapFactory.class );
+		kryo.register( ItemFactory.class );
+		kryo.register( SoundFactory.class );
 		
-		server.getKryo().register( EntityFactory.class );
-		server.getKryo().register( MapFactory.class );
-		server.getKryo().register( ItemFactory.class );
-		server.getKryo().register( SoundFactory.class );
-		
-		server.getKryo().register( EntityGenerator.class );
-		server.getKryo().register( ItemGenerator.class );
-		server.getKryo().register( NameGenerator.class );
-		
-		server.getKryo().register( ImageIcon.class );
-		server.getKryo().register( ArrayList.class );
+		kryo.register( Item.class );
+		kryo.register( ItemProperty.class );
+		kryo.register( ItemProperty.Code.class );
+		kryo.register( ArmorItem.class );
+		kryo.register( ArmorItem.Type.class );
+		kryo.register( WeaponItem.class );
+		kryo.register( ConsumableItem.class );
+		kryo.register( ContainerItem.class );
 	}
 	
 	public Game getGame() {

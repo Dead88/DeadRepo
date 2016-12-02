@@ -42,9 +42,7 @@ public class GameClient extends Listener {
 		System.out.println("Initalizing client...");
 		
 		client = new Client();
-		
 		registerClasses();
-		
 		client.start();
 		
 		System.out.println("Client started, connecting...");
