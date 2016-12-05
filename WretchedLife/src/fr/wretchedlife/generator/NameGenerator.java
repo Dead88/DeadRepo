@@ -10,58 +10,59 @@ public class NameGenerator {
 		if( floorType == null ) {
 			int rand = Constants.getRandomBetween(1, 10);
 			switch( rand ) {
-				case 1 : return "Terres désolées";
-				case 2 : return "Terres dévastée";
-				case 3 : return "Landes calcinées";
-				case 4 : return "Landes mortes";
-				case 5 : return "Collines escarpées";
-				case 6 : return "Collines radioactives";
-				case 7 : return "Vallées irradiées";
-				case 8 : return "Vallées sineuses";
-				case 9 : return "Plateaux inconnus";
-				case 10 : return "Plateaux du monde";
+				case 1 : return "Desolated Lands";
+				case 2 : return "Devastated Lands";
+				case 3 : return "Calcined Lands";
+				case 4 : return "Cursed Lands";
+				case 5 : return "Steep Hills";
+				case 6 : return "Radioactive Hills";
+				case 7 : return "Irradiated Valley";
+				case 8 : return "Winding Valley";
+				case 9 : return "Unknown Plates";
+				case 10 : return "High Plates";
 			}
 		}
 		else if( floorType == GameMap.FloorType.HOUSE ) {
 			int rand = Constants.getRandomBetween(1, 10);
 			switch( rand ) {
-				case 1 : return "Maison abandonnée";
-				case 2 : return "Maison en ruines";
-				case 3 : return "Maison délabrée";
-				case 4 : return "Maison dévastée";
-				case 5 : return "Maison ancienne";
-				case 6 : return "Maison bien conservée";
-				case 7 : return "Maison anciennement squatée";
-				case 8 : return "Maison de pauvre";
-				case 9 : return "Maison endomagée";
-				case 10 : return "Maison sacagée";
+				case 1 : return "Abandoned House";
+				case 2 : return "House In Ruins";
+				case 3 : return "Dilapidated House";
+				case 4 : return "Devastated House";
+				case 5 : return "Old House";
+				case 6 : return "Well Conserved House";
+				case 7 : return "Old Squatted House";
+				case 8 : return "Poor House";
+				case 9 : return "Damaged House";
+				case 10 : return "Sacked House";
 			}
 		}
 		else if( floorType == GameMap.FloorType.CAVE ) {
 			int rand = Constants.getRandomBetween(1, 10);
 			switch( rand ) {
-				case 1 : return "Cave sordide";
-				case 2 : return "Cave lugubre";
-				case 3 : return "Grotte sombre";
-				case 4 : return "Grotte éffroyable";
-				case 5 : return "Souterrains odorants";
-				case 6 : return "Souterrains complexes";
-				case 7 : return "Ruines endomagée";
-				case 8 : return "Ruines anciennes";
-				case 9 : return "Caverne inconnue";
-				case 10 : return "Caverne odorante";
+				case 1 : return "Sordid Cave";
+				case 2 : return "Dismal Cave";
+				case 3 : return "Dark Cave";
+				case 4 : return "Fearful Cave";
+				case 5 : return "Odorous Undergrounds";
+				case 6 : return "Complex Undergrounds";
+				case 7 : return "Damaged Ruins";
+				case 8 : return "Ancient Ruins";
+				case 9 : return "Unknown Cavern";
+				case 10 : return "Odorous Cavern";
 			}
 		}
 		else if( floorType == GameMap.FloorType.DUNGEON ) {
 			int rand = Constants.getRandomBetween(1, 4);
 			switch( rand ) {
-				case 1 : return "Repaire du mal";
-				case 2 : return "Tour des oubliés";
-				case 3 : return "Donjon de la souffrance";
-				case 4 : return "Donjon ancestral";
+				case 1 : return "Evil's Lair";
+				case 2 : return "Forgotten's Tower";
+				case 3 : return "Dungeon Of Suffering";
+				case 4 : return "Ancestral Keep";
 			}
 		}
 		
 		return null;
 	}
 }
+

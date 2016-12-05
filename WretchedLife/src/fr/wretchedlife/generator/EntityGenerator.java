@@ -30,7 +30,7 @@ public class EntityGenerator {
 		Enemy goblin = new Enemy();
 		
 		goblin.setTexture( Constants.getTexture( ".\\img\\entities\\goblin.gif"));
-		goblin.setName("Goblin répugnant");
+		goblin.setName("Stinking Goblin");
 		goblin.setLevel( 1 );
 		goblin.setLife( 20 );
 		goblin.setLifeRemain( 20 );
@@ -49,7 +49,7 @@ public class EntityGenerator {
 		Enemy strongerZombie = new Enemy();
 		
 		strongerZombie.setTexture( Constants.getTexture( ".\\img\\entities\\undead.gif"));
-		strongerZombie.setName("Mutant Purulent");
+		strongerZombie.setName("Purulent Mutant");
 		strongerZombie.setLevel( 2 );
 		strongerZombie.setLife( 20 );
 		strongerZombie.setLifeRemain( 20 );
@@ -67,7 +67,7 @@ public class EntityGenerator {
 		Enemy wolf = new Enemy();
 		
 		wolf.setTexture( Constants.getTexture( ".\\img\\entities\\wolf.gif"));
-		wolf.setName("Loup nocture");
+		wolf.setName("Nocturnal Wolf");
 		wolf.setLevel( 2 );
 		wolf.setLife( 25 );
 		wolf.setLifeRemain( 25 );
@@ -85,7 +85,7 @@ public class EntityGenerator {
 		Enemy lizard = new Enemy();
 		
 		lizard.setTexture( Constants.getTexture( ".\\img\\entities\\lizard.gif"));
-		lizard.setName("Lézard démesuré");
+		lizard.setName("Shapeless Lizard");
 		lizard.setLevel( 2 );
 		lizard.setLife( 30 );
 		lizard.setLifeRemain( 30 );
@@ -103,7 +103,7 @@ public class EntityGenerator {
 		Enemy mummy = new Enemy();
 		
 		mummy.setTexture( Constants.getTexture( ".\\img\\entities\\mummy.gif"));
-		mummy.setName("Eternel Embaumé");
+		mummy.setName("Cursed Embalmed");
 		mummy.setLevel( 2 );
 		mummy.setLife( 35 );
 		mummy.setLifeRemain( 35 );
@@ -121,7 +121,7 @@ public class EntityGenerator {
 		Enemy skeleton = new Enemy();
 		
 		skeleton.setTexture( Constants.getTexture( ".\\img\\entities\\skeleton.gif"));
-		skeleton.setName("Combattant d'Autrefois");
+		skeleton.setName("Ancient Fighter");
 		skeleton.setLevel( 3 );
 		skeleton.setLife( 40 );
 		skeleton.setLifeRemain( 40 );
@@ -139,7 +139,7 @@ public class EntityGenerator {
 		Enemy troll = new Enemy();
 		
 		troll.setTexture( Constants.getTexture( ".\\img\\entities\\troll.gif"));
-		troll.setName("Troll sournois");
+		troll.setName("Sneaky Troll");
 		troll.setLevel( 3 );
 		troll.setLife( 42 );
 		troll.setLifeRemain( 42 );
@@ -157,7 +157,7 @@ public class EntityGenerator {
 		Enemy horror = new Enemy();
 		
 		horror.setTexture( Constants.getTexture( ".\\img\\entities\\horror.gif"));
-		horror.setName("Mutant Evolué");
+		horror.setName("Evolved Mutant");
 		horror.setLevel( 3 );
 		horror.setLife( 45 );
 		horror.setLifeRemain( 45 );
@@ -175,7 +175,7 @@ public class EntityGenerator {
 		Enemy scorpio = new Enemy();
 		
 		scorpio.setTexture( Constants.getTexture( ".\\img\\entities\\scorpio.gif"));
-		scorpio.setName("Scorpion Irradié");
+		scorpio.setName("Irradiated Scorpion");
 		scorpio.setLevel( 4 );
 		scorpio.setLife( 50 );
 		scorpio.setLifeRemain( 50 );
@@ -193,7 +193,7 @@ public class EntityGenerator {
 		Enemy cerber = new Enemy();
 		
 		cerber.setTexture( Constants.getTexture( ".\\img\\entities\\cerber.gif"));
-		cerber.setName("Hyène mutante");
+		cerber.setName("Misshappen Hyena");
 		cerber.setLevel( 4 );
 		cerber.setLife( 55 );
 		cerber.setLifeRemain( 55 );
@@ -211,7 +211,7 @@ public class EntityGenerator {
 		Enemy lizard = new Enemy();
 		
 		lizard.setTexture( Constants.getTexture( ".\\img\\entities\\Lizard_man.gif"));
-		lizard.setName("Boss : Guerrier Lézard");
+		lizard.setName("Boss : Lizard Warrior");
 		lizard.setLevel( 2 );
 		lizard.setLife( 45 );
 		lizard.setLifeRemain( 45 );
@@ -229,7 +229,7 @@ public class EntityGenerator {
 		Enemy ogre = new Enemy();
 		
 		ogre.setTexture( Constants.getTexture( ".\\img\\entities\\Ogre.gif"));
-		ogre.setName("Boss : Monstre Gargantuesque");
+		ogre.setName("Boss : Gargantua Monster");
 		ogre.setLevel( 3 );
 		ogre.setLife( 60 );
 		ogre.setLifeRemain( 60 );
@@ -247,7 +247,7 @@ public class EntityGenerator {
 		Enemy sorcerer = new Enemy();
 		
 		sorcerer.setTexture( Constants.getTexture( ".\\img\\entities\\sorcerer.gif"));
-		sorcerer.setName("Boss : Gourou de l'ère nouvelle");
+		sorcerer.setName("Boss : Guru Of The New Era");
 		sorcerer.setLevel( 4 );
 		sorcerer.setLife( 70 );
 		sorcerer.setLifeRemain( 70 );
@@ -265,7 +265,7 @@ public class EntityGenerator {
 		Enemy dragon = new Enemy();
 		
 		dragon.setTexture( Constants.getTexture( ".\\img\\entities\\skeletondragon.gif"));
-		dragon.setName("Boss : Charognard de l'éffroi");
+		dragon.setName("Boss : Scavenger Of Fear");
 		dragon.setLevel( 5 );
 		dragon.setLife( 90 );
 		dragon.setLifeRemain( 90 );
@@ -283,7 +283,7 @@ public class EntityGenerator {
 		Enemy dragon = new Enemy();
 		
 		dragon.setTexture( Constants.getTexture( ".\\img\\entities\\blue_dragon.gif"));
-		dragon.setName("Boss : Dragon de l'hiver nucléaire");
+		dragon.setName("Boss : Dragon Of The Nuclear Winter");
 		dragon.setLevel( 6 );
 		dragon.setLife( 150 );
 		dragon.setLifeRemain( 150 );
@@ -307,11 +307,11 @@ public class EntityGenerator {
 				switch( rand ) {
 					case 1 : {
 						forest.setTexture( Constants.getTexture( ".\\img\\map\\trees\\deadtree.gif"));
-						forest.setName("Arbre Mort");
+						forest.setName("Dead Tree");
 					} break;
 					case 2 : {
 						forest.setTexture( Constants.getTexture( ".\\img\\map\\trees\\tree4.gif"));
-						forest.setName("Arbre âbimé");
+						forest.setName("Damaged Tree");
 					} break;
 				}
 			} break;
@@ -320,15 +320,15 @@ public class EntityGenerator {
 				switch( rand ) {
 					case 1 : {
 						forest.setTexture( Constants.getTexture( ".\\img\\map\\trees\\tree.gif"));
-						forest.setName("Arbre");
+						forest.setName("Tree");
 					} break;
 					case 2 : {
 						forest.setTexture( Constants.getTexture( ".\\img\\map\\trees\\tree2.gif"));
-						forest.setName("Arbre");
+						forest.setName("Tree");
 					} break;
 					case 3 : {
 						forest.setTexture( Constants.getTexture( ".\\img\\map\\trees\\tree3.gif"));
-						forest.setName("Arbre");
+						forest.setName("Tree");
 					} break;
 				}	
 			} break;
@@ -337,7 +337,7 @@ public class EntityGenerator {
 				switch( rand ) {
 					case 1 : {
 						forest.setTexture( Constants.getTexture( ".\\img\\map\\trees\\palm.gif"));
-						forest.setName("Palmier");
+						forest.setName("Palm");
 					} break;
 					case 2 : {
 						forest.setTexture( Constants.getTexture( ".\\img\\map\\trees\\palm2.gif"));
@@ -350,19 +350,19 @@ public class EntityGenerator {
 				switch( rand ) {
 					case 1 : {
 						forest.setTexture( Constants.getTexture( ".\\img\\map\\trees\\snowdeadtree.gif"));
-						forest.setName("Arbre mort enneigé");
+						forest.setName("Snowy Dead Tree");
 					} break;
 					case 2 : {
 						forest.setTexture( Constants.getTexture( ".\\img\\map\\trees\\snowfir.gif"));
-						forest.setName("Sapin enneigé");
+						forest.setName("Snowy Fir");
 					} break;
 					case 3 : {
 						forest.setTexture( Constants.getTexture( ".\\img\\map\\trees\\snowtree.gif"));
-						forest.setName("Arbre enneigé");
+						forest.setName("Snowy Tree");
 					} break;
 					case 4 : {
 						forest.setTexture( Constants.getTexture( ".\\img\\map\\trees\\fir.gif"));
-						forest.setName("Sapin");
+						forest.setName("Fir");
 					} break;
 				}	
 			} break;

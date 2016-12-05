@@ -27,7 +27,7 @@ public class ItemGenerator {
 			public void onDesequip() {}
 		};
 		
-		weapon.setName( "Gourdin" );
+		weapon.setName( "Club" );
 		weapon.setTexture( Constants.getTexture( ".\\img\\items\\club.png" ) );
 		weapon.setWeight( 5 );
 		weapon.setProperties( null);
@@ -51,7 +51,7 @@ public class ItemGenerator {
 			public void onDesequip() {}
 		};
 		
-		weapon.setName( "Couteau usé" );
+		weapon.setName( "Knife" );
 		weapon.setTexture( Constants.getTexture( ".\\img\\items\\knife.png" ) );
 		weapon.setWeight( 2 );
 		weapon.setProperties( null);
@@ -75,7 +75,7 @@ public class ItemGenerator {
 			public void onDesequip() {}
 		};
 		
-		weapon.setName( "Marteau abîmé" );
+		weapon.setName( "Hammer" );
 		weapon.setTexture( Constants.getTexture( ".\\img\\items\\hammer.png" ) );
 		weapon.setWeight( 4 );
 		weapon.setProperties( null);
@@ -99,7 +99,7 @@ public class ItemGenerator {
 			public void onDesequip() {}
 		};
 		
-		weapon.setName( "Hachette rouillé" );
+		weapon.setName( "Hatchet" );
 		weapon.setTexture( Constants.getTexture( ".\\img\\items\\hatchet.png" ) );
 		weapon.setWeight( 4 );
 		weapon.setProperties( null);
@@ -123,7 +123,7 @@ public class ItemGenerator {
 			public void onDesequip() {}
 		};
 		
-		weapon.setName( "Masse à ailettes" );
+		weapon.setName( "Mace" );
 		weapon.setTexture( Constants.getTexture( ".\\img\\items\\mace.png" ) );
 		weapon.setWeight( 5 );
 		weapon.setProperties( null);
@@ -196,7 +196,7 @@ public class ItemGenerator {
 			}
 		};
 		
-		weapon.setName( "Hachette magique rouillé" );
+		weapon.setName( "Magical Hatchet" );
 		weapon.setTexture( Constants.getTexture( ".\\img\\items\\hatchet.png" ) );
 		weapon.setWeight( 4 );
 		weapon.setProperties( props );
@@ -220,7 +220,7 @@ public class ItemGenerator {
 			public void onDesequip() {}
 		};
 		
-		weapon.setName( "Epieu de fer" );
+		weapon.setName( "Iron spear" );
 		weapon.setTexture( Constants.getTexture( ".\\img\\items\\spear.png" ) );
 		weapon.setWeight( 3 );
 		weapon.setProperties( null);
@@ -244,7 +244,7 @@ public class ItemGenerator {
 			public void onDesequip() {}
 		};
 		
-		weapon.setName( "Couperet" );
+		weapon.setName( "Cleaver" );
 		weapon.setTexture( Constants.getTexture( ".\\img\\items\\cleaver.png" ) );
 		weapon.setWeight( 6 );
 		weapon.setProperties( null);
@@ -268,7 +268,7 @@ public class ItemGenerator {
 			public void onDesequip() {}
 		};
 		
-		weapon.setName( "Glaive ébréché" );
+		weapon.setName( "Glavius" );
 		weapon.setTexture( Constants.getTexture( ".\\img\\items\\glaive.png" ) );
 		weapon.setWeight( 5 );
 		weapon.setProperties( null);
@@ -292,7 +292,7 @@ public class ItemGenerator {
 			public void onDesequip() {}
 		};
 		
-		armor.setName( "Veste de tissu" );
+		armor.setName( "Cloth Jacket" );
 		armor.setTexture( Constants.getTexture( ".\\img\\items\\assets\\Tw2_armor_quiltedleather.png" ) );
 		armor.setWeight( 5 );
 		armor.setProperties( null );
@@ -316,7 +316,7 @@ public class ItemGenerator {
 			public void onDesequip() {}
 		};
 		
-		armor.setName( "Pantalon de cuir léger" );
+		armor.setName( "Leather Pants" );
 		armor.setTexture( Constants.getTexture( ".\\img\\items\\assets\\Tw2_armor_superbleathertrousers.png" ) );
 		armor.setWeight( 3 );
 		armor.setProperties( null );
@@ -340,7 +340,7 @@ public class ItemGenerator {
 			public void onDesequip() {}
 		};
 		
-		armor.setName( "Chausses en lambaux" );
+		armor.setName( "Leather Boots" );
 		armor.setTexture( Constants.getTexture( ".\\img\\items\\assets\\Tw2_armor_soakedboots.png" ) );
 		armor.setWeight( 4 );
 		armor.setProperties( null );
@@ -364,7 +364,7 @@ public class ItemGenerator {
 			public void onDesequip() {}
 		};
 		
-		armor.setName( "Mitaine de cuir léger" );
+		armor.setName( "Leather Gloves" );
 		armor.setTexture( Constants.getTexture( ".\\img\\items\\assets\\Tw2_armor_wornleathergauntlets.png" ) );
 		armor.setWeight( 1 );
 		armor.setProperties( null );
@@ -388,7 +388,7 @@ public class ItemGenerator {
 			public void onDesequip() {}
 		};
 		
-		armor.setName( "Heaume ancien" );
+		armor.setName( "Helm" );
 		armor.setTexture( Constants.getTexture( ".\\img\\items\\heaume.png" ) );
 		armor.setWeight( 4 );
 		armor.setProperties( null );
@@ -412,7 +412,7 @@ public class ItemGenerator {
 			public void onDesequip() {}
 		};
 		
-		armor.setName( "Capuchon en lambeaux" );
+		armor.setName( "Cap" );
 		armor.setTexture( Constants.getTexture( ".\\img\\items\\hood.png" ) );
 		armor.setWeight( 2 );
 		armor.setProperties( null );
@@ -436,7 +436,7 @@ public class ItemGenerator {
 			public void onDesequip() {}
 		};
 		
-		armor.setName( "Ceinture de cuir usé" );
+		armor.setName( "Leather Belt" );
 		armor.setTexture( Constants.getTexture( ".\\img\\items\\leatherbelt.png" ) );
 		armor.setWeight( 1 );
 		armor.setProperties( null );
@@ -460,7 +460,7 @@ public class ItemGenerator {
 			public void onDesequip() {}
 		};
 		
-		armor.setName( "Brassard de cuir léger" );
+		armor.setName( "Leather Armlet" );
 		armor.setTexture( Constants.getTexture( ".\\img\\items\\leatherbracer.png" ) );
 		armor.setWeight( 2 );
 		armor.setProperties( null );
@@ -495,7 +495,7 @@ public class ItemGenerator {
 			}
 		};
 		
-		consumableItem.setName( "Viande" );
+		consumableItem.setName( "Meat" );
 		consumableItem.setTexture( Constants.getTexture( ".\\img\\items\\meat.png" ) );
 		consumableItem.setWeight( 2 );
 		consumableItem.setProperties( props );
@@ -518,7 +518,7 @@ public class ItemGenerator {
 			}
 		};
 		
-		consumableItem.setName( "Bouteille d'eau" );
+		consumableItem.setName( "Water Bottle" );
 		consumableItem.setTexture( Constants.getTexture( ".\\img\\items\\waterbottle.png" ) );
 		consumableItem.setWeight( 1 );
 		consumableItem.setProperties( props );
@@ -546,7 +546,7 @@ public class ItemGenerator {
 			}
 		};
 		
-		consumableItem.setName( "Thon en conserve" );
+		consumableItem.setName( "Tuna Can" );
 		consumableItem.setTexture( Constants.getTexture( ".\\img\\items\\tunacan.png" ) );
 		consumableItem.setWeight( 1 );
 		consumableItem.setProperties( props );
@@ -588,7 +588,7 @@ public class ItemGenerator {
 			}
 		};
 		
-		consumableItem.setName( "Trousse de soin" );
+		consumableItem.setName( "Medikit" );
 		consumableItem.setTexture( Constants.getTexture( ".\\img\\items\\medikit.png" ) );
 		consumableItem.setWeight( 1 );
 		consumableItem.setProperties( props );
@@ -598,7 +598,7 @@ public class ItemGenerator {
 	
 	public static ContainerItem createEmptyChest( final Player player) {
 		ContainerItem containerItem = new ContainerItem();
-		containerItem.setName( "Coffre" );
+		containerItem.setName( "Chest" );
 		containerItem.setTexture( Constants.getTexture( ".\\img\\items\\chest.png" ) );
 		containerItem.setWeight( 2 );
 		containerItem.setProperties( null );
@@ -617,7 +617,7 @@ public class ItemGenerator {
 		}
 		
 		ContainerItem containerItem = new ContainerItem();
-		containerItem.setName( "Coffre" );
+		containerItem.setName( "Chest" );
 		containerItem.setTexture( Constants.getTexture( ".\\img\\items\\chest.png" ) );
 		containerItem.setWeight( 2 );
 		containerItem.setProperties( null );

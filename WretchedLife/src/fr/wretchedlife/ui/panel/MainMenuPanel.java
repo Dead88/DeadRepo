@@ -17,10 +17,10 @@ import fr.wretchedlife.ui.Window;
 public class MainMenuPanel extends JPanel {
 	
 	private static final long serialVersionUID = -2754785116380521108L;
-	private static final String NEW_GAME_BUTTON_LABEL = "Nouvelle Partie";
-	private static final String NEW_MULTIPLAYER_GAME_BUTTON_LABEL = "Nouvelle Partie Multijoueur";
-	private static final String JOIN_MULTIPLAYER_GAME_BUTTON_LABEL = "Rejoindre Partie Multijoueur";
-	private static final String EXIT_BUTTON_LABEL = "Quitter";
+	private static final String NEW_GAME_BUTTON_LABEL = "New Game";
+	private static final String NEW_MULTIPLAYER_GAME_BUTTON_LABEL = "New Multiplayer Game";
+	private static final String JOIN_MULTIPLAYER_GAME_BUTTON_LABEL = "Join Multiplayer Game";
+	private static final String EXIT_BUTTON_LABEL = "Exit";
 
 	private final Window window;
 	private Image backgroundImage;

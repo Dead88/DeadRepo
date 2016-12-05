@@ -119,7 +119,7 @@ public class GameMenuPanel extends JPanel {
 		infoPanel.getPreviewPanel().add( itemInfoLabel );
 		
 		if( item instanceof ConsumableItem ){
-			JButton itemUseButton = new JButton("Utiliser");
+			JButton itemUseButton = new JButton("Use");
 			itemUseButton.addActionListener( new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
@@ -133,7 +133,7 @@ public class GameMenuPanel extends JPanel {
 			infoPanel.getPreviewPanel().add( itemUseButton );
 		}
 		else if( item instanceof ContainerItem ) {
-			JButton itemUseButton = new JButton("Ouvrir");
+			JButton itemUseButton = new JButton("Open");
 			itemUseButton.addActionListener( new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
@@ -158,7 +158,7 @@ public class GameMenuPanel extends JPanel {
 			infoPanel.getPreviewPanel().add( itemUseButton );
 		}
 		else if( item instanceof WeaponItem || item instanceof ArmorItem ){
-			JButton itemUseButton = new JButton("Equiper");
+			JButton itemUseButton = new JButton("Equip");
 			itemUseButton.addActionListener( new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
@@ -261,7 +261,7 @@ public class GameMenuPanel extends JPanel {
 		if( window.getCurrentPanel() instanceof GamePanel) {
 			final Area playerArea = game.getPlayerArea();
 				
-			JButton itemDropButton = new JButton("Jeter");
+			JButton itemDropButton = new JButton("Drop");
 			itemDropButton.addActionListener( new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
@@ -291,7 +291,7 @@ public class GameMenuPanel extends JPanel {
 		itemInfoLabel.setForeground(Constants.goldColor);
 		infoPanel.getPreviewPanel().add( itemInfoLabel );
 		
-		JButton itemUseButton = new JButton("Enlever");
+		JButton itemUseButton = new JButton("Desequip");
 		itemUseButton.addActionListener( new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -347,26 +347,26 @@ public class GameMenuPanel extends JPanel {
 	public static String getItemInfoHtml( Item item ) {
 		
 		String itemInfo = "<html><u>"+ item.getName() + "</u><br />";
-		itemInfo += "Poids : " + item.getWeight()+"<br />";
+		itemInfo += "Weight : " + item.getWeight()+"<br />";
 		
 		if( item instanceof WeaponItem ) {
-			itemInfo += "Durabilité : " + ((WeaponItem) item).getDurabilityRemain()+" / "+((WeaponItem) item).getDurability()+"<br />";
-			itemInfo += "Dégâts : " + ((WeaponItem) item).getMinDamage() +" à "+((WeaponItem) item).getMaxDamage()+"<br />";
-			itemInfo += "Niveau requis : " + ((WeaponItem) item).getRequiredLevel()+"<br />";
-			itemInfo += "Force requise : " + ((WeaponItem) item).getRequiredStrengh()+"<br />";
-			itemInfo += "Agilité requise : " + ((WeaponItem) item).getRequiredAgility()+"<br />";
-			itemInfo += "Savoir requis : " + ((WeaponItem) item).getRequiredKnowledge()+"<br />";
+			itemInfo += "Durability : " + ((WeaponItem) item).getDurabilityRemain()+" / "+((WeaponItem) item).getDurability()+"<br />";
+			itemInfo += "Damage : " + ((WeaponItem) item).getMinDamage() +" à "+((WeaponItem) item).getMaxDamage()+"<br />";
+			itemInfo += "Level required : " + ((WeaponItem) item).getRequiredLevel()+"<br />";
+			itemInfo += "Strengh required : " + ((WeaponItem) item).getRequiredStrengh()+"<br />";
+			itemInfo += "Agility required : " + ((WeaponItem) item).getRequiredAgility()+"<br />";
+			itemInfo += "Knowledge required : " + ((WeaponItem) item).getRequiredKnowledge()+"<br />";
 		}
 		else if( item instanceof ArmorItem ) {
-			itemInfo += "Durabilité : " + ((ArmorItem) item).getDurabilityRemain()+" / "+((ArmorItem) item).getDurability()+"<br />";
-			itemInfo += "Armure : " + ((ArmorItem) item).getDefense()+"<br />";
-			itemInfo += "Niveau requis : " + ((ArmorItem) item).getRequiredLevel()+"<br />";
-			itemInfo += "Force requise : " + ((ArmorItem) item).getRequiredStrengh()+"<br />";
-			itemInfo += "Agilité requise : " + ((ArmorItem) item).getRequiredAgility()+"<br />";
-			itemInfo += "Savoir requis : " + ((ArmorItem) item).getRequiredKnowledge()+"<br />";
+			itemInfo += "Durability : " + ((ArmorItem) item).getDurabilityRemain()+" / "+((ArmorItem) item).getDurability()+"<br />";
+			itemInfo += "Armor : " + ((ArmorItem) item).getDefense()+"<br />";
+			itemInfo += "Level required : " + ((ArmorItem) item).getRequiredLevel()+"<br />";
+			itemInfo += "Strengh required : " + ((ArmorItem) item).getRequiredStrengh()+"<br />";
+			itemInfo += "Agility required : " + ((ArmorItem) item).getRequiredAgility()+"<br />";
+			itemInfo += "Knowledge required : " + ((ArmorItem) item).getRequiredKnowledge()+"<br />";
 		}
 		else if( item instanceof ContainerItem ) {
-			itemInfo += "Nombre d'objets : " + ((ContainerItem) item).getInventory().size()+"<br />";
+			itemInfo += "Number of item(s) : " + ((ContainerItem) item).getInventory().size()+"<br />";
 			for (int i = 0; i < ((ContainerItem) item).getInventory().size(); i++) {
 				itemInfo += "- "+ ((ContainerItem) item).getInventory().get(i).getName() + "<br />";
 			}
@@ -385,10 +385,10 @@ public class GameMenuPanel extends JPanel {
 	
 	public static String getEnemyInfoHtml( Enemy enemy ) {
 		String enemyInfo = "<html><u>"+ enemy.getName() + "</u><br />";
-		enemyInfo += "Niveau " + enemy.getLevel() + "<br />";
-		enemyInfo += "Vie " + enemy.getLifeRemain() + " / "+enemy.getLife()+"<br />";
-		enemyInfo += "Dégâts : " + enemy.getItemMinDamage() +" à "+enemy.getItemMaxDamage()+"<br />";
-		enemyInfo += "Armure : " + enemy.getItemDefense()+"<br />";
+		enemyInfo += "Level " + enemy.getLevel() + "<br />";
+		enemyInfo += "Life " + enemy.getLifeRemain() + " / "+enemy.getLife()+"<br />";
+		enemyInfo += "Damage : " + enemy.getItemMinDamage() +" à "+enemy.getItemMaxDamage()+"<br />";
+		enemyInfo += "Armor : " + enemy.getItemDefense()+"<br />";
 		
 		enemyInfo += "</html>";
 		

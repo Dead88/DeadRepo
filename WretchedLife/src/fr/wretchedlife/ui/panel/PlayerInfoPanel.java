@@ -95,17 +95,17 @@ public class PlayerInfoPanel extends JPanel {
 				player.setExperience( player.getExperience() + 20 );
 			}
 		});
-		JButton mainMenuButton = new JButton("Quitter");
+		JButton mainMenuButton = new JButton("Exit");
 		mainMenuButton.addActionListener( new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				int dialogResult = JOptionPane.showConfirmDialog( window.getCurrentPanel(), "Voulez-vous vraimment quitter la partie ?","Attention", 0);
+				int dialogResult = JOptionPane.showConfirmDialog( window.getCurrentPanel(), "Do you really want to exit now ?","Warning", 0);
 				if(dialogResult == JOptionPane.YES_OPTION){
 					window.displayMainMenu();
 				}
 			}
 		});
-		gameOptionPanel.add( lvlUpButton );
+		//gameOptionPanel.add( lvlUpButton );
 		gameOptionPanel.add( mainMenuButton );
 		this.add( gameOptionPanel );
 	}
@@ -129,24 +129,24 @@ public class PlayerInfoPanel extends JPanel {
 		((JLabel) this.getComponent(4)).setFont(font);
 		((JLabel) this.getComponent(5)).setFont(font);
 		
-		((JLabel) this.getComponent(0)).setText("<html>Niveau " + player.getLevel()+"<br />"+"Exp " + player.getExperience()+" / "+ player.getExperienceToReach()+"</html>" ) ;
+		((JLabel) this.getComponent(0)).setText("<html>Level " + player.getLevel()+"<br />"+"Exp " + player.getExperience()+" / "+ player.getExperienceToReach()+"</html>" ) ;
 		((JLabel) this.getComponent(1)).setText("<html>"
-				+ "Vie " + player.getLifeRemain()+" / "+ player.getLife()+"<br />"
-				+ "Faim "+ player.getHungerPercent()+" %<br />"
-				+ "Soif "+ player.getThirstPercent()+" %</html>");
+				+ "Life " + player.getLifeRemain()+" / "+ player.getLife()+"<br />"
+				+ "Hunger "+ player.getHungerPercent()+" %<br />"
+				+ "Thirst "+ player.getThirstPercent()+" %</html>");
 		((JLabel) this.getComponent(2)).setText("<html>"
-				+ "Force " + player.getStrengh() + " (+" + player.getStrenghBonus()+")<br />"
-				+ "Agilité " + player.getAgility() + " (+" + player.getAgilityBonus()+")<br />"
-				+ "Savoir "+ player.getKnowledge()+ " (+" + player.getKnowledgeBonus()+")</html>" );
+				+ "Stengh " + player.getStrengh() + " (+" + player.getStrenghBonus()+")<br />"
+				+ "Agility " + player.getAgility() + " (+" + player.getAgilityBonus()+")<br />"
+				+ "Knowledge "+ player.getKnowledge()+ " (+" + player.getKnowledgeBonus()+")</html>" );
 		
 		JPanel skillPointsButtonPanel = (JPanel) this.getComponent(3);
 		if( player.getSkillPointsLeft() > 0 ) 
 			skillPointsButtonPanel.setVisible(true);
 		else skillPointsButtonPanel.setVisible(false);
 		
-		((JLabel) this.getComponent(4)).setText("<html>Inventaire " + player.getInventory().size()+" / "+ player.getInventoryMaxSize()+"<br />Poids " + player.getTransportedWeight()+" / "+ player.getTransportableWeight()+"</html>" );
+		((JLabel) this.getComponent(4)).setText("<html>Inventory " + player.getInventory().size()+" / "+ player.getInventoryMaxSize()+"<br />Weight " + player.getTransportedWeight()+" / "+ player.getTransportableWeight()+"</html>" );
 		((JLabel) this.getComponent(5)).setText("<html>"
-				+ "Dégâts " + player.getItemMinDamage() +" à "+player.getItemMaxDamage()+"<br />"
-				+ "Armure " + player.getItemDefense() +"</html>");
+				+ "Damage " + player.getItemMinDamage() +" to "+player.getItemMaxDamage()+"<br />"
+				+ "Armor " + player.getItemDefense() +"</html>");
 	}
 }
