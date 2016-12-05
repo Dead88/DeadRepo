@@ -37,6 +37,8 @@ public class InfoPanel extends JPanel {
 		@Override
 		protected void paintComponent(Graphics g) {
 			g.drawImage( backgroundImage, 0, 0, this.getWidth(), this.getHeight(), this);
+			g.setColor( Color.BLACK );
+			g.fillRect(5, 5, this.getWidth() - 10, this.getHeight() - 10 );
 		}
 	}
 	

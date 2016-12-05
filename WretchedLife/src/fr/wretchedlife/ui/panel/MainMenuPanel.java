@@ -20,6 +20,7 @@ public class MainMenuPanel extends JPanel {
 	private static final String NEW_GAME_BUTTON_LABEL = "Nouvelle Partie";
 	private static final String NEW_MULTIPLAYER_GAME_BUTTON_LABEL = "Nouvelle Partie Multijoueur";
 	private static final String JOIN_MULTIPLAYER_GAME_BUTTON_LABEL = "Rejoindre Partie Multijoueur";
+	private static final String EXIT_BUTTON_LABEL = "Quitter";
 
 	private final Window window;
 	private Image backgroundImage;
@@ -77,12 +78,26 @@ public class MainMenuPanel extends JPanel {
 		});
 		joinMultiGameButton.setVisible(true);
 		
+		JButton exitButton = new JButton( EXIT_BUTTON_LABEL );
+		exitButton.addActionListener( new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				try {
+					System.exit(0);
+				}
+				catch(Exception ex){
+					ex.printStackTrace();
+				}
+			}
+		});
+		
 		JPanel buttonsPanel = new JPanel();
 		buttonsPanel.setOpaque( false );
 		buttonsPanel.setPreferredSize( new Dimension(500,500));
 		buttonsPanel.add( newGameButton );
 		buttonsPanel.add( newMultiGameButton );
 		buttonsPanel.add( joinMultiGameButton );
+		buttonsPanel.add( exitButton );
 		
 		this.add( buttonsPanel, BorderLayout.SOUTH);
 	}

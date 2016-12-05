@@ -207,6 +207,42 @@ public class EntityGenerator {
 		return cerber;
 	}
 	
+	public static Enemy createLizardWariorBoss( Player player ) {
+		Enemy lizard = new Enemy();
+		
+		lizard.setTexture( Constants.getTexture( ".\\img\\entities\\Lizard_man.gif"));
+		lizard.setName("Boss : Guerrier Lézard");
+		lizard.setLevel( 2 );
+		lizard.setLife( 45 );
+		lizard.setLifeRemain( 45 );
+		lizard.setItemMinDamage( 10 );
+		lizard.setItemMaxDamage( 16 );
+		lizard.setItemDefense( 4 );
+		lizard.setExperienceToEarn( 40 );
+		
+		lizard.generateLootContainer( player );
+		
+		return lizard;
+	}
+	
+	public static Enemy createOgreBoss( Player player ) {
+		Enemy ogre = new Enemy();
+		
+		ogre.setTexture( Constants.getTexture( ".\\img\\entities\\Ogre.gif"));
+		ogre.setName("Boss : Monstre Gargantuesque");
+		ogre.setLevel( 3 );
+		ogre.setLife( 60 );
+		ogre.setLifeRemain( 60 );
+		ogre.setItemMinDamage( 12 );
+		ogre.setItemMaxDamage( 32 );
+		ogre.setItemDefense( 6 );
+		ogre.setExperienceToEarn( 54 );
+		
+		ogre.generateLootContainer( player );
+		
+		return ogre;
+	}
+	
 	public static Enemy createSorcererBoss( Player player ) {
 		Enemy sorcerer = new Enemy();
 		

@@ -1,6 +1,7 @@
 package fr.wretchedlife.ui.panel;
 
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -62,6 +63,7 @@ public class GameMenuPanel extends JPanel {
 		
 		JLabel areaInfoLabel = new JLabel();
 		areaInfoLabel.setForeground(Constants.goldColor);
+		areaInfoLabel.setFont( new Font(Font.SANS_SERIF, Font.BOLD, 12 ) );
 		
 		JButton attackButton = null;
 		

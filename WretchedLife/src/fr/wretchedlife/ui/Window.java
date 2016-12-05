@@ -31,7 +31,11 @@ public class Window extends JFrame
 		this.setTitle("Wretched Life");
 		this.setSize( Toolkit.getDefaultToolkit().getScreenSize() );
 		//this.setSize( new Dimension( 1366, 768));
-		this.setResizable(true);
+		
+		this.setExtendedState(JFrame.MAXIMIZED_BOTH); 
+		this.setUndecorated(true);
+		
+		//this.setResizable(true);
 		this.setVisible(true);
 		this.setExtendedState(JFrame.MAXIMIZED_BOTH);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

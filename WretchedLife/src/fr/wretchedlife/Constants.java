@@ -130,17 +130,18 @@ public class Constants
 	public static final double mediumLifeUpRate = 1.06;
 	public static final double highLifeUpRate = 1.15;
 	
-	public static final double hungerDownPercent = 0.25;
-	public static final double thirstDownPercent = 0.5;
 	public static final double inventorySizeUpRate = 1.10;
 	public static final double transportableWeightUpRate = 1.10;
+	
+	public static final double hungerDownPercent = 0.25;
+	public static final double thirstDownPercent = 0.5;
 	
 	public static final double waterRate = 0.05;
 	public static final double doodadRate = 0.08;
 	
 	// STARTING PLAYER CONFIG
 	
-	public static final int startingExperienceToReach = 10;
+	public static final int startingExperienceToReach = 50;
 	public static final int startingLife = 100;
 	public static final int startingInventoryMaxSize = 10;
 	public static final int startingTransportableWeight = 30;

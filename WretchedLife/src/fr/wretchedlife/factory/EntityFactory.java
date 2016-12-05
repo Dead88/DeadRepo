@@ -55,13 +55,17 @@ public class EntityFactory {
 			Enemy enemy = null;
 			
 			while(true) {
-				int entityNumber = Constants.getRandomBetween(1, 3);
+				int entityNumber = Constants.getRandomBetween(1, 5);
 				switch( entityNumber ){
-					case 1 : enemy = EntityGenerator.createSorcererBoss( player ); break;
-					case 2 : enemy = EntityGenerator.createSkeletonDragonBoss( player ); break;
-					case 3 : enemy = EntityGenerator.createBlueDragonBoss( player ); break;
+					case 1 : enemy = EntityGenerator.createLizardWariorBoss( player ); break;
+					case 2 : enemy = EntityGenerator.createOgreBoss( player ); break;
+					case 3 : enemy = EntityGenerator.createSorcererBoss( player ); break;
+					case 4 : enemy = EntityGenerator.createSkeletonDragonBoss( player ); break;
+					case 5 : enemy = EntityGenerator.createBlueDragonBoss( player ); break;
 				}
-				break;
+				if( enemy.getLevel() >= region.getMinLevel() && enemy.getLevel() <= region.getMaxLevel() ) {
+					break;
+				}
 			}
 			
 			while(true){
