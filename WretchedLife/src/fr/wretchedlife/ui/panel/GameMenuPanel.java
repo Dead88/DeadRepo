@@ -89,7 +89,7 @@ public class GameMenuPanel extends JPanel {
 					&& area.getY() >= playerArea.getY() - player.getTexture().getIconHeight()
 					&& area.getY() <= playerArea.getY() + player.getTexture().getIconHeight() 
 				) {
-					attackButton = new JButton("Attaquer");
+					attackButton = new JButton("Attack");
 					attackButton.addActionListener( new ActionListener() {
 						@Override
 						public void actionPerformed(ActionEvent arg0) {
