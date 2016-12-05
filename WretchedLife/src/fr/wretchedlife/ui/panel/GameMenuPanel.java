@@ -69,7 +69,7 @@ public class GameMenuPanel extends JPanel {
 		
 		areaInfoLabel.setText( 
 			area.getType().name()+" of "+game.getCurrentRegion().getName()+" "
-			+"LVL"+game.getCurrentRegion().getMinLevel()+"/"+ game.getCurrentRegion().getMaxLevel());
+			+"LVL "+game.getCurrentRegion().getMinLevel()+" to "+ game.getCurrentRegion().getMaxLevel());
 		
 		if(area.getItem() != null) {
 			areaInfoLabel.setIcon( area.getItem().getTexture() );
@@ -386,8 +386,8 @@ public class GameMenuPanel extends JPanel {
 	public static String getEnemyInfoHtml( Enemy enemy ) {
 		String enemyInfo = "<html><u>"+ enemy.getName() + "</u><br />";
 		enemyInfo += "Level " + enemy.getLevel() + "<br />";
-		enemyInfo += "Life " + enemy.getLifeRemain() + " / "+enemy.getLife()+"<br />";
-		enemyInfo += "Damage : " + enemy.getItemMinDamage() +" à "+enemy.getItemMaxDamage()+"<br />";
+		enemyInfo += "Life : " + enemy.getLifeRemain() + " / "+enemy.getLife()+"<br />";
+		enemyInfo += "Damage : " + enemy.getItemMinDamage() +" to "+enemy.getItemMaxDamage()+"<br />";
 		enemyInfo += "Armor : " + enemy.getItemDefense()+"<br />";
 		
 		enemyInfo += "</html>";

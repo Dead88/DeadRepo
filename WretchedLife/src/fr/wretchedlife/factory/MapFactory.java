@@ -39,7 +39,7 @@ public class MapFactory {
 				} break;
 			}
 			
-			GameMap region = new GameMap( NameGenerator.getRandomRegionName( null )+" "+i, 
+			GameMap region = new GameMap( NameGenerator.getRandomRegionName( null ),
 				GameMap.Type.OUTDOOR,
 				floorType,
 				new ArrayList<Enemy>(), 
@@ -71,7 +71,7 @@ public class MapFactory {
 		}
 		
 		for(int i = 0; i < Constants.numberOfBuildingRegions; i++ ) {
-			GameMap region = new GameMap( NameGenerator.getRandomRegionName( GameMap.FloorType.HOUSE )+" "+i,
+			GameMap region = new GameMap( NameGenerator.getRandomRegionName( GameMap.FloorType.HOUSE ),
 				GameMap.Type.BUILDING,
 				GameMap.FloorType.HOUSE,
 				new ArrayList<Enemy>(), 
@@ -98,7 +98,7 @@ public class MapFactory {
 		}
 		
 		for(int i = 0; i < Constants.numberOfUndergroundRegions; i++ ) {
-			GameMap region = new GameMap( NameGenerator.getRandomRegionName( GameMap.FloorType.CAVE )+" "+i,
+			GameMap region = new GameMap( NameGenerator.getRandomRegionName( GameMap.FloorType.CAVE ),
 				GameMap.Type.UNDERGROUND, 
 				GameMap.FloorType.CAVE,
 				new ArrayList<Enemy>(), 
@@ -127,7 +127,7 @@ public class MapFactory {
 		}
 		
 		for(int i = 0; i < Constants.numberOfDungeonRegions; i++ ) {
-			GameMap region = new GameMap( NameGenerator.getRandomRegionName( GameMap.FloorType.DUNGEON )+" "+i,
+			GameMap region = new GameMap( NameGenerator.getRandomRegionName( GameMap.FloorType.DUNGEON ),
 				GameMap.Type.DUNGEON, 
 				GameMap.FloorType.DUNGEON,
 				new ArrayList<Enemy>(), 
