@@ -16,7 +16,6 @@ public class Constants
 	
 	public static final int playerVisibilyRange = 3;
 	public static final int enemyVisibilyRange = 3;
-	public static final double enemyManagmentDelay = 600;
 	
 	public static final int multiplayerPort = 5000;
 	public static final int itemIdLength = 36;

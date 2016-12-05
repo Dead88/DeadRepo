@@ -1,10 +1,7 @@
 package fr.wretchedlife.core.utils;
 
-import java.util.Calendar;
-
 import javax.swing.JPanel;
 
-import fr.wretchedlife.Constants;
 import fr.wretchedlife.ui.Window;
 import fr.wretchedlife.ui.panel.GameMenuPanel;
 import fr.wretchedlife.ui.panel.GamePanel;
@@ -12,11 +9,7 @@ import fr.wretchedlife.ui.panel.PlayerInventoryPanel;
 
 public class GameEventListener {
 	
-	private Calendar timer;
-	
-	public GameEventListener() {
-		this.timer = Calendar.getInstance();
-	}
+	public GameEventListener() {}
 	
 	public void listen( Window w ) throws Exception {
 		
@@ -24,13 +17,6 @@ public class GameEventListener {
 			GamePanel gamePanel = (GamePanel) w.getCurrentPanel();
 			
 			if( !gamePanel.hasFocus() ) gamePanel.grabFocus();
-// TODO : real time gameplay
-//			Calendar now = Calendar.getInstance();
-//	
-//			if( ( now.getTimeInMillis() - timer.getTimeInMillis() ) >= Constants.enemyManagmentDelay ) {
-//				timer = Calendar.getInstance();
-//				gamePanel.manageEnemies();
-//			}
 			
 			if( w.getCurrentMenuPanel() != null) {
 				GameMenuPanel gameMenuPanel = (GameMenuPanel)  w.getCurrentMenuPanel();
