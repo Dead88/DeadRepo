@@ -350,7 +350,7 @@ public class MapFactory {
 					else if(destinationRegion.getFloorType() == GameMap.FloorType.DUNGEON)
 						regionEntrance.setTexture( Constants.getTexture(".//img//entities//dungeon.png") );
 					
-					regionEntrance.setName( "Entrée : "+destinationRegion.getName() );
+					regionEntrance.setName( "Entrance to : "+destinationRegion.getName() );
 					regionEntrance.setRegionId( destinationRegion.getId() );
 					regionRandomArea.setEntity( regionEntrance );
 					
@@ -378,7 +378,7 @@ public class MapFactory {
 					else if(destinationRegion.getFloorType() == GameMap.FloorType.DUNGEON)
 						regionBackEntrance.setTexture( Constants.getTexture(".//img//entities//dungeondoor.png") );
 						
-					regionBackEntrance.setName( "Sortie vers : "+region.getName() );
+					regionBackEntrance.setName( "Exit to : "+region.getName() );
 					regionBackEntrance.setRegionId( region.getId() );
 					destinationRegionRandomArea.setEntity( regionBackEntrance );
 					
