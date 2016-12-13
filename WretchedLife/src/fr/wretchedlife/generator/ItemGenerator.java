@@ -20,13 +20,7 @@ public class ItemGenerator {
 	}
 
 	public static WeaponItem createClub( final Player player ) {
-		WeaponItem weapon = new WeaponItem() {
-			@Override
-			public void onEquip() {}
-			@Override
-			public void onDesequip() {}
-		};
-		
+		WeaponItem weapon = new WeaponItem();
 		weapon.setName( "Club" );
 		weapon.setTexture( Constants.getTexture( ".\\img\\items\\club.png" ) );
 		weapon.setWeight( 5 );
@@ -44,13 +38,7 @@ public class ItemGenerator {
 	}
 	
 	public static WeaponItem createKnife( final Player player ) {
-		WeaponItem weapon = new WeaponItem() {
-			@Override
-			public void onEquip() {}
-			@Override
-			public void onDesequip() {}
-		};
-		
+		WeaponItem weapon = new WeaponItem();
 		weapon.setName( "Knife" );
 		weapon.setTexture( Constants.getTexture( ".\\img\\items\\knife.png" ) );
 		weapon.setWeight( 2 );
@@ -68,13 +56,7 @@ public class ItemGenerator {
 	}
 	
 	public static WeaponItem createHammer( final Player player ) {
-		WeaponItem weapon = new WeaponItem() {
-			@Override
-			public void onEquip() {}
-			@Override
-			public void onDesequip() {}
-		};
-		
+		WeaponItem weapon = new WeaponItem();
 		weapon.setName( "Hammer" );
 		weapon.setTexture( Constants.getTexture( ".\\img\\items\\hammer.png" ) );
 		weapon.setWeight( 4 );
@@ -92,13 +74,7 @@ public class ItemGenerator {
 	}
 	
 	public static WeaponItem createHatchet( final Player player ) {
-		WeaponItem weapon = new WeaponItem() {
-			@Override
-			public void onEquip() {}
-			@Override
-			public void onDesequip() {}
-		};
-		
+		WeaponItem weapon = new WeaponItem();		
 		weapon.setName( "Hatchet" );
 		weapon.setTexture( Constants.getTexture( ".\\img\\items\\hatchet.png" ) );
 		weapon.setWeight( 4 );
@@ -116,13 +92,7 @@ public class ItemGenerator {
 	}
 	
 	public static WeaponItem createMace( final Player player ) {
-		WeaponItem weapon = new WeaponItem() {
-			@Override
-			public void onEquip() {}
-			@Override
-			public void onDesequip() {}
-		};
-		
+		WeaponItem weapon = new WeaponItem();
 		weapon.setName( "Mace" );
 		weapon.setTexture( Constants.getTexture( ".\\img\\items\\mace.png" ) );
 		weapon.setWeight( 5 );
@@ -141,65 +111,11 @@ public class ItemGenerator {
 	
 	// FIXME : Les bonus de stats ne s'affiche pas
 	public static WeaponItem createMagicAttributeHatchet( final Player player ) {
-		
-		ArrayList<ItemProperty> props = new ArrayList<ItemProperty>();
-		ItemProperty prop = null;
-		int randAttrNumber = Constants.getRandomBetween(1, 3);
-		
-		for(int i=0; i < randAttrNumber; i++ ) {
-			int randProp = Constants.getRandomBetween(1, 3);
-			int randPower = Constants.getRandomBetween(1, 2);
-			
-			switch(randProp) {
-				case 1 : prop = new ItemProperty( ItemProperty.Code.Force, "+ "+randPower ); break;
-				case 2 : prop = new ItemProperty( ItemProperty.Code.Agilité, "+ "+randPower ); break;
-				case 3 : prop = new ItemProperty( ItemProperty.Code.Savoir, "+ "+randPower ); break;
-			}
-			
-			props.add( prop );
-		}
-		
-		WeaponItem weapon = new WeaponItem() {
-			@Override
-			public void onEquip() {
-				for(int i=0; i < this.getProperties().size() ; i++ ) {
-					ItemProperty hatchetProp = this.getProperties().get(i);
-					int hatchetPropPower = Integer.parseInt( hatchetProp.getValue().replace("+ ", "") );
-					
-					if(hatchetProp.getCode() == ItemProperty.Code.Force) {
-						player.setStrenghBonus( player.getStrenghBonus() + hatchetPropPower );
-					}
-					else if(hatchetProp.getCode() == ItemProperty.Code.Agilité) {
-						player.setAgilityBonus( player.getAgilityBonus() + hatchetPropPower );				
-					}
-					else if(hatchetProp.getCode() == ItemProperty.Code.Savoir) {
-						player.setKnowledgeBonus( player.getKnowledgeBonus() + hatchetPropPower );
-					}
-				}
-			}
-			@Override
-			public void onDesequip() {
-				for(int i=0; i < this.getProperties().size() ; i++ ) {
-					ItemProperty hatchetProp = this.getProperties().get(i);
-					int hatchetPropPower = Integer.parseInt( hatchetProp.getValue().replace("+ ", "") );
-					
-					if(hatchetProp.getCode() == ItemProperty.Code.Force) {
-						player.setStrenghBonus( player.getStrenghBonus() - hatchetPropPower );
-					}
-					else if(hatchetProp.getCode() == ItemProperty.Code.Agilité) {
-						player.setAgilityBonus( player.getAgilityBonus() - hatchetPropPower );				
-					}
-					else if(hatchetProp.getCode() == ItemProperty.Code.Savoir) {
-						player.setKnowledgeBonus( player.getKnowledgeBonus() - hatchetPropPower );
-					}
-				}
-			}
-		};
-		
+		WeaponItem weapon = new WeaponItem();
 		weapon.setName( "Magical Hatchet" );
 		weapon.setTexture( Constants.getTexture( ".\\img\\items\\hatchet.png" ) );
 		weapon.setWeight( 4 );
-		weapon.setProperties( props );
+		weapon.setProperties( ItemFactory.getRamdomMagicalAttributes() );
 		weapon.setMinDamage( 7 );
 		weapon.setMaxDamage( 10 );
 		weapon.setDurability( 4 );
@@ -213,13 +129,7 @@ public class ItemGenerator {
 	}
 	
 	public static WeaponItem createSpear( final Player player ) {
-		WeaponItem weapon = new WeaponItem() {
-			@Override
-			public void onEquip() {}
-			@Override
-			public void onDesequip() {}
-		};
-		
+		WeaponItem weapon = new WeaponItem();
 		weapon.setName( "Iron spear" );
 		weapon.setTexture( Constants.getTexture( ".\\img\\items\\spear.png" ) );
 		weapon.setWeight( 3 );
@@ -237,13 +147,7 @@ public class ItemGenerator {
 	}
 	
 	public static WeaponItem createCleaver( final Player player ) {
-		WeaponItem weapon = new WeaponItem() {
-			@Override
-			public void onEquip() {}
-			@Override
-			public void onDesequip() {}
-		};
-		
+		WeaponItem weapon = new WeaponItem();
 		weapon.setName( "Cleaver" );
 		weapon.setTexture( Constants.getTexture( ".\\img\\items\\cleaver.png" ) );
 		weapon.setWeight( 6 );
@@ -261,13 +165,7 @@ public class ItemGenerator {
 	}
 	
 	public static WeaponItem createGlavius( final Player player ) {
-		WeaponItem weapon = new WeaponItem() {
-			@Override
-			public void onEquip() {}
-			@Override
-			public void onDesequip() {}
-		};
-		
+		WeaponItem weapon = new WeaponItem();
 		weapon.setName( "Glavius" );
 		weapon.setTexture( Constants.getTexture( ".\\img\\items\\glaive.png" ) );
 		weapon.setWeight( 5 );
@@ -285,13 +183,7 @@ public class ItemGenerator {
 	}
 	
 	public static ArmorItem createBasicVest( final Player player ) {
-		ArmorItem armor = new ArmorItem() {
-			@Override
-			public void onEquip() {}
-			@Override
-			public void onDesequip() {}
-		};
-		
+		ArmorItem armor = new ArmorItem();
 		armor.setName( "Cloth Jacket" );
 		armor.setTexture( Constants.getTexture( ".\\img\\items\\assets\\Tw2_armor_quiltedleather.png" ) );
 		armor.setWeight( 5 );
@@ -309,13 +201,7 @@ public class ItemGenerator {
 	}
 	
 	public static ArmorItem createBasicTrousers( final Player player ) {
-		ArmorItem armor = new ArmorItem() {
-			@Override
-			public void onEquip() {}
-			@Override
-			public void onDesequip() {}
-		};
-		
+		ArmorItem armor = new ArmorItem();
 		armor.setName( "Leather Pants" );
 		armor.setTexture( Constants.getTexture( ".\\img\\items\\assets\\Tw2_armor_superbleathertrousers.png" ) );
 		armor.setWeight( 3 );
@@ -333,13 +219,7 @@ public class ItemGenerator {
 	}
 	
 	public static ArmorItem createBasicBoots( final Player player ) {
-		ArmorItem armor = new ArmorItem() {
-			@Override
-			public void onEquip() {}
-			@Override
-			public void onDesequip() {}
-		};
-		
+		ArmorItem armor = new ArmorItem();
 		armor.setName( "Leather Boots" );
 		armor.setTexture( Constants.getTexture( ".\\img\\items\\assets\\Tw2_armor_soakedboots.png" ) );
 		armor.setWeight( 4 );
@@ -357,13 +237,7 @@ public class ItemGenerator {
 	}
 	
 	public static ArmorItem createBasicGloves( final Player player ) {
-		ArmorItem armor = new ArmorItem() {
-			@Override
-			public void onEquip() {}
-			@Override
-			public void onDesequip() {}
-		};
-		
+		ArmorItem armor = new ArmorItem();
 		armor.setName( "Leather Gloves" );
 		armor.setTexture( Constants.getTexture( ".\\img\\items\\assets\\Tw2_armor_wornleathergauntlets.png" ) );
 		armor.setWeight( 1 );
@@ -381,13 +255,7 @@ public class ItemGenerator {
 	}
 	
 	public static ArmorItem createBasicHelmet( final Player player ) {
-		ArmorItem armor = new ArmorItem() {
-			@Override
-			public void onEquip() {}
-			@Override
-			public void onDesequip() {}
-		};
-		
+		ArmorItem armor = new ArmorItem();
 		armor.setName( "Helm" );
 		armor.setTexture( Constants.getTexture( ".\\img\\items\\heaume.png" ) );
 		armor.setWeight( 4 );
@@ -405,13 +273,7 @@ public class ItemGenerator {
 	}
 	
 	public static ArmorItem createBasicHood( final Player player ) {
-		ArmorItem armor = new ArmorItem() {
-			@Override
-			public void onEquip() {}
-			@Override
-			public void onDesequip() {}
-		};
-		
+		ArmorItem armor = new ArmorItem();
 		armor.setName( "Cap" );
 		armor.setTexture( Constants.getTexture( ".\\img\\items\\hood.png" ) );
 		armor.setWeight( 2 );
@@ -429,13 +291,7 @@ public class ItemGenerator {
 	}
 	
 	public static ArmorItem createBasicBelt( final Player player ) {
-		ArmorItem armor = new ArmorItem() {
-			@Override
-			public void onEquip() {}
-			@Override
-			public void onDesequip() {}
-		};
-		
+		ArmorItem armor = new ArmorItem();
 		armor.setName( "Leather Belt" );
 		armor.setTexture( Constants.getTexture( ".\\img\\items\\leatherbelt.png" ) );
 		armor.setWeight( 1 );
@@ -453,13 +309,7 @@ public class ItemGenerator {
 	}
 	
 	public static ArmorItem createBasicBracer( final Player player ) {
-		ArmorItem armor = new ArmorItem() {
-			@Override
-			public void onEquip() {}
-			@Override
-			public void onDesequip() {}
-		};
-		
+		ArmorItem armor = new ArmorItem();
 		armor.setName( "Leather Armlet" );
 		armor.setTexture( Constants.getTexture( ".\\img\\items\\leatherbracer.png" ) );
 		armor.setWeight( 2 );
@@ -478,8 +328,8 @@ public class ItemGenerator {
 	
 	public static ConsumableItem createMeat( final Player player ) {
 		ArrayList< ItemProperty > props = new ArrayList<ItemProperty>();
-		ItemProperty hungerProp = new ItemProperty( ItemProperty.Code.Faim, "+ 40%");
-		ItemProperty thirstProp = new ItemProperty( ItemProperty.Code.Soif, "+ 5%");
+		ItemProperty hungerProp = new ItemProperty( ItemProperty.Code.Hunger, "+ 40%");
+		ItemProperty thirstProp = new ItemProperty( ItemProperty.Code.Thirst, "+ 5%");
 		props.add( hungerProp );
 		props.add( thirstProp );
 		
@@ -505,7 +355,7 @@ public class ItemGenerator {
 	
 	public static ConsumableItem createWaterBottle( final Player player ) {
 		ArrayList< ItemProperty > props = new ArrayList<ItemProperty>();
-		ItemProperty thirstProp = new ItemProperty( ItemProperty.Code.Soif, "+ 60%");
+		ItemProperty thirstProp = new ItemProperty( ItemProperty.Code.Thirst, "+ 60%");
 		props.add( thirstProp );
 		
 		ConsumableItem consumableItem = new ConsumableItem() {
@@ -528,8 +378,8 @@ public class ItemGenerator {
 	
 	public static ConsumableItem createTunaCan( final Player player ) {
 		ArrayList< ItemProperty > props = new ArrayList<ItemProperty>();
-		ItemProperty hungerProp = new ItemProperty( ItemProperty.Code.Faim, "+ 25%");
-		ItemProperty thristProp = new ItemProperty( ItemProperty.Code.Soif, "+ 15%");
+		ItemProperty hungerProp = new ItemProperty( ItemProperty.Code.Hunger, "+ 25%");
+		ItemProperty thristProp = new ItemProperty( ItemProperty.Code.Thirst, "+ 15%");
 		props.add( hungerProp );
 		props.add( thristProp );
 		
@@ -556,7 +406,7 @@ public class ItemGenerator {
 	
 	public static ConsumableItem createBandage( final Player player ) {
 		ArrayList< ItemProperty > props = new ArrayList<ItemProperty>();
-		ItemProperty lifeProp = new ItemProperty( ItemProperty.Code.Vie, "+ 25");
+		ItemProperty lifeProp = new ItemProperty( ItemProperty.Code.Life, "+ 25");
 		props.add( lifeProp );
 		
 		ConsumableItem consumableItem = new ConsumableItem() {
@@ -577,7 +427,7 @@ public class ItemGenerator {
 	
 	public static ConsumableItem createMedikit( final Player player ) {
 		ArrayList< ItemProperty > props = new ArrayList<ItemProperty>();
-		ItemProperty lifeProp = new ItemProperty( ItemProperty.Code.Vie, "+ 50");
+		ItemProperty lifeProp = new ItemProperty( ItemProperty.Code.Life, "+ 50");
 		props.add( lifeProp );
 		
 		ConsumableItem consumableItem = new ConsumableItem() {

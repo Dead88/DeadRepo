@@ -3,12 +3,12 @@ package fr.wretchedlife.obj;
 public class ItemProperty {
 	
 	public static enum Code {
-		Vie,
-		Faim,
-		Soif,
-		Force,
-		Agilité,
-		Savoir
+		Life,
+		Hunger,
+		Thirst,
+		Strengh,
+		Agility,
+		Knowledge
 	}
 	
 	private Code code;

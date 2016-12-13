@@ -1,11 +1,14 @@
 package fr.wretchedlife.factory;
 
+import java.util.ArrayList;
+
 import fr.wretchedlife.Constants;
 import fr.wretchedlife.entity.ext.Player;
 import fr.wretchedlife.generator.ItemGenerator;
 import fr.wretchedlife.map.Area;
 import fr.wretchedlife.map.GameMap;
 import fr.wretchedlife.obj.Item;
+import fr.wretchedlife.obj.ItemProperty;
 import fr.wretchedlife.obj.ext.ArmorItem;
 import fr.wretchedlife.obj.ext.ConsumableItem;
 import fr.wretchedlife.obj.ext.ContainerItem;
@@ -160,5 +163,58 @@ public class ItemFactory {
 		}
 	
 		return null;
+	}
+	
+	public static ArrayList<ItemProperty> getRamdomMagicalAttributes() {
+		ArrayList<ItemProperty> props = new ArrayList<ItemProperty>();
+		ItemProperty randomProp = null;
+		int number = Constants.getRandomBetween(1, 3);
+		
+		for(int i=0; i < number; i++ ) {
+			int randStatsBonus = Constants.getRandomBetween(1, 3);
+			int randLifeBonus = Constants.getRandomBetween(5, 25);
+			
+			while(true) {
+				int n = Constants.getRandomBetween(1, 3);
+				
+				switch(n) {
+					case 1 : randomProp = new ItemProperty( ItemProperty.Code.Strengh, "+ "+randStatsBonus ); break;
+					case 2 : randomProp = new ItemProperty( ItemProperty.Code.Agility, "+ "+randStatsBonus ); break;
+					case 3 : randomProp = new ItemProperty( ItemProperty.Code.Knowledge, "+ "+randStatsBonus ); break;
+				}
+				
+				boolean isRandomPropAlreadyAdded = false;
+				for(ItemProperty itemProp : props) {
+					if(itemProp.getCode() == randomProp.getCode()){
+						isRandomPropAlreadyAdded = true;
+						break;
+					}
+				}
+				
+				if(!isRandomPropAlreadyAdded) {
+					props.add( randomProp );
+					break;
+				}
+			}
+		}
+		
+		return props;
+	}
+	
+	public static void onHandleMagicalWeapon( Player player, WeaponItem weapon, boolean unwear ) {
+		for(int i=0; i < weapon.getProperties().size() ; i++ ) {
+			ItemProperty hatchetProp = weapon.getProperties().get(i);
+			int hatchetPropPower = Integer.parseInt( hatchetProp.getValue().replace("+ ", "") );
+			
+			if(hatchetProp.getCode() == ItemProperty.Code.Strengh) {
+				player.setStrenghBonus( player.getStrenghBonus() + hatchetPropPower );
+			}
+			else if(hatchetProp.getCode() == ItemProperty.Code.Agility) {
+				player.setAgilityBonus( player.getAgilityBonus() + hatchetPropPower );				
+			}
+			else if(hatchetProp.getCode() == ItemProperty.Code.Knowledge) {
+				player.setKnowledgeBonus( player.getKnowledgeBonus() + hatchetPropPower );
+			}
+		}
 	}
 }

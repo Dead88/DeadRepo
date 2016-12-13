@@ -8,7 +8,7 @@ import fr.wretchedlife.entity.ext.Player;
 import fr.wretchedlife.obj.Item;
 import fr.wretchedlife.obj.ItemProperty;
 
-public abstract class ArmorItem extends Item {
+public class ArmorItem extends Item {
 
 	private int Defense;
 	private Type Type;
@@ -57,9 +57,6 @@ public abstract class ArmorItem extends Item {
 		player.setItemDefense( player.getItemDefense() - this.getDefense() );
 	}
 
-	public abstract void onEquip();
-	public abstract void onDesequip();
-	
 	public int getDefense() {
 		return Defense;
 	}

@@ -7,9 +7,6 @@ import java.util.Random;
 
 import javax.swing.ImageIcon;
 
-//FIXME : multiplayer : dev xmltools pour serializer les regions
-//TODO : selection et nommage perso, plus de contenu
-
 public class Constants 
 {
 	// TECHNICAL FIELDS / SETTINGS
@@ -74,7 +71,7 @@ public class Constants
 	public static int minContainerItemsPerBuildingRegion = 0;
 	public static int maxContainerItemsPerBuildingRegion = 1;
 	public static int minEnemiesPerBuildingRegion = 0;
-	public static int maxEnemiesPerBuildingRegion = 2;
+	public static int maxEnemiesPerBuildingRegion = 1;
 	
 	// UNDERGROUND REGION SETTINGS
 	
