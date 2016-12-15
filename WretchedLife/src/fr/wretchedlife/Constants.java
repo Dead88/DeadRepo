@@ -127,7 +127,7 @@ public class Constants
 	public static final double highLifeUpRate = 1.15;
 	
 	public static final double inventorySizeUpRate = 1.10;
-	public static final double transportableWeightUpRate = 1.10;
+	public static final double transportableWeightUpRate = 1.20;
 	
 	public static final double hungerDownPercent = 0.25;
 	public static final double thirstDownPercent = 0.5;
