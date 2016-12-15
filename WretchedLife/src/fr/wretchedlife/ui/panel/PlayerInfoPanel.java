@@ -135,7 +135,7 @@ public class PlayerInfoPanel extends JPanel {
 				+ "Hunger "+ player.getHungerPercent()+" %<br />"
 				+ "Thirst "+ player.getThirstPercent()+" %</html>");
 		((JLabel) this.getComponent(2)).setText("<html>"
-				+ "Stengh " + player.getStrengh() + " (+" + player.getStrenghBonus()+")<br />"
+				+ "Strengh " + player.getStrengh() + " (+" + player.getStrenghBonus()+")<br />"
 				+ "Agility " + player.getAgility() + " (+" + player.getAgilityBonus()+")<br />"
 				+ "Knowledge "+ player.getKnowledge()+ " (+" + player.getKnowledgeBonus()+")</html>" );
 		

@@ -81,7 +81,7 @@ public class Window extends JFrame
 			this.remove( currentMenuPanel );
 			currentMenuPanel = null;
 		}
-
+		
 		Game game = new Game( true );
 		
 		GameMenuPanel gameMenuPanel = new GameMenuPanel( this, game );
