@@ -31,6 +31,12 @@ public class Enemy extends Entity {
 	}
 	
 	public void generateLootContainer( Player player ) {
+		
+		int rand = Constants.getRandomBetween(1, 100);
+		if(rand > Constants.enemyDropPercent ) {
+			return;
+		}
+		
 		int inventorySize = Constants.getRandomBetween( Constants.minItemsPerEnemyChest, Constants.maxItemsPerEnemyChest );
 		
 		if( inventorySize == 0 ) {

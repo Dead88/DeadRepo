@@ -118,6 +118,8 @@ public class Constants
 	public static int maxBossPerDungeonRegion = 3;
 	
 	// GAME RATES
+	public static final double enemyDropPercent = 40;
+	
 	public static final double lowLevelUpRate = 2.25;
 	public static final double mediumLevelUpRate = 1.60;
 	public static final double highLevelUpRate = 1.40;

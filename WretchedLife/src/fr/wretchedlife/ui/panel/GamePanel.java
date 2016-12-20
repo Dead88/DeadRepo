@@ -2,12 +2,14 @@ package fr.wretchedlife.ui.panel;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+import fr.wretchedlife.Constants;
 import fr.wretchedlife.core.Game;
 import fr.wretchedlife.entity.ext.Enemy;
 import fr.wretchedlife.entity.ext.Player;
@@ -50,6 +52,8 @@ public class GamePanel extends JPanel {
 	}
 	
 	public void paintComponent(Graphics g) {	
+		
+		Font font = new Font("Arial", Font.BOLD, 11);
 		
 		g.setColor(Color.CYAN);
 		g.fillRect(0, 0, 
@@ -137,6 +141,10 @@ public class GamePanel extends JPanel {
 						area.getX() + ( (int) ( e.getLifeRemain() * 64 ) / e.getLife() ), 
 						area.getY()
 					);
+					
+					g.setColor(Constants.redColor);
+					((Graphics2D) g).setFont(font);
+					g.drawString( "LVL "+e.getLevel(), area.getX(), area.getY() - 4 );
 				}
 			}	
 		}
