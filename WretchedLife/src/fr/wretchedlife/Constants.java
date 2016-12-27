@@ -118,6 +118,7 @@ public class Constants
 	public static int maxBossPerDungeonRegion = 3;
 	
 	// GAME RATES
+	public static final double magicalDropPercent = 20;
 	public static final double enemyDropPercent = 40;
 	
 	public static final double lowLevelUpRate = 2.25;

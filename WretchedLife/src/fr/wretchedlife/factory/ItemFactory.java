@@ -23,35 +23,50 @@ public class ItemFactory {
 		
 		for( int i = 0; i < number; i++){
 			while(true) {
-				int itemNumber = Constants.getRandomBetween(1, 17);
+				int itemNumber = Constants.getRandomBetween(1, 16);
 				switch( itemNumber ){
 					case 1 : item = ItemGenerator.createClub( player ); break;
 					case 2 : item = ItemGenerator.createKnife( player ); break;
 					case 3 : item = ItemGenerator.createHammer( player ); break;
 					case 4 : item = ItemGenerator.createMace( player ); break;
 					case 5 : item = ItemGenerator.createHatchet( player ); break;
-					case 6 : item = ItemGenerator.createMagicAttributeHatchet( player ); break;
-					case 7 : item = ItemGenerator.createSpear( player ); break;
-					case 8 : item = ItemGenerator.createCleaver( player ); break;
-					case 9 : item = ItemGenerator.createGlavius( player ); break;
-					case 10 : item = ItemGenerator.createBasicVest( player ); break;
-					case 11 : item = ItemGenerator.createBasicTrousers( player ); break;
-					case 12 : item = ItemGenerator.createBasicBoots( player ); break;
-					case 13 : item = ItemGenerator.createBasicGloves( player ); break;
-					case 14 : item = ItemGenerator.createBasicHelmet (player ); break;
-					case 15 : item = ItemGenerator.createBasicHood( player ); break;
-					case 16 : item = ItemGenerator.createBasicBelt( player ); break;
-					case 17 : item = ItemGenerator.createBasicBracer( player ); break;
+					case 6 : item = ItemGenerator.createSpear( player ); break;
+					case 7 : item = ItemGenerator.createCleaver( player ); break;
+					case 8 : item = ItemGenerator.createGlavius( player ); break;
+					case 9 : item = ItemGenerator.createBasicVest( player ); break;
+					case 10 : item = ItemGenerator.createBasicTrousers( player ); break;
+					case 11 : item = ItemGenerator.createBasicBoots( player ); break;
+					case 12 : item = ItemGenerator.createBasicGloves( player ); break;
+					case 13 : item = ItemGenerator.createBasicHelmet (player ); break;
+					case 14 : item = ItemGenerator.createBasicHood( player ); break;
+					case 15 : item = ItemGenerator.createBasicBelt( player ); break;
+					case 16 : item = ItemGenerator.createBasicBracer( player ); break;
 				}
 				
 				if( item instanceof WeaponItem ) {
 					WeaponItem weapon = (WeaponItem) item;
+					
+					int rand = Constants.getRandomBetween(1, 100);
+					if(rand < Constants.magicalDropPercent ) {
+						weapon.setName( "Magical " + weapon.getName() );
+						weapon.setProperties( getRamdomMagicalAttributes() );
+						weapon.setRequiredKnowledge( weapon.getProperties().size() );
+					}
+					
 					if( weapon.getRequiredLevel() <= region.getMaxLevel() ) {
 						break;
 					}
 				}
 				else if( item instanceof ArmorItem ) {
 					ArmorItem armor = (ArmorItem) item;
+					
+					int rand = Constants.getRandomBetween(1, 100);
+					if(rand < Constants.magicalDropPercent ) {
+						armor.setName( "Magical " + armor.getName() );
+						armor.setProperties( getRamdomMagicalAttributes() );
+						armor.setRequiredKnowledge( armor.getProperties().size() );
+					}
+					
 					if( armor.getRequiredLevel() <= region.getMaxLevel() ) {
 						break;
 					}
@@ -135,34 +150,58 @@ public class ItemFactory {
 	
 	public static Item getRandomItem( Player player ) {
 		//no chest
-		int itemNumber = Constants.getRandomBetween(1, 22);
+		int itemNumber = Constants.getRandomBetween(1, 21);
+		Item item = null;
 		
-		switch( itemNumber ){
-			case 1 : return ItemGenerator.createClub( player );
-			case 2 : return ItemGenerator.createKnife( player );
-			case 3 : return ItemGenerator.createHammer( player );
-			case 4 : return ItemGenerator.createMace( player );
-			case 5 : return ItemGenerator.createHatchet( player );
-			case 6 : return ItemGenerator.createMagicAttributeHatchet( player );
-			case 7 : return ItemGenerator.createSpear( player );
-			case 8 : return ItemGenerator.createCleaver( player );
-			case 9 : return ItemGenerator.createGlavius( player );
-			case 10 : return ItemGenerator.createBasicVest( player );
-			case 11 : return ItemGenerator.createBasicTrousers( player );
-			case 12 : return ItemGenerator.createBasicBoots( player );
-			case 13 : return ItemGenerator.createBasicGloves( player );
-			case 14 : return ItemGenerator.createBasicHelmet (player );
-			case 15 : return ItemGenerator.createBasicHood( player );
-			case 16 : return ItemGenerator.createBasicBelt( player );
-			case 17 : return ItemGenerator.createBasicBracer( player );
-			case 18 : return ItemGenerator.createMeat( player );
-			case 19 : return ItemGenerator.createWaterBottle( player );
-			case 20 : return ItemGenerator.createTunaCan( player );
-			case 21 : return ItemGenerator.createBandage( player );
-			case 22 : return ItemGenerator.createMedikit( player );
-		}
-	
-		return null;
+		while(true) {
+			switch( itemNumber ){
+				case 1 : item = ItemGenerator.createClub( player );
+				case 2 : item = ItemGenerator.createKnife( player );
+				case 3 : item = ItemGenerator.createHammer( player );
+				case 4 : item = ItemGenerator.createMace( player );
+				case 5 : item = ItemGenerator.createHatchet( player );
+				case 6 : item = ItemGenerator.createSpear( player );
+				case 7 : item = ItemGenerator.createCleaver( player );
+				case 8 : item = ItemGenerator.createGlavius( player );
+				case 9 : item = ItemGenerator.createBasicVest( player );
+				case 10 : item = ItemGenerator.createBasicTrousers( player );
+				case 11 : item = ItemGenerator.createBasicBoots( player );
+				case 12 : item = ItemGenerator.createBasicGloves( player );
+				case 13 : item = ItemGenerator.createBasicHelmet (player );
+				case 14 : item = ItemGenerator.createBasicHood( player );
+				case 15 : item = ItemGenerator.createBasicBelt( player );
+				case 16 : item = ItemGenerator.createBasicBracer( player );
+				case 17 : item = ItemGenerator.createMeat( player );
+				case 18 : item = ItemGenerator.createWaterBottle( player );
+				case 19 : item = ItemGenerator.createTunaCan( player );
+				case 20 : item = ItemGenerator.createBandage( player );
+				case 21 : item = ItemGenerator.createMedikit( player );
+			}
+		
+			if( item instanceof WeaponItem ) {
+				WeaponItem weapon = (WeaponItem) item;
+				
+				int rand = Constants.getRandomBetween(1, 100);
+				if(rand < Constants.magicalDropPercent ) {
+					weapon.setName( "Magical " + weapon.getName() );
+					weapon.setProperties( getRamdomMagicalAttributes() );
+					weapon.setRequiredKnowledge( weapon.getProperties().size() );
+				}
+				return weapon;
+			}
+			else if( item instanceof ArmorItem ) {
+				ArmorItem armor = (ArmorItem) item;
+				
+				int rand = Constants.getRandomBetween(1, 100);
+				if(rand < Constants.magicalDropPercent ) {
+					armor.setName( "Magical " + armor.getName() );
+					armor.setProperties( getRamdomMagicalAttributes() );
+					armor.setRequiredKnowledge( armor.getProperties().size() );
+				}
+				return armor;
+			}
+			else return item;
+		}	
 	}
 	
 	public static ArrayList<ItemProperty> getRamdomMagicalAttributes() {
@@ -172,12 +211,11 @@ public class ItemFactory {
 		
 		for(int i=0; i < number; i++ ) {
 			int randStatsBonus = Constants.getRandomBetween(1, 3);
-			int randLifeBonus = Constants.getRandomBetween(5, 25);
 			
 			while(true) {
-				int n = Constants.getRandomBetween(1, 3);
+				int randPropNumber = Constants.getRandomBetween(1, 3);
 				
-				switch(n) {
+				switch(randPropNumber) {
 					case 1 : randomProp = new ItemProperty( ItemProperty.Code.Strengh, "+ "+randStatsBonus ); break;
 					case 2 : randomProp = new ItemProperty( ItemProperty.Code.Agility, "+ "+randStatsBonus ); break;
 					case 3 : randomProp = new ItemProperty( ItemProperty.Code.Knowledge, "+ "+randStatsBonus ); break;

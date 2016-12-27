@@ -109,25 +109,6 @@ public class ItemGenerator {
 		return weapon;
 	}
 	
-	// FIXME : Les bonus de stats ne s'affiche pas
-	public static WeaponItem createMagicAttributeHatchet( final Player player ) {
-		WeaponItem weapon = new WeaponItem();
-		weapon.setName( "Magical Hatchet" );
-		weapon.setTexture( Constants.getTexture( ".\\img\\items\\hatchet.png" ) );
-		weapon.setWeight( 4 );
-		weapon.setProperties( ItemFactory.getRamdomMagicalAttributes() );
-		weapon.setMinDamage( 7 );
-		weapon.setMaxDamage( 10 );
-		weapon.setDurability( 4 );
-		weapon.setDurabilityRemain( 4 );
-		weapon.setRequiredLevel( 2 );
-		weapon.setRequiredStrengh( 1 );
-		weapon.setRequiredAgility( 0 );
-		weapon.setRequiredKnowledge( 1 );
-		
-		return weapon;
-	}
-	
 	public static WeaponItem createSpear( final Player player ) {
 		WeaponItem weapon = new WeaponItem();
 		weapon.setName( "Iron spear" );
